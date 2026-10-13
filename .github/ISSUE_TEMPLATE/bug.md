@@ -1,6 +1,7 @@
 ---
 name: 버그
 about: 잘못 동작하는 부분
+title: "[FIX] "
 labels: bug
 ---
 

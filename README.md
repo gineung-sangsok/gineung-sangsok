@@ -59,10 +59,14 @@
 
 ## 협업 규칙
 
-- `main`은 보호 브랜치. 직접 push 금지, PR + 상대 리뷰 1건 이상 후 Squash merge.
-- 브랜치 이름: `t1/<작업>` (트랙 1), `t2/<작업>` (트랙 2), `docs/<작업>`, `fix/<작업>`
-- 커밋 메시지: `[T1] 키워드 베이스라인 추가`, `[T2] 접근성 계산`, `[DOCS] ...`
-- 매일 최소 1회 커밋. 매일 싱크 후 `docs/learning_log.md`에 "오늘 배운 것" 한 줄씩.
+자세한 내용은 [docs/workflow.md](docs/workflow.md).
+
+- **이슈 먼저.** 모든 작업은 이슈 → 브랜치 → PR → 리뷰 → Squash merge 순서로 한다.
+- `main`은 보호 브랜치. 직접 push 금지, 상대 승인 1건 + CI 통과 후 Squash merge.
+- 브랜치: `<구분>/<이슈번호>-<영문-설명>` — 구분은 `t1`, `t2`, `contract`, `docs`, `fix` (예: `t1/12-keyword-baseline`)
+- 커밋·PR 제목: `[T1] 키워드 베이스라인 추가`, `[T2] 접근성 계산`, `[CONTRACT] ...`, `[DOCS] ...`, `[FIX] ...`
+- PR 본문에 `Closes #이슈번호`. 리뷰 요청은 당일 안에 본다.
+- 매일 최소 1회 push. 매일 싱크 후 `docs/learning_log.md`에 "오늘 배운 것" 한 줄씩.
 - 10/22 기능 동결 이후 `feature` 라벨 PR은 받지 않는다.
 - API 키 등 비밀값은 `.env`에만 둔다. 개인정보 포함 데이터는 저장소에 올리지 않는다.
 
