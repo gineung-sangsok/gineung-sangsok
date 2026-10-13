@@ -1,6 +1,6 @@
 # scripts/generate_mobile_market.py
-import json
 import csv
+import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -12,7 +12,7 @@ def main():
         print(f"오류: {RAW_JSON} 파일이 없습니다.")
         return
 
-    with open(RAW_JSON, "r", encoding="utf-8") as f:
+    with open(RAW_JSON, encoding="utf-8") as f:
         data = json.load(f)
 
     # SGIS 읍면 목록 추출

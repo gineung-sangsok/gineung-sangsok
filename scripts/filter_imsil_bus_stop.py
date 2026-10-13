@@ -1,7 +1,8 @@
 # scripts/filter_imsil_bus_stops.py
 import csv
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 SRC_FILE = BASE_DIR / "data" / "raw" / "national_bus_stops.csv"
@@ -25,7 +26,10 @@ def main():
         return
 
     # 관리도시명 또는 도시명에 '임실'이 포함된 경우 필터링
-    imsil_df = df_full[df_full.astype(str).apply(lambda x: x.str.contains('임실', na=False)).any(axis=1)]
+    mask = df_full.astype(str).apply(
+        lambda x: x.str.contains('임실', na=False)
+    ).any(axis=1)
+    imsil_df = df_full[mask]
 
     if imsil_df.empty:
         print("❌ 임실군 데이터를 찾지 못했습니다.")
