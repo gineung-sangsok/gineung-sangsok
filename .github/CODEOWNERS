@@ -1,9 +1,9 @@
-# GitHub 아이디로 교체: @A_github_id, @B_github_id
-/track1_tagging/                   @A_github_id
-/backend/                          @A_github_id
-/track2_recommend/                 @B_github_id
-/frontend/                         @B_github_id
-/docs/contracts/function_taxonomy.md @A_github_id @B_github_id
-/docs/contracts/tagging_schema.json  @A_github_id @B_github_id
-/docs/contracts/spatial_schema.md    @A_github_id @B_github_id
-/docs/contracts/api_spec.md          @A_github_id @B_github_id
+# A: @JioCoder, B: @heejung72
+/track1_tagging/                   @JioCoder
+/backend/                          @JioCoder
+/track2_recommend/                 @heejung72
+/frontend/                         @heejung72
+/docs/contracts/function_taxonomy.md @JioCoder @heejung72
+/docs/contracts/tagging_schema.json  @JioCoder @heejung72
+/docs/contracts/spatial_schema.md    @JioCoder @heejung72
+/docs/contracts/api_spec.md          @JioCoder @heejung72
