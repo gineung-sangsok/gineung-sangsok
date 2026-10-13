@@ -3,7 +3,7 @@
 모든 작업은 **이슈 → 브랜치 → PR → 리뷰 → Squash merge** 순서로 진행한다.
 
 ```
-이슈 #12 생성 → t1/12-keyword-baseline 브랜치 → PR "[T1] 키워드 베이스라인 추가" (Closes #12)
+이슈 #12 생성 → feat/12-keyword-baseline 브랜치 → PR "[FEAT] 키워드 베이스라인 추가" (Closes #12)
 → 상대 리뷰 1건 + CI 통과 → Squash merge → 이슈 자동 종료, 브랜치 삭제
 ```
 
@@ -11,35 +11,38 @@
 
 - 코드든 문서든 데이터든 **작업 전에 이슈부터** 만든다. 이슈 번호가 브랜치·PR·커밋을 잇는다.
 - 템플릿: `작업`(계획한 일), `버그`(잘못 동작하는 것).
-- 제목: `[T1] 키워드 베이스라인 구현`처럼 PR 제목과 같은 형식으로 쓴다.
+- 제목: `[FEAT] 키워드 베이스라인 구현`처럼 PR 제목과 같은 형식으로 쓴다.
 - 크기: **반나절~하루 안에 끝나는 단위**로 쪼갠다. 더 크면 이슈를 나눈다.
-- 라벨: 트랙 1개(`T1` / `T2`, 공통이면 생략) + 종류 1개(`data`, `feature`, `contract`, `docs`, `bug`, `task`).
+- 라벨: 트랙 1개(`T1` / `T2`, 공통이면 생략) + 종류 1개(`feature`, `data`, `exp`, `contract`, `docs`, `bug`). 어느 트랙 일인지는 라벨로 구분한다.
 - Assignee는 본인. 예정일은 템플릿의 `예정일`에 적는다.
 - 하다가 범위 밖의 일이 보이면 지금 PR에 넣지 말고 새 이슈로 남긴다.
 
 ## 2. 브랜치
 
-형식: `<구분>/<이슈번호>-<짧은-영문-설명>`
+형식: `<종류>/<이슈번호>-<짧은-영문-설명>`
 
-| 구분 | 언제 | 예 |
+| 종류 | 언제 | 예 |
 |---|---|---|
-| `t1` | 트랙 1 작업 (태깅·백엔드·A 담당 화면) | `t1/12-keyword-baseline` |
-| `t2` | 트랙 2 작업 (공백 분석·추천·지도) | `t2/15-accessibility` |
-| `contract` | `docs/contracts/` 변경 | `contract/8-tagging-schema-v2` |
-| `docs` | 보고서·문서·learning log | `docs/20-report-draft` |
+| `feat` | 기능 추가 (API, 화면, 태깅·추천 로직) | `feat/12-keyword-baseline` |
+| `data` | 데이터 수집·정제·지오코딩 | `data/15-population-grid` |
+| `exp` | 실험·평가 (베이스라인 vs LLM, 추천 평가, 시나리오) | `exp/18-tagging-eval` |
 | `fix` | 버그 수정 | `fix/23-geocode-null` |
+| `docs` | 보고서·문서·learning log | `docs/20-report-draft` |
+| `contract` | `docs/contracts/` 변경 | `contract/8-tagging-schema-v2` |
+| `chore` | 설정·CI·의존성·정리 | `chore/25-ruff-config` |
 
 - 설명은 영문 소문자와 하이픈만 쓴다. 한글은 쓰지 않는다.
-- 항상 최신 `main`에서 만든다: `git switch main && git pull && git switch -c t1/12-keyword-baseline`
+- 항상 최신 `main`에서 만든다: `git switch main && git pull && git switch -c feat/12-keyword-baseline`
 - 머지된 브랜치는 지운다(GitHub에서 자동 삭제 설정).
 
 ## 3. 커밋
 
-형식: `[구분] 무엇을 했나` — 구분은 `T1`, `T2`, `CONTRACT`, `DOCS`, `FIX`
+형식: `[종류] 무엇을 했나` — 종류는 브랜치와 같다(`FEAT`, `DATA`, `EXP`, `FIX`, `DOCS`, `CONTRACT`, `CHORE`)
 
 ```
-[T1] 키워드 사전 초안 추가
-[T2] 읍면별 인구 격자 집계
+[FEAT] 키워드 사전 초안 추가
+[DATA] 읍면별 인구 격자 집계
+[EXP] 키워드 vs LLM 태깅 F1 비교
 ```
 
 - 브랜치 안의 커밋은 자유롭게 잘게 해도 된다. Squash merge로 main에는 PR 하나당 커밋 하나만 남는다.
