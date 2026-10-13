@@ -1,0 +1,45 @@
+[project]
+name = "gineung-sangsok"
+version = "0.1.0"
+description = "사라지는 지역 생활서비스를 기존 자원에 이어주는 AI 지역상생 서비스"
+requires-python = ">=3.11"
+dependencies = [
+    # 데이터·공간 분석
+    "pandas",
+    "pyarrow",
+    "geopandas",
+    "shapely",
+    "pyproj",
+    "osmnx",
+    "networkx",
+    # AI
+    "openai",
+    "pydantic",
+    "python-dotenv",
+    # 평가
+    "scikit-learn",
+    # 백엔드
+    "fastapi",
+    "uvicorn",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "pytest",
+    "jupyter",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

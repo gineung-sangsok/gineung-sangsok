@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: 의존성 설치
+        run: uv sync
+      - name: 린트
+        run: uv run ruff check .
+      - name: 테스트
+        run: uv run pytest

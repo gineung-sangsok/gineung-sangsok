@@ -1,0 +1,30 @@
+{
+  "$comment": "가게·자원 공통 태깅 결과 형식 v0.1 (10/13 확정 예정)",
+  "entity_id": "store_0001",
+  "entity_type": "store | resource",
+  "resource_type": "R01 | R02 | R03 | R04 | R05 | null",
+  "name": "○○상회",
+  "village": {
+    "admin_ri_name": "임실군 ○○면 ○○리",
+    "legal_dong_code": "4572000000"
+  },
+  "location": { "lat": 35.0, "lng": 127.0 },
+  "functions": [
+    {
+      "code": "F01",
+      "confidence": 0.9,
+      "evidence": "업종 소분류 '슈퍼마켓', 업소명 '상회'",
+      "source": "llm | keyword | manual"
+    }
+  ],
+  "conditions": {
+    "operating_days": ["MON", "THU"],
+    "operating_hours": "09:00-18:00",
+    "delivery": false,
+    "service_area": ["○○리", "△△리"],
+    "requires_own_transport": false
+  },
+  "verified_by_officer": false,
+  "data_sources": ["LOCALDATA", "소상공인 상가정보 2026Q2"],
+  "updated_at": "2026-10-13"
+}
