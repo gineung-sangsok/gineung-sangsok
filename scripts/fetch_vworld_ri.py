@@ -1,7 +1,8 @@
 import os
 import sys
-import requests
 from pathlib import Path
+
+import requests
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -24,7 +25,13 @@ def main():
         "typename": "LT_C_ADEMDR_INFO",  # 법정리 경계 레이어
         "output": "application/json",
         "srsName": "EPSG:4326",
-        "filter": "<Filter><PropertyIsLike wildCard='*' singleChar='.' escapeChar='!'><PropertyName>emd_cd</PropertyName><Literal>35550*</Literal></PropertyIsLike></Filter>"  # 임실군 코드
+        # 임실군 코드
+        "filter": (
+            "<Filter><PropertyIsLike wildCard='*' singleChar='.' escapeChar='!'>"
+            "<PropertyName>emd_cd</PropertyName>"
+            "<Literal>35550*</Literal>"
+            "</PropertyIsLike></Filter>"
+        )
     }
 
     print("VWorld API 요청 중...")
