@@ -1,8 +1,7 @@
 """SGIS API로 임실군 읍면별 총인구·65세 이상 인구를 data/raw/에 저장한다.
 
-실행: uv run python scripts/fetch_sgis_population.py
-필요: .env의 SGIS_CONSUMER_KEY, SGIS_CONSUMER_SECRET,
-      SGIS_65_PLUS_AGE_TYPE (SGIS 인구통계의 '65세 이상' 연령타입 코드)
+실행: uv run python scripts/fetch_sgis_population.py --age-type 13
+필요: .env의 SGIS_CONSUMER_KEY, SGIS_CONSUMER_SECRET
 
 SGIS는 행정리 단위 인구를 제공하지 않는다. 이 파일은 읍면별 원자료다.
 """
@@ -119,10 +118,17 @@ def get_population(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="SGIS 임실군 인구 원자료 수집")
+    # SGIS 인구통계 최신 제공연도가 2020(인구총조사 기준). 더 최신 연도가
+    # 제공되면 기본값을 올릴 것.
     parser.add_argument("--year", default="2020", help="SGIS 기준연도 (기본값: 2020)")
     parser.add_argument(
         "--adm-cd",
         help="SGIS 5자리 시군구 코드. 생략하면 API로 임실군 코드를 자동 탐색한다.",
+    )
+    parser.add_argument(
+        "--age-type",
+        help="SGIS 인구통계 연령타입 코드 (예: '65세 이상'에 해당하는 코드). "
+        "SGIS 코드표에서 확인 필요.",
     )
     return parser.parse_args()
 
@@ -132,13 +138,13 @@ def main() -> None:
     load_dotenv()
     consumer_key = os.getenv("SGIS_CONSUMER_KEY")
     consumer_secret = os.getenv("SGIS_CONSUMER_SECRET")
-    age_type = os.getenv("SGIS_65_PLUS_AGE_TYPE")
     if not consumer_key or not consumer_secret:
         sys.exit(".env에 SGIS_CONSUMER_KEY와 SGIS_CONSUMER_SECRET가 필요합니다.")
+    age_type = args.age_type
     if not age_type:
         sys.exit(
-            ".env에 SGIS_65_PLUS_AGE_TYPE가 없습니다. SGIS 인구통계 API의 연령타입 코드표에서 "
-            "'65세 이상'에 해당하는 값을 확인해 입력하세요. 임의의 코드값을 사용하면 안 됩니다."
+            "--age-type이 필요합니다. SGIS 인구통계 API의 연령타입 코드표에서 "
+            "'65세 이상'에 해당하는 값을 확인해 입력하세요."
         )
 
     access_token = get_access_token(consumer_key, consumer_secret)
