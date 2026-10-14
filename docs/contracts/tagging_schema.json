@@ -1,13 +1,10 @@
 {
-  "$comment": "가게·자원 공통 태깅 결과 형식 v0.1 (10/13 확정 예정)",
+  "$comment": "가게·자원 공통 태깅 결과 형식 v1.0 (10/13 회의 확정)",
   "entity_id": "store_0001",
   "entity_type": "store | resource",
   "resource_type": "R01 | R02 | R03 | R04 | R05 | null",
   "name": "○○상회",
-  "village": {
-    "admin_ri_name": "임실군 ○○면 ○○리",
-    "legal_dong_code": "4572000000"
-  },
+  "village_id": "5275037025",
   "location": { "lat": 35.0, "lng": 127.0 },
   "functions": [
     {
@@ -17,14 +14,29 @@
       "source": "llm | keyword | manual"
     }
   ],
+  "status": "ACTIVE | CLOSING | SEASONAL | SUSPENDED | CLOSED",
+  "closure_date": "YYYY-MM-DD | null",
   "conditions": {
-    "operating_days": ["MON", "THU"],
-    "operating_hours": "09:00-18:00",
+    "schedule": {
+      "days": ["MON", "THU"],
+      "hours": { "open": "09:00", "close": "18:00" }
+    },
+    "weekly_visits": 7,
+    "capacity": { "current": 2, "max": 3, "unit": "villages" },
     "delivery": false,
-    "service_area": ["○○리", "△△리"],
+    "service_area": ["5275037025", "5275037026"],
     "requires_own_transport": false
   },
   "verified_by_officer": false,
   "data_sources": ["LOCALDATA", "소상공인 상가정보 2026Q2"],
-  "updated_at": "2026-10-13"
+  "updated_at": "2026-10-13",
+  "$notes": {
+    "confidence": "0.6↑ 태그 / 0.4~0.6 확인 필요 / 0.4↓ 버림",
+    "null_vs_false": "null = 모름 (false와 구분)",
+    "village_id": "법정리코드 10자리 문자열. spatial_schema.md 참고",
+    "weekly_visits": "가게 7, 주1회 이동장터 1, 격주 0.5",
+    "capacity": "데이터 없으면 null, 시나리오에서 가정값 사용",
+    "F04_rule": "해당 법정리에 영업 중인 식료품점이 1곳뿐이면 F04 후보 (confidence 0.5). 마을회관(R03)은 기본 F04 제공",
+    "F05": "MVP 제외, 코드만 예약"
+  }
 }
