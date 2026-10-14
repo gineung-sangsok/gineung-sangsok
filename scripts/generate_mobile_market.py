@@ -8,6 +8,7 @@ RAW_JSON = BASE_DIR / "data" / "raw" / "sgis_population_imsil_2020.json"
 OUT_CSV = BASE_DIR / "data" / "processed" / "mobile_market_imsil.csv"
 
 def main():
+    """SGIS 인구 JSON의 읍면 목록으로 이동장터 예시 CSV를 생성한다."""
     if not RAW_JSON.exists():
         print(f"오류: {RAW_JSON} 파일이 없습니다.")
         return

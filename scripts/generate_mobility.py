@@ -7,6 +7,7 @@ import pandas as pd
 BASE_DIR = Path(__file__).resolve().parents[1]
 
 def main():
+    """정류장을 읍면별로 집계해 정류장 수 기반 임시 이동취약성 CSV를 생성한다."""
     stops_path = BASE_DIR / "data" / "processed" / "imsil_bus_stops.csv"
     if not stops_path.exists():
         print(f"❌ 버스정류장 데이터가 없습니다: {stops_path}")
@@ -33,6 +34,7 @@ def main():
     }
 
     def find_nearest_town(row):
+        """정류장 행의 위경도와 제곱 좌표 거리가 가장 가까운 읍면명을 반환한다."""
         lat, lon = row['latitude'], row['longitude']
         min_dist = float('inf')
         nearest_town = '기타'

@@ -10,6 +10,7 @@ SRC_FILE = BASE_DIR / "data" / "raw" / "national_bus_stops.csv"
 OUT_FILE = BASE_DIR / "data" / "processed" / "imsil_bus_stops.csv"
 
 def main():
+    """전국 정류장 CSV에서 임실군을 필터링해 정제 CSV로 저장한다."""
     if not SRC_FILE.exists():
         print(f"❌ 원본 파일이 없습니다: {SRC_FILE}")
         sys.exit(1)
