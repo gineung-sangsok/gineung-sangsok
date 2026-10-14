@@ -83,7 +83,7 @@ def main() -> None:
     result.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
 
     print(f"\n✅ 저장 완료: {OUT_FILE} ({len(result)}건)")
-    print(f"\n📊 읍면별 고령화율 (균등배분 기준):")
+    print("\n📊 읍면별 고령화율 (균등배분 기준):")
     summary = (
         result.groupby("eup_myeon")[["total_pop", "pop_65plus", "aging_rate"]]
         .first()

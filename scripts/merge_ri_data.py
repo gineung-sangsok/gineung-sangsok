@@ -64,7 +64,7 @@ def main() -> None:
     result.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
 
     print(f"✅ 저장 완료: {OUT_FILE} ({len(result)}건)")
-    print(f"\n결합 결과 샘플:")
+    print("\n결합 결과 샘플:")
     print(result.head(5).to_string(index=False))
 
     # 결합 누락 확인

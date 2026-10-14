@@ -34,14 +34,17 @@ def main() -> None:
     stops_df = pd.read_csv(STOP_FILE, encoding="utf-8-sig")
     stops_gdf = gpd.GeoDataFrame(
         stops_df,
-        geometry=[Point(lon, lat) for lat, lon in zip(stops_df["latitude"], stops_df["longitude"])],
+        geometry=[
+            Point(lon, lat)
+            for lat, lon in zip(stops_df["latitude"], stops_df["longitude"], strict=False)
+        ],
         crs="EPSG:4326",
     ).to_crs(epsg=EPSG_CALC)
     print(f"🚌 버스정류장 {len(stops_gdf)}개 로드 완료")
 
     # 법정리별 최근접 정류장 계산
     records = []
-    stop_coords = list(zip(stops_gdf.geometry.x, stops_gdf.geometry.y))
+    stop_coords = list(zip(stops_gdf.geometry.x, stops_gdf.geometry.y, strict=False))
 
     for _, row in ri_proj.iterrows():
         cx, cy = row["centroid"].x, row["centroid"].y
@@ -68,7 +71,7 @@ def main() -> None:
     result.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
 
     print(f"✅ 저장 완료: {OUT_FILE}")
-    print(f"\n📊 읍면별 최근접 정류장 평균 거리(m):")
+    print("\n📊 읍면별 최근접 정류장 평균 거리(m):")
     summary = result.groupby("eup_myeon")["nearest_stop_m"].agg(["mean", "max", "min"]).astype(int)
     print(summary.sort_values("mean", ascending=False).to_string())
 
