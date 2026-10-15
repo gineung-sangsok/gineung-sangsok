@@ -21,6 +21,7 @@ dependencies = [
     # 백엔드
     "fastapi",
     "uvicorn",
+    "pyrosm>=0.20.0",
 ]
 
 [dependency-groups]
