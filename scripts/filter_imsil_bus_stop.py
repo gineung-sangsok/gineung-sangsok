@@ -1,5 +1,10 @@
-# scripts/filter_imsil_bus_stop.py
-import csv
+"""전국 버스정류장 CSV에서 임실군을 필터링해 정제 CSV로 저장한다.
+
+입력: data/raw/national_bus_stops.csv
+출력: data/processed/bus_stops_imsil.csv
+컬럼: stop_id, stop_name, latitude, longitude
+"""
+
 import sys
 from pathlib import Path
 
@@ -7,52 +12,56 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 SRC_FILE = BASE_DIR / "data" / "raw" / "national_bus_stops.csv"
-OUT_FILE = BASE_DIR / "data" / "processed" / "imsil_bus_stops.csv"
+OUT_FILE = BASE_DIR / "data" / "processed" / "bus_stops_imsil.csv"
 
-def main():
-    """전국 정류장 CSV에서 임실군을 필터링해 정제 CSV로 저장한다."""
+
+def main() -> None:
+    """도시명과 임실군 bbox로 정류장을 걸러 ID·이름을 보존해 저장한다."""
     if not SRC_FILE.exists():
-        print(f"❌ 원본 파일이 없습니다: {SRC_FILE}")
+        print(f"❌ 원본 파일 없음: {SRC_FILE}")
         sys.exit(1)
 
-    df_full = None
-    for enc in ['cp949', 'utf-8-sig', 'euc-kr']:
+    df = None
+    for enc in ["cp949", "utf-8-sig", "euc-kr"]:
         try:
-            df_full = pd.read_csv(SRC_FILE, encoding=enc)
+            df = pd.read_csv(SRC_FILE, encoding=enc, dtype={"정류장번호": str, "정류장명": str})
             break
         except Exception:
             continue
 
-    if df_full is None:
-        print("❌ CSV 파일을 읽을 수 없습니다. 인코딩을 확인해 주세요.")
+    if df is None:
+        print("❌ CSV 인코딩을 읽을 수 없습니다.")
         sys.exit(1)
 
-    # 도시명 컬럼으로 임실군만 정확히 필터링
-    city_col = '도시명' if '도시명' in df_full.columns else '관리도시명'
-    imsil_df = df_full[df_full[city_col] == '임실군']
+    # 도시명과 임실군 bbox로 필터 (위도 35.4~35.85, 경도 127.0~127.5)
+    imsil = df[
+        df["도시명"].str.contains("임실", na=False)
+        & df["위도"].between(35.4, 35.85)
+        & df["경도"].between(127.0, 127.5)
+    ].copy()
 
-    if imsil_df.empty:
+    if imsil.empty:
         print("❌ 임실군 데이터를 찾지 못했습니다.")
         sys.exit(1)
 
+    result = imsil.rename(columns={
+        "정류장번호": "stop_id",
+        "정류장명": "stop_name",
+        "위도": "latitude",
+        "경도": "longitude",
+    })[["stop_id", "stop_name", "latitude", "longitude"]]
+
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    result.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
 
-    rows = []
-    for _, row in imsil_df.iterrows():
-        rows.append([
-            row.get("정류장번호", ""),
-            row.get("정류장명", ""),
-            row.get("위도", ""),
-            row.get("경도", ""),
-        ])
+    print(f"✅ 저장 완료: {OUT_FILE} ({len(result)}건)")
 
-    headers = ["stop_id", "stop_name", "latitude", "longitude"]
-    with open(OUT_FILE, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(headers)
-        writer.writerows(rows)
+    # 임실군 범위 밖 좌표 검증 (위도 35.4~35.85, 경도 127.0~127.5)
+    out_of_bounds = result[
+        ~(result["latitude"].between(35.4, 35.85) & result["longitude"].between(127.0, 127.5))
+    ]
+    print(f"   범위 밖 좌표: {len(out_of_bounds)}건")
 
-    print(f"✅ 임실군 버스정류장 정제 완료: {OUT_FILE} (총 {len(rows)}개 정류장)")
 
 if __name__ == "__main__":
     main()

@@ -10,5 +10,6 @@
 | 농림어업총조사 음식료품 소매점 유무 | 통계청 | | 행정리 | | B | MDIS 신청 필요 여부 확인 |
 | 격자 인구 / 읍면별 총인구·65세 이상 인구 | 통계청 SGIS / SGIS OpenAPI | 2026-10-14 | 임실군 | SGIS OpenAPI 이용약관 준수 | B | `scripts/fetch_sgis_population.py`로 원본 수집. 행정리 단위가 아니므로 공간·코드 결합 전 원자료로 보관 |
 | 버스정류장(전국 노선버스 정류장 현황) | 공공데이터포털 (국토교통부) | 2026-10-13 | 전국 → 임실군 필터 | 공공누리 1유형 | B | national_bus_stops.csv |
-| 법정리 경계 | VWorld WFS API (국토교통부) | | 임실군 (45750*) | VWorld 이용약관 | B | `scripts/fetch_vworld_ri.py`로 수집 |
+| 법정리 경계 | VWorld WFS API (국토교통부) | | 임실군 (45750*) | VWorld 이용약관 | B | `scripts/fetch_vworld_ri.py`로 수집. API 키 오류로 실제 경계 미수신, LX shp로 대체 |
+| 법정리 경계 (LX 법정구역경계) | LX한국국토정보공사 | 2026-10-15 | 전국 → 임실군 필터 (131개 법정리) | 확인 필요 | B | `data/raw/LX법정구역경계_리_전국/RI.shp`. ESRI:102082 → EPSG:4326 변환. `scripts/process_lx_ri.py`로 처리, 출력: `data/processed/legal_ri_imsil.geojson` |
 | 도로망 | VWorld·OSM | | 임실군 | | B | |
