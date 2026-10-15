@@ -43,6 +43,10 @@ def main() -> None:
     ).to_crs(epsg=EPSG_CALC)
     print(f"🚌 버스정류장 {len(stops_gdf)}개 로드 완료")
 
+    if stops_gdf.empty:
+        print("❌ 버스정류장 데이터가 비어 있습니다.")
+        raise SystemExit(1)
+
     # 법정리별 최근접 정류장 계산
     records = []
     stop_coords = list(zip(stops_gdf.geometry.x, stops_gdf.geometry.y, strict=False))

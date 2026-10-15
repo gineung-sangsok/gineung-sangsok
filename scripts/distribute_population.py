@@ -68,10 +68,16 @@ def main() -> None:
     merged = ri.merge(eup_pop, on="eup_myeon", how="left")
     merged = merged.merge(ri_count, on="eup_myeon", how="left")
 
+    missing_eup = merged.loc[merged["eup_total_pop"].isna(), "eup_myeon"].unique().tolist()
+    if missing_eup:
+        print(f"❌ 읍면 인구 누락: {missing_eup}")
+        raise SystemExit(1)
+
     # 균등 배분 (소수점 반올림)
     merged["total_pop"] = (merged["eup_total_pop"] / merged["ri_count"]).round().astype(int)
     merged["pop_65plus"] = (merged["eup_pop_65plus"] / merged["ri_count"]).round().astype(int)
-    merged["aging_rate"] = (merged["pop_65plus"] / merged["total_pop"] * 100).round(1)
+    denominator = merged["total_pop"].mask(merged["total_pop"] == 0)
+    merged["aging_rate"] = (merged["pop_65plus"] / denominator * 100).round(1)
     merged["source"] = "estimate"
 
     result = merged[[
