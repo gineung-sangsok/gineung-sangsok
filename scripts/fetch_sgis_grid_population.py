@@ -71,9 +71,9 @@ def load_grid_population() -> pd.DataFrame:
 
 def load_grid_geometry() -> gpd.GeoDataFrame:
     """다마·라마 격자 SHP를 합쳐 EPSG:5179로 변환한다."""
+    shp_dir = find_raw_dir("_grid_border_")
     gdfs = []
     for region in ["다마", "라마"]:
-        shp_dir = find_raw_dir(f"grid_{region}_grid_{region}")
         shp = shp_dir / f"grid_{region}_100M.shp"
         gdfs.append(gpd.read_file(shp))
     grid = pd.concat(gdfs, ignore_index=True)
@@ -112,20 +112,16 @@ def main() -> None:
     grid_pop = grid_geom.merge(pop_df, left_on="GRID_CD", right_on="grid_cd", how="left")
     grid_pop["pop"] = grid_pop["pop"].fillna(0)
 
-    # 임실군 내 격자만 필터 (within으로 경계 중복 방지)
-    imsil_union = ri.geometry.union_all()
-    grid_imsil = grid_pop[grid_pop.geometry.within(imsil_union)].copy()
-    print(f"🗺️  임실군 내부 격자: {len(grid_imsil)}개 (총인구 합: {int(grid_imsil['pop'].sum())})")
-
     # 격자 중심점으로 법정리와 공간결합
-    grid_imsil = grid_imsil.copy()
-    grid_imsil["geometry"] = grid_imsil.geometry.centroid
+    grid_pop["geometry"] = grid_pop.geometry.centroid
     joined = gpd.sjoin(
-        grid_imsil[["GRID_CD", "pop", "geometry"]],
+        grid_pop[["GRID_CD", "pop", "geometry"]],
         ri[["ri_code", "ri_name", "eup_myeon", "geometry"]],
         how="left",
         predicate="within",
     )
+    joined = joined.dropna(subset=["ri_code"])
+    print(f"🗺️  임실군 내부 격자: {len(joined)}개 (총인구 합: {int(joined['pop'].sum())})")
 
     # 법정리별 총인구 집계
     ri_pop = (
