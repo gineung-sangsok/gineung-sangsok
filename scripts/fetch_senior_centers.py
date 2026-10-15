@@ -52,8 +52,10 @@ def fetch_all(key: str) -> list[dict]:
         ]
         items.extend(batch)
         print(f"  page {page}: {len(items)}/{total}")
-        if len(items) >= total or not batch:
+        if len(items) >= total:
             return items
+        if not batch:
+            sys.exit(f"빈 페이지 응답 ({len(items)}/{total}건). 일부만 저장하지 않습니다.")
         page += 1
         time.sleep(0.2)
 

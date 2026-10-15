@@ -167,12 +167,16 @@ def load_sbiz() -> pd.DataFrame:
     })
 
 
-def load_localdata(vworld: VWorld) -> pd.DataFrame:
+def load_localdata(vworld: VWorld, failed: list[str]) -> pd.DataFrame:
     df = pd.read_csv(latest("식품_식품판매업(기타)_*.csv"), encoding="cp949", dtype=str)
     to_wgs84 = Transformer.from_crs("EPSG:5174", "EPSG:4326", always_xy=True)
-    lng, lat = to_wgs84.transform(
-        df["좌표정보(X)"].astype(float).values, df["좌표정보(Y)"].astype(float).values
-    )
+    x = pd.to_numeric(df["좌표정보(X)"], errors="coerce")
+    y = pd.to_numeric(df["좌표정보(Y)"], errors="coerce")
+    lng, lat = to_wgs84.transform(x.values, y.values)
+    # 좌표가 비어 있는 행은 NaN으로 두고 locate()에서 주소로 지오코딩한다
+    has_xy = (x.notna() & y.notna()).values
+    lat = pd.Series(lat).where(has_xy)
+    lng = pd.Series(lng).where(has_xy)
     out = pd.DataFrame({
         "entity_type": "store",
         "name": df["사업장명"].str.strip(),
@@ -185,10 +189,29 @@ def load_localdata(vworld: VWorld) -> pd.DataFrame:
         "source": "localdata",
         "source_id": df["관리번호"],
     })
-    villages = [vworld.village(a, b) for a, b in zip(out["lat"], out["lng"], strict=True)]
-    out["village_id"] = [v[0] for v in villages]
-    out["village_name"] = [v[1] for v in villages]
-    return out
+    return locate(vworld, out, failed)
+
+
+def locate(vworld: VWorld, df: pd.DataFrame, failed: list[str]) -> pd.DataFrame:
+    """좌표가 없는 행은 주소로 지오코딩하고, 좌표가 있는 모든 행에 법정리를 붙인다.
+
+    주소가 없거나 지오코딩에 실패한 행은 좌표를 비워 두고 failed에 기록한다.
+    """
+    df = df.reset_index(drop=True)
+    df["address"] = df["address"].fillna("").map(clean_address)
+    codes, names = [], []
+    for i, row in df.iterrows():
+        if pd.isna(row["lat"]):
+            point = vworld.geocode(row["address"]) if row["address"] else None
+            if point is None:
+                failed.append(f"{row['name']} | {row['address'] or '(주소 없음)'}")
+                codes.append(""), names.append("")
+                continue
+            df.loc[i, ["lat", "lng"]] = point
+        code, name = vworld.village(df.at[i, "lat"], df.at[i, "lng"])
+        codes.append(code), names.append(name)
+    df["village_id"], df["village_name"] = codes, names
+    return df
 
 
 def normalize(name: str) -> str:
@@ -213,14 +236,14 @@ def merge_stores(sbiz: pd.DataFrame, local: pd.DataFrame) -> pd.DataFrame:
                 sbiz.loc[matched, "note"] = f"localdata {row['source_id']}"
                 continue
         keep.append(row)
-    local_only = pd.DataFrame(keep)
+    local_only = pd.DataFrame(keep, columns=local.columns)
     local_only["note"] = local_only["status"].map(
         lambda s: "폐업 이력 (같은 주소 후속 업소 확인)" if s == "CLOSED" else "상가정보에 없음"
     )
     return pd.concat([sbiz, local_only], ignore_index=True)
 
 
-def load_resources(vworld: VWorld) -> tuple[pd.DataFrame, list[str]]:
+def load_resources(vworld: VWorld, failed: list[str]) -> pd.DataFrame:
     centers = pd.read_csv(latest("senior_centers_imsil_*.csv"), dtype=str)
     centers = pd.DataFrame({
         "resource_type": "R03",
@@ -244,21 +267,9 @@ def load_resources(vworld: VWorld) -> tuple[pd.DataFrame, list[str]]:
     df = pd.concat([centers, welfare], ignore_index=True)
     df["entity_type"] = "resource"
     df["status"] = "ACTIVE"
-    df["address"] = df["address"].map(clean_address)
-
-    failed = []
-    lat, lng, codes, names = [], [], [], []
-    for _, row in df.iterrows():
-        point = vworld.geocode(row["address"])
-        if point is None:
-            failed.append(f"{row['name']} | {row['address']}")
-            lat.append(None), lng.append(None), codes.append(""), names.append("")
-            continue
-        code, name = vworld.village(*point)
-        lat.append(point[0]), lng.append(point[1]), codes.append(code), names.append(name)
-    df["lat"], df["lng"], df["village_id"], df["village_name"] = lat, lng, codes, names
+    df["lat"], df["lng"] = float("nan"), float("nan")
     df["note"] = ""
-    return df, failed
+    return locate(vworld, df, failed)
 
 
 def finalize(df: pd.DataFrame, prefix: str) -> pd.DataFrame:
@@ -272,16 +283,17 @@ def finalize(df: pd.DataFrame, prefix: str) -> pd.DataFrame:
     return df[COLUMNS]
 
 
-def check(df: pd.DataFrame, label: str) -> None:
+def check(df: pd.DataFrame, label: str) -> int:
+    """범위 밖 좌표·임실군 외 법정리코드 건수를 출력하고 반환한다. 좌표 없음은 허용한다."""
     located = df.dropna(subset=["lat"])
-    outside = located[
-        ~located["lat"].between(*LAT_RANGE) | ~located["lng"].between(*LNG_RANGE)
-    ]
-    wrong_code = located[~located["village_id"].str.startswith(SIGNGU_CODE)]
+    outside = ~located["lat"].between(*LAT_RANGE) | ~located["lng"].between(*LNG_RANGE)
+    wrong_code = ~located["village_id"].str.startswith(SIGNGU_CODE)
+    invalid = located[outside | wrong_code]
     print(f"[{label}] {len(df)}건, 좌표 없음 {df['lat'].isna().sum()}건, "
-          f"범위 밖 {len(outside)}건, 임실군 외 법정리코드 {len(wrong_code)}건")
-    if len(outside) or len(wrong_code):
-        print(pd.concat([outside, wrong_code])[["name", "address", "lat", "lng", "village_id"]])
+          f"범위 밖 {outside.sum()}건, 임실군 외 법정리코드 {wrong_code.sum()}건")
+    if len(invalid):
+        print(invalid[["name", "address", "lat", "lng", "village_id"]])
+    return len(invalid)
 
 
 def main() -> None:
@@ -290,18 +302,19 @@ def main() -> None:
     if not key:
         sys.exit(".env에 VWORLD_API_KEY가 없습니다.")
     vworld = VWorld(key)
+    failed: list[str] = []
     try:
-        stores = finalize(merge_stores(load_sbiz(), load_localdata(vworld)), "store")
-        resources, failed = load_resources(vworld)
-        resources = finalize(resources, "res")
+        stores = finalize(merge_stores(load_sbiz(), load_localdata(vworld, failed)), "store")
+        resources = finalize(load_resources(vworld, failed), "res")
     finally:
         vworld.save()
 
-    check(stores, "가게")
-    check(resources, "자원")
     if failed:
-        print(f"지오코딩 실패 {len(failed)}건:")
+        print(f"지오코딩 실패 {len(failed)}건 (좌표 빈칸으로 저장):")
         print("\n".join(f"  {line}" for line in failed))
+    invalid = check(stores, "가게") + check(resources, "자원")
+    if invalid:
+        sys.exit(f"검증 실패 {invalid}건: 결과 파일을 저장하지 않았습니다.")
 
     PROCESSED.mkdir(parents=True, exist_ok=True)
     stores.to_csv(PROCESSED / "stores_imsil.csv", index=False, encoding="utf-8-sig")
