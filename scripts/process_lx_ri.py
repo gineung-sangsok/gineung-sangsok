@@ -22,6 +22,7 @@ def parse_eup_myeon(adzn_nm: str) -> str:
 
 
 def main() -> None:
+    """LX 경계에서 임실군 법정리를 추출해 EPSG:4326 GeoJSON으로 저장한다."""
     if not SRC_FILE.exists():
         print(f"❌ 원본 파일 없음: {SRC_FILE}")
         return

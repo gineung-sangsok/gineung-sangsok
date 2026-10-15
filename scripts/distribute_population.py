@@ -52,6 +52,7 @@ def load_eup_myeon_population(pop_file: Path) -> pd.DataFrame:
 
 
 def main() -> None:
+    """읍면 인구를 법정리에 균등 배분해 추정값임을 표시한 CSV로 저장한다."""
     # 읍면별 인구 로드
     eup_pop = load_eup_myeon_population(POP_FILE)
     print("📊 읍면별 인구 로드:")

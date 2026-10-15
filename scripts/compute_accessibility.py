@@ -24,6 +24,7 @@ EPSG_CALC = 5179  # 거리 계산용 좌표계 (계약 v1.0)
 
 
 def main() -> None:
+    """법정리 중심점별 최근접 정류장과 EPSG:5179 직선거리를 CSV로 저장한다."""
     # 법정리 GeoJSON 로드 및 중심점 계산
     ri = gpd.read_file(RI_FILE)
     ri_proj = ri.to_crs(epsg=EPSG_CALC)

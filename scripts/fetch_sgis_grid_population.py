@@ -95,6 +95,7 @@ def load_eup_myeon_aging_rate() -> dict[str, float]:
 
 
 def main() -> None:
+    """SGIS 격자 인구를 법정리별로 집계하고 고령인구를 추정해 CSV로 저장한다."""
     # 법정리 경계 로드
     ri = gpd.read_file(RI_FILE).to_crs(epsg=EPSG_CALC)
     print(f"📍 법정리 {len(ri)}개 로드")

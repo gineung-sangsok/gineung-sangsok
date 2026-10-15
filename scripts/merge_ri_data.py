@@ -24,6 +24,7 @@ OUT_FILE = BASE_DIR / "data" / "processed" / "villages_ri.csv"
 
 
 def main() -> None:
+    """법정리 코드로 인구·정류장 접근성·중심점 좌표를 결합해 CSV로 저장한다."""
     # 법정리 중심점: EPSG:5179로 변환 후 centroid 계산 → 다시 4326으로
     ri = gpd.read_file(RI_FILE)
     ri_proj = ri.to_crs(epsg=5179)

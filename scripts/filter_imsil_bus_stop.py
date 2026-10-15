@@ -16,6 +16,7 @@ OUT_FILE = BASE_DIR / "data" / "processed" / "bus_stops_imsil.csv"
 
 
 def main() -> None:
+    """도시명과 임실군 bbox로 정류장을 걸러 ID·이름을 보존해 저장한다."""
     if not SRC_FILE.exists():
         print(f"❌ 원본 파일 없음: {SRC_FILE}")
         sys.exit(1)
@@ -23,7 +24,7 @@ def main() -> None:
     df = None
     for enc in ["cp949", "utf-8-sig", "euc-kr"]:
         try:
-            df = pd.read_csv(SRC_FILE, encoding=enc)
+            df = pd.read_csv(SRC_FILE, encoding=enc, dtype={"정류장번호": str, "정류장명": str})
             break
         except Exception:
             continue
@@ -32,8 +33,12 @@ def main() -> None:
         print("❌ CSV 인코딩을 읽을 수 없습니다.")
         sys.exit(1)
 
-    # 도시명에 '임실' 포함 여부로 필터 (실제값: '전라북도 임실군')
-    imsil = df[df["도시명"].str.contains("임실", na=False)].copy()
+    # 도시명과 임실군 bbox로 필터 (위도 35.4~35.85, 경도 127.0~127.5)
+    imsil = df[
+        df["도시명"].str.contains("임실", na=False)
+        & df["위도"].between(35.4, 35.85)
+        & df["경도"].between(127.0, 127.5)
+    ].copy()
 
     if imsil.empty:
         print("❌ 임실군 데이터를 찾지 못했습니다.")
