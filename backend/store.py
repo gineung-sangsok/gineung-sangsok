@@ -5,6 +5,7 @@
 """
 
 import json
+import threading
 from functools import cache
 from pathlib import Path
 
@@ -35,6 +36,15 @@ def _num(value):
     return None if pd.isna(value) else value
 
 
+def _text(value) -> str:
+    """CSV 빈칸(NaN)을 빈 문자열로 바꾼다. 지오코딩 실패 행은 village_id가 비어 있다."""
+    return "" if pd.isna(value) else str(value)
+
+
+def _location(lat, lng) -> Location | None:
+    return None if pd.isna(lat) or pd.isna(lng) else Location(lat=lat, lng=lng)
+
+
 @cache
 def resources() -> list[Entity]:
     """data/processed/resources_imsil.csv가 있으면 그것을, 없으면 목업을 쓴다."""
@@ -48,8 +58,8 @@ def resources() -> list[Entity]:
             entity_type="resource",
             resource_type=row.resource_type,
             name=row.name,
-            village_id=row.village_id if isinstance(row.village_id, str) else "",
-            location=None if pd.isna(row.lat) else Location(lat=row.lat, lng=row.lng),
+            village_id=_text(row.village_id),
+            location=_location(row.lat, row.lng),
             status=row.status,
         )
         for row in df.itertuples()
@@ -89,6 +99,8 @@ class ClosureStore:
     """
 
     def __init__(self) -> None:
+        # FastAPI는 일반 함수 엔드포인트를 스레드풀에서 동시에 실행하므로 ID 발급·저장을 잠근다
+        self._lock = threading.Lock()
         demo = _mock("closure")
         self.closures: dict[str, Closure] = {demo["closure_id"]: Closure(**demo)}
         functions = _mock("functions")
@@ -97,17 +109,20 @@ class ClosureStore:
         }
 
     def create(self, store: Entity, closure_date: str | None, note: str | None) -> Closure:
-        closure_id = f"closure_{len(self.closures) + 1:04d}"
         store = store.model_copy(update={"status": "CLOSING", "closure_date": closure_date})
-        closure = Closure(closure_id=closure_id, store=store, closure_date=closure_date, note=note)
-        self.closures[closure_id] = closure
         # 태깅 연결 전까지는 데모 기능 분리 결과를 그대로 붙인다
         demo = _mock("functions")
-        self.functions[closure_id] = ClosureFunctions(
-            closure_id=closure_id,
-            functions=demo["functions"],
-            verified_by_officer=False,
-        )
+        with self._lock:
+            closure_id = f"closure_{len(self.closures) + 1:04d}"
+            closure = Closure(
+                closure_id=closure_id, store=store, closure_date=closure_date, note=note
+            )
+            self.closures[closure_id] = closure
+            self.functions[closure_id] = ClosureFunctions(
+                closure_id=closure_id,
+                functions=demo["functions"],
+                verified_by_officer=False,
+            )
         return closure
 
     def get(self, closure_id: str) -> Closure | None:
@@ -143,8 +158,8 @@ def stores_by_id() -> dict[str, Entity]:
             entity_id=row.entity_id,
             entity_type="store",
             name=row.name,
-            village_id=row.village_id,
-            location=Location(lat=row.lat, lng=row.lng),
+            village_id=_text(row.village_id),
+            location=_location(row.lat, row.lng),
             status=row.status,
         )
         for row in df.itertuples()

@@ -63,3 +63,37 @@ def test_cors_allows_vite_dev_server():
         headers={"Origin": "http://localhost:5173", "Access-Control-Request-Method": "GET"},
     )
     assert res.headers["access-control-allow-origin"] == "http://localhost:5173"
+
+
+def test_concurrent_creates_get_unique_ids():
+    from concurrent.futures import ThreadPoolExecutor
+
+    from backend.store import ClosureStore, stores_by_id
+
+    closures_ = ClosureStore()
+    demo_store = next(iter(stores_by_id().values()))
+    with ThreadPoolExecutor(8) as pool:
+        created = list(pool.map(lambda _: closures_.create(demo_store, None, None), range(50)))
+    ids = {c.closure_id for c in created}
+    assert len(ids) == 50
+    assert all(closure_id in closures_.closures for closure_id in ids)
+
+
+def test_stores_with_blank_village_and_location(tmp_path, monkeypatch):
+    from backend import store
+
+    (tmp_path / "stores_imsil.csv").write_text(
+        "entity_id,name,village_id,lat,lng,status\n"
+        "store_0001,정상,5275040026,35.48,127.14,ACTIVE\n"
+        "store_0002,좌표없음,,,,ACTIVE\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(store, "PROCESSED", tmp_path)
+    store.stores_by_id.cache_clear()
+    try:
+        stores = store.stores_by_id()
+        assert stores["store_0002"].village_id == ""
+        assert stores["store_0002"].location is None
+        assert stores["store_0001"].location.lat == 35.48
+    finally:
+        store.stores_by_id.cache_clear()
