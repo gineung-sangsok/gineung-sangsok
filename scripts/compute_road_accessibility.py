@@ -3,8 +3,8 @@
 OSMnx로 임실군 도로망을 수집하고, 법정리별 최근접 버스정류장까지의
 도로거리(m)·도보 이동시간(분)을 계산해 accessibility_ri.csv를 교체한다.
 
-직선 반경 INITIAL_RADIUS_M 이내 정류장 후보를 추려 도로거리 계산.
-후보가 없으면 MAX_RADIUS_M까지 반경을 늘려가며 재탐색 (fallback).
+먼저 MAX_RADIUS_M 이내 도로거리로 정류장을 찾고, 없으면 상한 없이 재탐색.
+도로 경로가 없는 경우에만 직선거리로 대체한다.
 
 입력:
   - data/processed/legal_ri_imsil.geojson
@@ -37,7 +37,7 @@ PBF_FILE = BASE_DIR / "data" / "raw" / "south-korea-261014.osm.pbf"
 WALK_SPEED_KMH = 4.0
 INITIAL_RADIUS_M = 3000   # 첫 번째 후보 탐색 반경
 RADIUS_STEP_M = 2000      # fallback 시 반경 증가 단위
-MAX_RADIUS_M = 15000      # 최대 탐색 반경
+MAX_RADIUS_M = 15000      # 첫 도로거리 탐색 상한
 
 
 def load_or_download_graph() -> nx.MultiDiGraph:
@@ -100,22 +100,26 @@ def main() -> None:
         cx, cy = row["centroid"].x, row["centroid"].y
         origin_node = ox.nearest_nodes(G_proj, cx, cy)
 
-        # origin에서 도로거리 cutoff 이내 모든 노드까지의 최단거리를 한 번에 계산
+        # 도로거리 상한 내 정류장이 없으면 상한 없이 다시 탐색
         method = "road"
         best_idx = None
         best_dist = float("inf")
 
-        try:
-            lengths = nx.single_source_dijkstra_path_length(
-                G_proj, origin_node, cutoff=MAX_RADIUS_M, weight="length",
-            )
-        except nx.NodeNotFound:
-            lengths = {}
+        for cutoff in (MAX_RADIUS_M, None):
+            try:
+                lengths = nx.single_source_dijkstra_path_length(
+                    G_proj, origin_node, cutoff=cutoff, weight="length",
+                )
+            except nx.NodeNotFound:
+                lengths = {}
 
-        for i, snode in enumerate(stop_nodes):
-            if snode in lengths and lengths[snode] < best_dist:
-                best_dist = lengths[snode]
-                best_idx = i
+            for i, snode in enumerate(stop_nodes):
+                if snode in lengths and lengths[snode] < best_dist:
+                    best_dist = lengths[snode]
+                    best_idx = i
+
+            if best_idx is not None:
+                break
 
         # 도로 경로 없으면 직선거리 fallback
         if best_idx is None:
