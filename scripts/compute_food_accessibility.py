@@ -86,7 +86,7 @@ def load_food_stores():
     gdf = gpd.GeoDataFrame(
         food,
         geometry=[
-            Point(lon, lat) for lon, lat in zip(food["lon"], food["lat"])
+            Point(lon, lat) for lon, lat in zip(food["lon"], food["lat"], strict=False)
         ],
         crs="EPSG:4326",
     ).to_crs(epsg=EPSG_CALC)
@@ -124,7 +124,7 @@ def main():
     print(f"🗺️  도로망 노드 {len(nodes_gdf)}개")
 
     # 식료품점 → 최근접 도로 노드 매핑
-    store_coords = list(zip(stores.geometry.x, stores.geometry.y))
+    store_coords = list(zip(stores.geometry.x, stores.geometry.y, strict=False))
     store_nodes = ox.nearest_nodes(
         G_proj, [c[0] for c in store_coords], [c[1] for c in store_coords]
     )
@@ -134,7 +134,7 @@ def main():
     records = []
     fallback_count = 0
 
-    for idx, row in ri.iterrows():
+    for _idx, row in ri.iterrows():
         cx, cy = row["centroid"].x, row["centroid"].y
         origin_node = ox.nearest_nodes(G_proj, cx, cy)
         ri_name = row["ri_name"]
