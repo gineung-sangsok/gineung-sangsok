@@ -65,18 +65,6 @@ def load_or_download_graph() -> nx.MultiDiGraph:
     return G
 
 
-def compute_road_distance(
-    G: nx.MultiDiGraph,
-    origin_node: int,
-    dest_node: int,
-) -> float | None:
-    """두 노드 간 도로거리(m)를 반환한다. 경로 없으면 None."""
-    try:
-        return nx.shortest_path_length(G, origin_node, dest_node, weight="length")
-    except nx.NetworkXNoPath:
-        return None
-
-
 def main() -> None:
     # 법정리 중심점 (EPSG:5179)
     ri = gpd.read_file(RI_FILE).to_crs(epsg=EPSG_CALC)
@@ -84,7 +72,7 @@ def main() -> None:
     print(f"📍 법정리 {len(ri)}개")
 
     # 버스정류장 (EPSG:5179)
-    stops_df = pd.read_csv(STOP_FILE, encoding="utf-8-sig")
+    stops_df = pd.read_csv(STOP_FILE, encoding="utf-8-sig", dtype={"stop_id": str})
     stops_gdf = gpd.GeoDataFrame(
         stops_df,
         geometry=[
@@ -112,30 +100,22 @@ def main() -> None:
         cx, cy = row["centroid"].x, row["centroid"].y
         origin_node = ox.nearest_nodes(G_proj, cx, cy)
 
-        # 반경을 늘려가며 후보 정류장 탐색
-        radius = INITIAL_RADIUS_M
-        candidates = []
+        # origin에서 도로거리 cutoff 이내 모든 노드까지의 최단거리를 한 번에 계산
         method = "road"
-
-        while radius <= MAX_RADIUS_M:
-            for i, (sx, sy) in enumerate(stop_coords):
-                straight = ((cx - sx) ** 2 + (cy - sy) ** 2) ** 0.5
-                if straight <= radius:
-                    candidates.append(i)
-            if candidates:
-                break
-            radius += RADIUS_STEP_M
-
-        # 후보 중 도로거리 최소 정류장 선택
         best_idx = None
         best_dist = float("inf")
 
-        if candidates:
-            for i in candidates:
-                dist = compute_road_distance(G_proj, origin_node, stop_nodes[i])
-                if dist is not None and dist < best_dist:
-                    best_dist = dist
-                    best_idx = i
+        try:
+            lengths = nx.single_source_dijkstra_path_length(
+                G_proj, origin_node, cutoff=MAX_RADIUS_M, weight="length",
+            )
+        except nx.NodeNotFound:
+            lengths = {}
+
+        for i, snode in enumerate(stop_nodes):
+            if snode in lengths and lengths[snode] < best_dist:
+                best_dist = lengths[snode]
+                best_idx = i
 
         # 도로 경로 없으면 직선거리 fallback
         if best_idx is None:
@@ -161,6 +141,13 @@ def main() -> None:
             "calc_method": method,
         })
 
+    # 직선거리 비교용: 저장 전에 기존 파일을 읽어둔다
+    prev_avg = None
+    if OUT_FILE.exists():
+        prev = pd.read_csv(OUT_FILE, encoding="utf-8-sig")
+        if "nearest_stop_m" in prev.columns:
+            prev_avg = prev["nearest_stop_m"].mean()
+
     result = pd.DataFrame(records)
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(OUT_FILE, index=False, encoding="utf-8-sig")
@@ -168,15 +155,10 @@ def main() -> None:
     print(f"\n✅ 저장 완료: {OUT_FILE} ({len(result)}건)")
     print(f"   fallback(직선거리) 법정리: {fallback_count}건")
 
-    straight = pd.read_csv(
-        BASE_DIR / "data" / "processed" / "accessibility_ri.csv",
-        encoding="utf-8-sig",
-    )
-    if "nearest_stop_m" in straight.columns:
-        avg_straight = straight["nearest_stop_m"].mean()
+    if prev_avg is not None:
         avg_road = result["nearest_stop_m"].mean()
-        print(f"   직선거리 평균: {avg_straight:.0f}m → 도로거리 평균: {avg_road:.0f}m "
-              f"({avg_road/avg_straight*100-100:+.1f}%)")
+        print(f"   이전 평균: {prev_avg:.0f}m → 도로거리 평균: {avg_road:.0f}m "
+              f"({avg_road/prev_avg*100-100:+.1f}%)")
 
     print("\n📊 읍면별 평균 도로거리(m) / 이동시간(분):")
     summary = result.groupby("eup_myeon")[["nearest_stop_m", "nearest_stop_min"]].mean().astype(int)
