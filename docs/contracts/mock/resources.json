@@ -1,0 +1,28 @@
+[
+  {
+    "entity_id": "res_0086",
+    "entity_type": "resource",
+    "resource_type": "R03",
+    "name": "물우경로당",
+    "village_id": "5275040027",
+    "location": { "lat": 35.496265, "lng": 127.153888 },
+    "functions": [],
+    "status": "ACTIVE",
+    "closure_date": null,
+    "conditions": { "schedule": null, "weekly_visits": null, "capacity": null, "delivery": null, "service_area": null, "requires_own_transport": null },
+    "verified_by_officer": false
+  },
+  {
+    "entity_id": "res_0003",
+    "entity_type": "resource",
+    "resource_type": "R04",
+    "name": "구세군덕치노인복지센터",
+    "village_id": "5275040027",
+    "location": { "lat": 35.496257, "lng": 127.153244 },
+    "functions": [],
+    "status": "ACTIVE",
+    "closure_date": null,
+    "conditions": { "schedule": null, "weekly_visits": null, "capacity": null, "delivery": null, "service_area": null, "requires_own_transport": null },
+    "verified_by_officer": false
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "closure_id": "closure_0001",
+  "villages": [
+    {
+      "village_id": "5275040026",
+      "function_code": "F01",
+      "before": { "provider_ids": ["store_0107"], "distance_m": 450, "note": null },
+      "after": { "provider_ids": ["res_mm_0001"], "distance_m": 0, "note": "이동장터 주 1회 방문 (부분 해소)" },
+      "gap": false
+    },
+    {
+      "village_id": "5275040026",
+      "function_code": "F02",
+      "before": { "provider_ids": ["store_0107"], "distance_m": 450, "note": null },
+      "after": { "provider_ids": ["store_0150"], "distance_m": 3100, "note": "공동배송 연계 시 해소" },
+      "gap": true
+    },
+    {
+      "village_id": "5275040026",
+      "function_code": "F03",
+      "before": { "provider_ids": ["store_0107"], "distance_m": 450, "note": null },
+      "after": { "provider_ids": [], "distance_m": null, "note": "대체 자원 없음" },
+      "gap": true
+    }
+  ],
+  "summary": { "gap_population_before": 151, "gap_population_after": 57 }
+}

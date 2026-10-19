@@ -1,0 +1,25 @@
+{
+  "closure_id": "closure_0001",
+  "store": {
+    "entity_id": "store_0107",
+    "entity_type": "store",
+    "resource_type": null,
+    "name": "천일슈퍼",
+    "village_id": "5275040026",
+    "location": { "lat": 35.487602, "lng": 127.147945 },
+    "functions": [],
+    "status": "CLOSING",
+    "closure_date": "2026-11-30",
+    "conditions": {
+      "schedule": null,
+      "weekly_visits": 7,
+      "capacity": null,
+      "delivery": null,
+      "service_area": null,
+      "requires_own_transport": null
+    },
+    "verified_by_officer": false
+  },
+  "closure_date": "2026-11-30",
+  "note": "데모: 덕치면 일중리의 유일한 식료품점"
+}
