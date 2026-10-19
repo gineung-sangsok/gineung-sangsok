@@ -1,0 +1,11 @@
+[
+  {
+    "village_id": "5275040026",
+    "ri_name": "일중리",
+    "eup_myeon": "덕치면",
+    "rep_point": { "lat": 35.491102, "lng": 127.140462 },
+    "population": { "total": 151, "age65plus": 57, "aging_rate": 37.7, "source": "grid+estimate", "year": 2020 },
+    "nearest_bus_stop_m": 639,
+    "has_food_store": true
+  }
+]

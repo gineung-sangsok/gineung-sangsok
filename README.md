@@ -87,7 +87,13 @@ uv sync                 # 의존성 설치
 cp .env.example .env    # API 키 입력
 uv run ruff check .     # 린트
 uv run pytest           # 테스트
+
+# 백엔드 (http://localhost:8000/docs 에서 API 확인)
+uv run uvicorn backend.main:app --reload
 ```
+
+백엔드는 아직 목업 응답이다. `closure_0001`(덕치면 천일슈퍼)이 데모로 미리 등록돼 있어 바로 GET할 수 있다.
+`data/processed/`에 `resources_imsil.csv`, `villages_ri.csv`가 있으면 `/resources`, `/villages`는 실제 데이터를 돌려준다. 엔드포인트별 예시 응답은 `docs/contracts/mock/`.
 
 ## 데이터 출처
 

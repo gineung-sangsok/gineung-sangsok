@@ -1,0 +1,39 @@
+{
+  "closure_id": "closure_0001",
+  "plans": [
+    {
+      "function_code": "F01",
+      "resource_id": "res_mm_0001",
+      "resource_type": "R01",
+      "resource_name": "찾아가는 임실 이동장터 (가정 노선)",
+      "action": "기존 이동장터 노선에 일중리 주 1회 방문 추가 검토",
+      "score": 0.82,
+      "score_breakdown": { "distance": 0.9, "hours": 0.7, "delivery": 1.0, "transport": 0.8, "service_area": 0.7 },
+      "reason": "목업 추천 사유: 덕치면 인근 마을을 이미 운행 중이라 노선 연장 부담이 작고, 생필품 판매·배달이 가능하다.",
+      "needs_officer_check": true
+    },
+    {
+      "function_code": "F02",
+      "resource_id": "store_0150",
+      "resource_type": "R02",
+      "resource_name": "임실농협하나로마트 덕치점",
+      "action": "하나로마트 덕치점 신선식품 공동배송 연계 검토",
+      "score": 0.68,
+      "score_breakdown": { "distance": 0.6, "hours": 0.8, "delivery": 0.5, "transport": 0.6, "service_area": 0.9 },
+      "reason": "목업 추천 사유: 같은 면 회문리(약 3km)에 있어 신선식품 공급이 가능하나 배송 여부는 확인이 필요하다.",
+      "needs_officer_check": true
+    },
+    {
+      "function_code": "F04",
+      "resource_id": "res_0086",
+      "resource_type": "R03",
+      "resource_name": "물우경로당",
+      "action": "경로당을 이동장터 정차·공동수령 거점으로 활용",
+      "score": 0.74,
+      "score_breakdown": { "distance": 0.8, "hours": 0.6, "delivery": 0.0, "transport": 0.9, "service_area": 0.8 },
+      "reason": "목업 추천 사유: 주민이 이미 모이는 공간이라 공동수령·안부 확인 거점으로 쓰기 쉽다.",
+      "needs_officer_check": true
+    }
+  ],
+  "uncovered_functions": ["F03"]
+}
