@@ -1,0 +1,64 @@
+﻿entity_id,code,confidence,evidence,source
+store_0100,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0149,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0112,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0111,F03,0.8,업종 '곡물/곡분 소매업',keyword
+store_0005,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0116,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0016,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0016,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0077,F02,0.9,업종 '수산물 소매업',keyword
+store_0037,F02,0.9,업종 '수산물 소매업',keyword
+store_0140,F01,0.9,업종 '슈퍼마켓',keyword
+store_0140,F02,0.5,업종 '슈퍼마켓',keyword
+store_0140,F04,0.5,선거리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0006,F01,0.9,업종 '슈퍼마켓',keyword
+store_0006,F02,0.5,업종 '슈퍼마켓',keyword
+store_0103,F01,0.9,업종 '슈퍼마켓',keyword
+store_0103,F02,0.8,이름에 '마트',keyword
+store_0103,F03,0.7,이름에 '마트',keyword
+store_0004,F01,0.9,업종 '식품판매업(기타)',keyword
+store_0004,F02,0.8,업종 '식품판매업(기타)',keyword
+store_0004,F03,0.7,업종 '식품판매업(기타)',keyword
+store_0009,F02,0.9,업종 '정육점',keyword
+store_0024,F02,0.9,업종 '정육점',keyword
+store_0144,F02,0.9,업종 '정육점',keyword
+store_0101,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0123,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0014,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0011,F01,0.9,업종 '편의점',keyword
+store_0081,F01,0.9,업종 '편의점',keyword
+store_0081,F04,0.5,봉천리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0091,F01,0.9,업종 '편의점',keyword
+store_0033,F01,0.9,업종 '슈퍼마켓',keyword
+store_0033,F02,0.5,업종 '슈퍼마켓',keyword
+store_0145,F01,0.9,업종 '슈퍼마켓',keyword
+store_0145,F02,0.5,업종 '슈퍼마켓',keyword
+store_0084,F01,0.9,업종 '슈퍼마켓',keyword
+store_0084,F02,0.8,이름에 '하나로마트',keyword
+store_0084,F03,0.7,이름에 '하나로마트',keyword
+res_0176,F04,0.9,자원 종류 '경로당',keyword
+res_0360,F04,0.9,자원 종류 '경로당',keyword
+res_0334,F04,0.9,자원 종류 '경로당',keyword
+res_0253,F04,0.9,자원 종류 '경로당',keyword
+res_0174,F04,0.9,자원 종류 '경로당',keyword
+res_0016,F04,0.7,자원 종류 '노인여가복지시설',keyword
+res_0015,F04,0.7,자원 종류 '노인여가복지시설',keyword
+res_0017,F04,0.5,자원 종류 '노인일자리지원기관',keyword
+res_0010,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0010,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0012,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0012,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0001,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0001,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0014,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0014,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0006,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0006,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0238,F04,0.9,자원 종류 '경로당',keyword
+res_0051,F04,0.9,자원 종류 '경로당',keyword
+res_0268,F04,0.9,자원 종류 '경로당',keyword
+res_0193,F04,0.9,자원 종류 '경로당',keyword
+res_0065,F04,0.9,자원 종류 '경로당',keyword
+res_0345,F04,0.9,자원 종류 '경로당',keyword
+res_0024,F04,0.9,자원 종류 '경로당',keyword
