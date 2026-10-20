@@ -1,0 +1,10 @@
+{
+  "closure_id": "closure_0001",
+  "functions": [
+    { "code": "F01", "confidence": 0.92, "evidence": "업종 '슈퍼마켓', 공산품·가공식품 판매", "source": "llm" },
+    { "code": "F02", "confidence": 0.71, "evidence": "슈퍼마켓은 채소·유제품 등 냉장 상품을 함께 판매하는 경우가 많음", "source": "llm" },
+    { "code": "F03", "confidence": 0.45, "evidence": "쌀·생수 판매 여부 불명확 → 확인 필요", "source": "llm" },
+    { "code": "F04", "confidence": 0.5, "evidence": "일중리에 영업 중인 식료품점이 이 가게 1곳뿐 (F04 규칙)", "source": "keyword" }
+  ],
+  "verified_by_officer": false
+}
