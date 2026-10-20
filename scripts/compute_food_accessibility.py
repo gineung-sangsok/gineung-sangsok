@@ -1,7 +1,7 @@
-"""법정리 중심점 기준 최근접 식료품점 도로거리 계산 스크립트.
+"""법정리 중심점 기준 최근접 식료품점 접근성 계산 스크립트.
 
 OSMnx 도로망을 이용해 법정리별 최근접 식료품점까지의
-도로거리(m)·도보 이동시간(분)을 계산한다.
+직선거리(m)로 최근접 식료품점을 선택하고 도로거리로 도보 이동시간(분)을 계산한다.
 
 입력:
   - data/processed/legal_ri_imsil.geojson       (법정리 경계, EPSG:4326)
@@ -13,7 +13,8 @@ OSMnx 도로망을 이용해 법정리별 최근접 식료품점까지의
 컬럼: ri_code, ri_name, eup_myeon,
        nearest_store_id, nearest_store_name, nearest_store_m,
        nearest_store_min, has_food_store, calc_method
-거리 계산: EPSG:5179 도로거리 (UTM-K, 미터 단위)
+거리 계산: EPSG:5179 직선거리 (UTM-K, 미터 단위), 도보시간은 도로거리 기준
+도로 경로가 없으면 도보시간도 직선거리로 대체한다.
 """
 
 from pathlib import Path
@@ -34,9 +35,6 @@ PBF_FILE = BASE_DIR / "data" / "raw" / "south-korea-261014.osm.pbf"
 
 EPSG_CALC = 5179
 WALK_SPEED_KMH = 4.0
-INITIAL_RADIUS_M = 3000
-RADIUS_STEP_M = 2000
-MAX_RADIUS_M = 15000
 
 # 식료품점으로 인정하는 소분류 (function_taxonomy.md F01·F02 기준)
 FOOD_SUBCATEGORIES = {
@@ -47,7 +45,6 @@ FOOD_SUBCATEGORIES = {
     "정육점",
     "건어물/젓갈 소매업",
     "수산물 소매업",
-    "곡물/곡분 소매업",
 }
 
 GAP_THRESHOLD_M = 1000
@@ -139,44 +136,24 @@ def main():
         origin_node = ox.nearest_nodes(G_proj, cx, cy)
         ri_name = row["ri_name"]
 
-        # 반경 늘려가며 후보 식료품점 탐색
-        radius = INITIAL_RADIUS_M
-        candidates = []
-        method = "road"
-
-        while radius <= MAX_RADIUS_M:
-            for i, (sx, sy) in enumerate(store_coords):
-                straight = ((cx - sx) ** 2 + (cy - sy) ** 2) ** 0.5
-                if straight <= radius:
-                    candidates.append(i)
-            if candidates:
-                break
-            radius += RADIUS_STEP_M
-
-        # 후보 중 도로거리 최소 식료품점 선택
-        best_idx = None
+        # 직선거리로 최근접 식료품점 선택
         best_dist = float("inf")
+        best_idx = None
+        for i, (sx, sy) in enumerate(store_coords):
+            straight = ((cx - sx) ** 2 + (cy - sy) ** 2) ** 0.5
+            if straight < best_dist:
+                best_dist = straight
+                best_idx = i
 
-        if candidates:
-            for i in candidates:
-                dist = compute_road_distance(
-                    G_proj, origin_node, store_nodes[i]
-                )
-                if dist is not None and dist < best_dist:
-                    best_dist = dist
-                    best_idx = i
-
-        # 도로 경로 없으면 직선거리 fallback
-        if best_idx is None:
+        # 선택한 매장의 도로거리는 도보시간 계산에만 사용
+        road_dist = compute_road_distance(G_proj, origin_node, store_nodes[best_idx])
+        method = "road"
+        if road_dist is None:
+            road_dist = best_dist
             method = "straight_fallback"
             fallback_count += 1
-            for i, (sx, sy) in enumerate(store_coords):
-                d = ((cx - sx) ** 2 + (cy - sy) ** 2) ** 0.5
-                if d < best_dist:
-                    best_dist = d
-                    best_idx = i
 
-        walk_min = round(best_dist / (WALK_SPEED_KMH * 1000 / 60), 1)
+        walk_min = round(road_dist / (WALK_SPEED_KMH * 1000 / 60), 1)
 
         records.append({
             "ri_code": row["ri_code"],
@@ -202,7 +179,7 @@ def main():
 
     # 기준별 공백 법정리 수
     total = len(result)
-    print("\n📊 기준별 공백 법정리 수 (식료품점 도로거리 기준):")
+    print("\n📊 기준별 공백 법정리 수 (식료품점 직선거리 기준):")
     for t in [0.5, 1.0, 1.5, 2.0, 3.0, 5.0]:
         gap = (result["nearest_store_m"] > t * 1000).sum()
         print(f"  {t:.1f}km 초과: {gap:3}개 ({gap / total * 100:.1f}%)")
@@ -216,7 +193,7 @@ def main():
     )
     print(gap_df.to_string(index=False))
 
-    print("\n📊 읍면별 평균 도로거리(m) / 이동시간(분):")
+    print("\n📊 읍면별 평균 직선거리(m) / 이동시간(분):")
     summary = (
         result.groupby("eup_myeon")[["nearest_store_m", "nearest_store_min"]]
         .mean().astype(int)

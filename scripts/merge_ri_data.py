@@ -82,7 +82,11 @@ def main() -> None:
     print(result.head(5).to_string(index=False))
 
     # 결합 누락 확인
-    missing = result[result["center_lat"].isna() | result["nearest_stop_m"].isna()]
+    missing = result[
+        result["center_lat"].isna()
+        | result["nearest_stop_m"].isna()
+        | result["nearest_food_store_m"].isna()
+    ]
     if missing.empty:
         print(f"\n✅ 누락 없이 전체 {len(result)}개 법정리 결합 완료")
     else:
