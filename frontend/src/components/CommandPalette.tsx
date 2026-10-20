@@ -28,10 +28,10 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
     () => [
       ...PAGES,
       ...facilities.map((f) => ({
-        id: `f-${f.id}`,
+        id: `f-${f.entity_id}`,
         group: "시설",
         label: f.name,
-        hint: `${f.eupMyeon} ${f.ri}`,
+        hint: `${f.eup_myeon} ${f.ri}`,
         icon: Building2,
         to: "/closures/demo/functions",
       })),

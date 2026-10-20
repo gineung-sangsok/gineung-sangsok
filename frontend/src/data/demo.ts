@@ -32,31 +32,36 @@ export const STAGE_LABEL: Record<Stage, string> = {
 };
 
 export interface Facility {
-  id: string;
+  entity_id: string;
+  entity_type: "store" | "resource";
   name: string;
-  bizType: string;
+  biz_type: string;
   status: FacilityStatus;
-  closureDate: string;
-  eupMyeon: string;
+  closure_date: string | null;
+  village_id: string;
+  eup_myeon: string;
   ri: string;
   address: string;
-  affectedPop: number;
+  location: { lat: number; lng: number } | null;
+  affected_pop: number;
   functions: FnCode[];
   stage: Stage;
-  registeredAt: string;
+  verified_by_officer: boolean;
+  data_sources: string[];
+  updated_at: string;
 }
 
 export const FACILITIES: Facility[] = [
-  { id: "demo", name: "죽계상회", bizType: "식료품점", status: "CLOSING", closureDate: "2026-12-31", eupMyeon: "삼계면", ri: "죽계리", address: "전북 임실군 삼계면 죽계리 123", affectedPop: 214, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", registeredAt: "2026-10-18" },
-  { id: "c-102", name: "갈담슈퍼", bizType: "슈퍼마켓", status: "CLOSING", closureDate: "2026-11-30", eupMyeon: "강진면", ri: "갈담리", address: "전북 임실군 강진면 갈담리 45", affectedPop: 388, functions: ["F01", "F02", "F03"], stage: "functions", registeredAt: "2026-10-16" },
-  { id: "c-103", name: "옥정상회", bizType: "식료품점", status: "SUSPENDED", closureDate: "2027-01-15", eupMyeon: "운암면", ri: "옥정리", address: "전북 임실군 운암면 옥정리 8", affectedPop: 132, functions: ["F01", "F04"], stage: "registered", registeredAt: "2026-10-14" },
-  { id: "c-104", name: "필봉정육점", bizType: "정육점", status: "CLOSING", closureDate: "2026-12-10", eupMyeon: "강진면", ri: "필봉리", address: "전북 임실군 강진면 필봉리 201", affectedPop: 176, functions: ["F02"], stage: "reviewed", registeredAt: "2026-10-09" },
-  { id: "c-105", name: "신덕농협하나로", bizType: "농협마트", status: "SEASONAL", closureDate: "2027-02-28", eupMyeon: "신덕면", ri: "신덕리", address: "전북 임실군 신덕면 신덕리 67", affectedPop: 512, functions: ["F01", "F02", "F03"], stage: "inheritance", registeredAt: "2026-10-05" },
-  { id: "c-106", name: "학석상점", bizType: "식료품점", status: "CLOSING", closureDate: "2026-11-20", eupMyeon: "관촌면", ri: "학석리", address: "전북 임실군 관촌면 학석리 12", affectedPop: 98, functions: ["F01", "F03", "F04"], stage: "functions", registeredAt: "2026-09-29" },
-  { id: "c-107", name: "오수방앗간", bizType: "정미소", status: "CLOSED", closureDate: "2026-09-30", eupMyeon: "오수면", ri: "주천리", address: "전북 임실군 오수면 주천리 33", affectedPop: 241, functions: ["F03"], stage: "reviewed", registeredAt: "2026-09-21" },
-  { id: "c-108", name: "두월상회", bizType: "식료품점", status: "CLOSING", closureDate: "2027-03-31", eupMyeon: "성수면", ri: "두월리", address: "전북 임실군 성수면 두월리 90", affectedPop: 156, functions: ["F01", "F02", "F04"], stage: "registered", registeredAt: "2026-09-18" },
-  { id: "c-109", name: "회진슈퍼", bizType: "슈퍼마켓", status: "CLOSING", closureDate: "2026-12-20", eupMyeon: "덕치면", ri: "회진리", address: "전북 임실군 덕치면 회진리 4", affectedPop: 203, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", registeredAt: "2026-09-11" },
-  { id: "c-110", name: "금평연쇄점", bizType: "식료품점", status: "ACTIVE", closureDate: "2027-06-30", eupMyeon: "청웅면", ri: "금평리", address: "전북 임실군 청웅면 금평리 18", affectedPop: 119, functions: ["F01"], stage: "registered", registeredAt: "2026-09-02" },
+  { entity_id: "demo", entity_type: "store", name: "죽계상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-12-31", village_id: "5275037001", eup_myeon: "삼계면", ri: "죽계리", address: "전북 임실군 삼계면 죽계리 123", location: null, affected_pop: 214, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-18" },
+  { entity_id: "c-102", entity_type: "store", name: "갈담슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-11-30", village_id: "5275037002", eup_myeon: "강진면", ri: "갈담리", address: "전북 임실군 강진면 갈담리 45", location: null, affected_pop: 388, functions: ["F01", "F02", "F03"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-16" },
+  { entity_id: "c-103", entity_type: "store", name: "옥정상회", biz_type: "식료품점", status: "SUSPENDED", closure_date: "2027-01-15", village_id: "5275037003", eup_myeon: "운암면", ri: "옥정리", address: "전북 임실군 운암면 옥정리 8", location: null, affected_pop: 132, functions: ["F01", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-14" },
+  { entity_id: "c-104", entity_type: "store", name: "필봉정육점", biz_type: "정육점", status: "CLOSING", closure_date: "2026-12-10", village_id: "5275037004", eup_myeon: "강진면", ri: "필봉리", address: "전북 임실군 강진면 필봉리 201", location: null, affected_pop: 176, functions: ["F02"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-09" },
+  { entity_id: "c-105", entity_type: "store", name: "신덕농협하나로", biz_type: "농협마트", status: "SEASONAL", closure_date: "2027-02-28", village_id: "5275037005", eup_myeon: "신덕면", ri: "신덕리", address: "전북 임실군 신덕면 신덕리 67", location: null, affected_pop: 512, functions: ["F01", "F02", "F03"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-05" },
+  { entity_id: "c-106", entity_type: "store", name: "학석상점", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-11-20", village_id: "5275037006", eup_myeon: "관촌면", ri: "학석리", address: "전북 임실군 관촌면 학석리 12", location: null, affected_pop: 98, functions: ["F01", "F03", "F04"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-29" },
+  { entity_id: "c-107", entity_type: "store", name: "오수방앗간", biz_type: "정미소", status: "CLOSED", closure_date: "2026-09-30", village_id: "5275037007", eup_myeon: "오수면", ri: "주천리", address: "전북 임실군 오수면 주천리 33", location: null, affected_pop: 241, functions: ["F03"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-21" },
+  { entity_id: "c-108", entity_type: "store", name: "두월상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2027-03-31", village_id: "5275037008", eup_myeon: "성수면", ri: "두월리", address: "전북 임실군 성수면 두월리 90", location: null, affected_pop: 156, functions: ["F01", "F02", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-18" },
+  { entity_id: "c-109", entity_type: "store", name: "회진슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-12-20", village_id: "5275037009", eup_myeon: "덕치면", ri: "회진리", address: "전북 임실군 덕치면 회진리 4", location: null, affected_pop: 203, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-11" },
+  { entity_id: "c-110", entity_type: "store", name: "금평연쇄점", biz_type: "식료품점", status: "ACTIVE", closure_date: "2027-06-30", village_id: "5275037010", eup_myeon: "청웅면", ri: "금평리", address: "전북 임실군 청웅면 금평리 18", location: null, affected_pop: 119, functions: ["F01"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-02" },
 ];
 
 // 데모 시설의 기능 분석 결과
@@ -217,8 +222,8 @@ export function gapColor(v: number) {
 // 데이터 관리 탭 데이터
 export const DATA_ROWS: Record<string, { name: string; type: string; ri: string; fns: FnCode[]; status: string; source: string; verified: boolean; updated: string }[]> = {
   시설: FACILITIES.map((f) => ({
-    name: f.name, type: f.bizType, ri: `${f.eupMyeon} ${f.ri}`, fns: f.functions, status: f.status,
-    source: "사업자 신고 정보", verified: f.stage === "reviewed" || f.id === "demo", updated: f.registeredAt,
+    name: f.name, type: f.biz_type, ri: `${f.eup_myeon} ${f.ri}`, fns: f.functions, status: f.status,
+    source: "사업자 신고 정보", verified: f.stage === "reviewed" || f.entity_id === "demo", updated: f.updated_at,
   })),
   자원: Array.from(new Map(CANDIDATES.map((x) => [x.name, x])).values()).map((x, i) => ({
     name: x.name, type: RESOURCE_TYPES[x.type], ri: "삼계면 일대",

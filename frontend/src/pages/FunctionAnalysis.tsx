@@ -13,12 +13,12 @@ import { useToast } from "../components/ui/Toast";
 
 export function FacilityStrip() {
   const { facilities } = useDemo();
-  const f = facilities.find((x) => x.id === "demo")!;
-  const d = Math.ceil((new Date(f.closureDate).getTime() - Date.now()) / 86400000);
+  const f = facilities.find((x) => x.entity_id === "demo")!;
+  const d = f.closure_date ? Math.ceil((new Date(f.closure_date).getTime() - Date.now()) / 86400000) : null;
   const items = [
-    { icon: MapPin, k: "법정리", v: `${f.eupMyeon} ${f.ri}` },
-    { icon: CalendarClock, k: "폐업 예정일", v: f.closureDate.replace(/-/g, ".") },
-    { icon: Users, k: "영향 인구 (추정)", v: `${f.affectedPop}명` },
+    { icon: MapPin, k: "법정리", v: `${f.eup_myeon} ${f.ri}` },
+    { icon: CalendarClock, k: "폐업 예정일", v: f.closure_date?.replace(/-/g, ".") ?? "미정" },
+    { icon: Users, k: "영향 인구 (추정)", v: `${f.affected_pop}명` },
   ];
   return (
     <div className="card p-5 mb-6 flex items-center gap-8 animate-fade-up">
@@ -26,7 +26,7 @@ export function FacilityStrip() {
         <div className="w-11 h-11 rounded-xl bg-sidebar text-white text-[16px] font-bold flex items-center justify-center">{f.name[0]}</div>
         <div>
           <p className="text-[16px] font-bold">{f.name}</p>
-          <p className="text-[12px] text-text-muted">{f.bizType}</p>
+          <p className="text-[12px] text-text-muted">{f.biz_type}</p>
         </div>
       </div>
       {items.map(({ icon: Icon, k, v }) => (
@@ -40,7 +40,7 @@ export function FacilityStrip() {
       ))}
       <div className="ml-auto text-right">
         <p className="text-[11px] text-text-muted">폐업까지</p>
-        <p className={`text-[22px] font-bold tnum ${d <= 60 ? "text-status-error" : "text-action"}`}>D-{d}</p>
+        <p className={`text-[22px] font-bold tnum ${d !== null && d <= 60 ? "text-status-error" : "text-action"}`}>{d !== null ? `D-${d}` : "–"}</p>
       </div>
     </div>
   );

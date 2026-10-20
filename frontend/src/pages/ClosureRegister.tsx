@@ -54,9 +54,9 @@ export default function ClosureRegister() {
 
   const [form, setForm] = useState({
     name: "",
-    bizType: "식료품점",
+    biz_type: "식료품점",
     status: "CLOSING" as FacilityStatus,
-    closureDate: "",
+    closure_date: "",
     address: "",
     memo: "",
   });
@@ -108,25 +108,25 @@ export default function ClosureRegister() {
   };
 
   const pickBiz = (b: (typeof BIZ_TYPES)[number]) => {
-    update("bizType", b.label);
+    update("biz_type", b.label);
     setFns(b.fns);
   };
 
   const setDateOffset = (days: number) => {
     const d = new Date();
     d.setDate(d.getDate() + days);
-    update("closureDate", d.toISOString().slice(0, 10));
+    update("closure_date", d.toISOString().slice(0, 10));
   };
 
-  const dday = form.closureDate ? Math.ceil((new Date(form.closureDate).getTime() - Date.now()) / 86400000) : null;
+  const dday = form.closure_date ? Math.ceil((new Date(form.closure_date).getTime() - Date.now()) / 86400000) : null;
 
-  const completeness = [form.name, form.bizType, form.closureDate, ri, fns.length].filter(Boolean).length / 5;
+  const completeness = [form.name, form.biz_type, form.closure_date, ri, fns.length].filter(Boolean).length / 5;
 
   const handleSubmit = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "시설명을 입력하세요";
     if (!ri) e.address = "목록에서 법정리를 선택하세요";
-    if (!form.closureDate) e.closureDate = "날짜를 선택하세요";
+    if (!form.closure_date) e.closure_date = "날짜를 선택하세요";
     setErrors(e);
     if (Object.keys(e).length) {
       setShake(true);
@@ -136,18 +136,23 @@ export default function ClosureRegister() {
     setSubmitting(true);
     setTimeout(() => {
       addFacility({
-        id: `c-${Date.now()}`,
+        entity_id: `c-${Date.now()}`,
+        entity_type: "store",
         name: form.name,
-        bizType: form.bizType,
+        biz_type: form.biz_type,
         status: form.status,
-        closureDate: form.closureDate,
-        eupMyeon: ri!.eup,
+        closure_date: form.closure_date,
+        village_id: ri!.code,
+        eup_myeon: ri!.eup,
         ri: ri!.ri,
         address: form.address,
-        affectedPop: 80 + Math.round(Math.random() * 200),
+        location: { lat: ri!.lat, lng: ri!.lng },
+        affected_pop: 80 + Math.round(Math.random() * 200),
         functions: fns,
         stage: "functions",
-        registeredAt: new Date().toISOString().slice(0, 10),
+        updated_at: new Date().toISOString().slice(0, 10),
+        verified_by_officer: false,
+        data_sources: ["사업자 신고 정보"],
       });
       toast({ title: `${form.name} 등록 완료`, desc: "기능 공백 분석을 시작합니다." });
       navigate("/closures/demo/functions");
@@ -183,7 +188,7 @@ export default function ClosureRegister() {
             <Field label="업종" hint="업종에 따라 예상 기능이 자동 선택됩니다">
               <div className="flex flex-wrap gap-2">
                 {BIZ_TYPES.map((b) => {
-                  const on = form.bizType === b.label;
+                  const on = form.biz_type === b.label;
                   return (
                     <button
                       key={b.label}
@@ -222,9 +227,9 @@ export default function ClosureRegister() {
 
           <section className="card p-6 space-y-5">
             <h2 className="text-[15px] font-bold text-action flex items-center gap-2"><CalendarClock className="w-4 h-4" /> 일정 · 위치</h2>
-            <Field label="폐업 예정일" required error={errors.closureDate}>
+            <Field label="폐업 예정일" required error={errors.closure_date}>
               <div className="flex gap-2">
-                <input type="date" value={form.closureDate} onChange={(e) => update("closureDate", e.target.value)} className={`field flex-1 ${errors.closureDate ? "!border-status-error" : ""}`} />
+                <input type="date" value={form.closure_date} onChange={(e) => update("closure_date", e.target.value)} className={`field flex-1 ${errors.closure_date ? "!border-status-error" : ""}`} />
                 {[30, 60, 90].map((d) => (
                   <button key={d} onClick={() => setDateOffset(d)} className="btn btn-ghost !h-11">+{d}일</button>
                 ))}
@@ -348,14 +353,14 @@ export default function ClosureRegister() {
               </div>
               <p className={`text-[19px] font-bold ${form.name ? "" : "text-text-muted"}`}>{form.name || "시설명"}</p>
               <p className="text-[12.5px] text-text-muted mt-0.5 flex items-center gap-1.5">
-                {form.bizType} · <StatusBadge variant={st.variant}>{st.label}</StatusBadge>
+                {form.biz_type} · <StatusBadge variant={st.variant}>{st.label}</StatusBadge>
               </p>
               <div className="mt-4 space-y-2 text-[12.5px]">
                 <p className="flex items-center gap-2 text-text-secondary">
                   <MapPin className="w-3.5 h-3.5 text-text-muted" /> {ri ? `${ri.eup} ${ri.ri}` : "위치 미지정"}
                 </p>
                 <p className="flex items-center gap-2 text-text-secondary">
-                  <CalendarClock className="w-3.5 h-3.5 text-text-muted" /> {form.closureDate ? form.closureDate.replace(/-/g, ".") : "폐업 예정일 미지정"}
+                  <CalendarClock className="w-3.5 h-3.5 text-text-muted" /> {form.closure_date ? form.closure_date.replace(/-/g, ".") : "폐업 예정일 미지정"}
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5 mt-4 min-h-[26px]">

@@ -36,7 +36,7 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
   const value = useMemo<Store>(
     () => ({
       facilities,
-      addFacility: (f) => setFacilities((prev) => [f, ...prev.filter((p) => p.id !== f.id)]),
+      addFacility: (f) => setFacilities((prev) => [f, ...prev.filter((p) => p.entity_id !== f.entity_id)]),
       fnDecisions,
       setFnDecision: (code, d) => setFnDecisions((p) => ({ ...p, [code]: d })),
       fnNotes,

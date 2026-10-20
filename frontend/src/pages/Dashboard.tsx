@@ -52,13 +52,13 @@ export default function Dashboard() {
   // table state
   const [stageFilter, setStageFilter] = useState<"all" | Stage>("all");
   const [q, setQ] = useState("");
-  const [sort, setSort] = useState<{ key: "registeredAt" | "closureDate" | "affectedPop"; dir: 1 | -1 }>({ key: "registeredAt", dir: -1 });
+  const [sort, setSort] = useState<{ key: "updated_at" | "closure_date" | "affected_pop"; dir: 1 | -1 }>({ key: "updated_at", dir: -1 });
   const [page, setPage] = useState(0);
   const PER = 5;
 
   const closing = facilities.filter((f) => f.status === "CLOSING").length;
   const pending = facilities.filter((f) => f.stage !== "reviewed").length;
-  const pop = facilities.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affectedPop, 0);
+  const pop = facilities.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affected_pop, 0);
   const reviewed = facilities.filter((f) => f.stage === "reviewed").length;
 
   const stageCounts = (Object.keys(STAGE_LABEL) as Stage[]).map((s) => ({
@@ -72,9 +72,9 @@ export default function Dashboard() {
     const s = q.trim();
     return facilities
       .filter((f) => (stageFilter === "all" ? true : f.stage === stageFilter))
-      .filter((f) => !s || `${f.name}${f.eupMyeon}${f.ri}${f.bizType}`.includes(s))
+      .filter((f) => !s || `${f.name}${f.eup_myeon}${f.ri}${f.biz_type}`.includes(s))
       .sort((a, b) => {
-        const av = a[sort.key], bv = b[sort.key];
+        const av = a[sort.key] ?? "", bv = b[sort.key] ?? "";
         return (av > bv ? 1 : av < bv ? -1 : 0) * sort.dir;
       });
   }, [facilities, stageFilter, q, sort]);
@@ -300,32 +300,32 @@ export default function Dashboard() {
                   <th className="text-left font-bold py-3 px-4">시설</th>
                   <th className="text-left font-bold py-3 px-3">법정리</th>
                   <th className="text-left font-bold py-3 px-3">기능</th>
-                  <th className="text-left font-bold py-3 px-3 cursor-pointer select-none hover:text-brand" onClick={() => toggleSort("closureDate")}>
-                    <span className="inline-flex items-center gap-1">폐업 예정일 <ArrowUpDown className={`w-3 h-3 ${sort.key === "closureDate" ? "text-brand" : "text-text-muted"}`} /></span>
+                  <th className="text-left font-bold py-3 px-3 cursor-pointer select-none hover:text-brand" onClick={() => toggleSort("closure_date")}>
+                    <span className="inline-flex items-center gap-1">폐업 예정일 <ArrowUpDown className={`w-3 h-3 ${sort.key === "closure_date" ? "text-brand" : "text-text-muted"}`} /></span>
                   </th>
-                  <th className="text-right font-bold py-3 px-3 cursor-pointer select-none hover:text-brand" onClick={() => toggleSort("affectedPop")}>
-                    <span className="inline-flex items-center gap-1">영향 인구 <ArrowUpDown className={`w-3 h-3 ${sort.key === "affectedPop" ? "text-brand" : "text-text-muted"}`} /></span>
+                  <th className="text-right font-bold py-3 px-3 cursor-pointer select-none hover:text-brand" onClick={() => toggleSort("affected_pop")}>
+                    <span className="inline-flex items-center gap-1">영향 인구 <ArrowUpDown className={`w-3 h-3 ${sort.key === "affected_pop" ? "text-brand" : "text-text-muted"}`} /></span>
                   </th>
                   <th className="text-left font-bold py-3 px-4">진행 단계</th>
                 </tr>
               </thead>
               <tbody key={`${stageFilter}-${page}-${q}-${sort.key}-${sort.dir}`} className="stagger">
                 {pageRows.map((f) => {
-                  const d = daysLeft(f.closureDate);
+                  const d = f.closure_date ? daysLeft(f.closure_date) : null;
                   const st = FACILITY_STATUS_BADGE[f.status];
                   return (
                     <tr
-                      key={f.id}
+                      key={f.entity_id}
                       onClick={() => navigate("/closures/demo/functions")}
                       className={`border-t border-border cursor-pointer transition-colors hover:bg-surface-tint group ${hoverStage && hoverStage !== f.stage ? "opacity-40" : ""}`}
                     >
                       <td className="py-3 px-4">
                         <p className="font-semibold group-hover:text-action transition-colors">{f.name}</p>
                         <p className="text-[11px] text-text-muted flex items-center gap-1.5 mt-0.5">
-                          {f.bizType} · <StatusBadge variant={st.variant}>{st.label}</StatusBadge>
+                          {f.biz_type} · <StatusBadge variant={st.variant}>{st.label}</StatusBadge>
                         </p>
                       </td>
-                      <td className="py-3 px-3 text-text-secondary">{f.eupMyeon} {f.ri}</td>
+                      <td className="py-3 px-3 text-text-secondary">{f.eup_myeon} {f.ri}</td>
                       <td className="py-3 px-3">
                         <div className="flex -space-x-1">
                           {f.functions.map((c) => (
@@ -336,12 +336,12 @@ export default function Dashboard() {
                         </div>
                       </td>
                       <td className="py-3 px-3 tnum">
-                        <p className="text-text-secondary">{f.closureDate.replace(/-/g, ".")}</p>
-                        <p className={`text-[11px] font-semibold ${d < 0 ? "text-text-muted" : d <= 45 ? "text-status-error" : "text-text-muted"}`}>
-                          {d < 0 ? "폐업됨" : `D-${d}`}
+                        <p className="text-text-secondary">{f.closure_date?.replace(/-/g, ".") ?? "미정"}</p>
+                        <p className={`text-[11px] font-semibold ${d === null ? "text-text-muted" : d < 0 ? "text-text-muted" : d <= 45 ? "text-status-error" : "text-text-muted"}`}>
+                          {d === null ? "–" : d < 0 ? "폐업됨" : `D-${d}`}
                         </p>
                       </td>
-                      <td className="py-3 px-3 text-right font-semibold tnum">{f.affectedPop.toLocaleString()}명</td>
+                      <td className="py-3 px-3 text-right font-semibold tnum">{f.affected_pop.toLocaleString()}명</td>
                       <td className="py-3 px-4">
                         <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: STAGE_COLORS[f.stage] }}>
                           <span className="w-2 h-2 rounded-full" style={{ background: STAGE_COLORS[f.stage] }} />
