@@ -1,0 +1,283 @@
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight, ArrowLeft, Check, MapPin, CalendarDays, Ban, Undo2, Crown, Eye, EyeOff } from "lucide-react";
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
+import PageHeader, { DemoTag } from "../components/ui/PageHeader";
+import FlowStepper from "../components/ui/FlowStepper";
+import Segmented from "../components/ui/Segmented";
+import Dropdown from "../components/ui/Dropdown";
+import StatusBadge from "../components/ui/StatusBadge";
+import AnimatedNumber from "../components/ui/AnimatedNumber";
+import { CANDIDATES, FN, FUNCTIONS, RESOURCE_TYPES, SCORE_FACTORS, totalScore, type FnCode } from "../data/demo";
+import { useDemo } from "../store/DemoStore";
+import { useToast } from "../components/ui/Toast";
+import { FacilityStrip } from "./FunctionAnalysis";
+
+type SortKey = "score" | "distance";
+
+export default function Inheritance() {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { picks, setPick, excluded, toggleExcluded } = useDemo();
+  const [tab, setTab] = useState<FnCode>("F01");
+  const [sort, setSort] = useState<SortKey>("score");
+  const [showExcluded, setShowExcluded] = useState(true);
+  const [focusId, setFocusId] = useState<string | null>(null);
+
+  const list = useMemo(() => {
+    return CANDIDATES.filter((c) => c.fn === tab)
+      .filter((c) => showExcluded || !excluded.has(c.id))
+      .sort((a, b) => (sort === "score" ? totalScore(b) - totalScore(a) : a.distanceKm - b.distanceKm));
+  }, [tab, sort, showExcluded, excluded]);
+
+  useEffect(() => {
+    setFocusId(picks[tab] ?? list[0]?.id ?? null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
+
+  const focus = CANDIDATES.find((c) => c.id === focusId && c.fn === tab) ?? list[0];
+  const best = [...CANDIDATES.filter((c) => c.fn === tab && !excluded.has(c.id))].sort((a, b) => totalScore(b) - totalScore(a))[0];
+  const compare = best && focus && best.id !== focus.id ? best : null;
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
+      const i = list.findIndex((c) => c.id === focus?.id);
+      if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); setFocusId(list[Math.min(list.length - 1, i + 1)]?.id ?? null); }
+      if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); setFocusId(list[Math.max(0, i - 1)]?.id ?? null); }
+      if (e.key === "Enter" && focus) choose(focus.id);
+      if (["1", "2", "3", "4"].includes(e.key)) setTab(FUNCTIONS[+e.key - 1].code);
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  });
+
+  const choose = (id: string) => {
+    if (excluded.has(id)) return;
+    const c = CANDIDATES.find((x) => x.id === id)!;
+    const already = picks[tab] === id;
+    setPick(tab, already ? null : id);
+    toast(already ? { kind: "info", title: "상속안 선택을 해제했습니다" } : { title: `${tab} 상속안 지정`, desc: `${c.name}이(가) ${FN[tab].name} 기능을 이어받습니다.` });
+  };
+
+  const radarData = SCORE_FACTORS.map((f) => ({
+    factor: f.label,
+    focus: focus?.scores[f.key] ?? 0,
+    best: compare?.scores[f.key] ?? 0,
+  }));
+
+  const color = FN[tab].hex;
+  const pickedCount = FUNCTIONS.filter((f) => picks[f.code]).length;
+
+  return (
+    <div>
+      <PageHeader
+        eyebrow={<FlowStepper />}
+        title="기능별 상속안 제안"
+        badge={<DemoTag />}
+        desc="각 기능을 이어받을 수 있는 지역 자원을 비교하고, 담당자가 상속 자원을 지정합니다."
+        actions={
+          <>
+            <button onClick={() => navigate("/spatial")} className="btn btn-ghost">공간 분석에서 보기</button>
+            <button onClick={() => navigate("/closures/demo/review")} className="btn btn-primary group">
+              최종 검토 ({pickedCount}/4) <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+          </>
+        }
+      />
+
+      <FacilityStrip />
+
+      {/* function tabs as cards */}
+      <div className="grid grid-cols-4 gap-3 mb-6 stagger">
+        {FUNCTIONS.map((f, i) => {
+          const on = tab === f.code;
+          const p = CANDIDATES.find((c) => c.id === picks[f.code]);
+          return (
+            <button
+              key={f.code}
+              onClick={() => setTab(f.code)}
+              className={`relative card p-4 text-left transition-all overflow-hidden ${on ? "!border-transparent -translate-y-0.5" : "card-hover"}`}
+              style={on ? { boxShadow: `inset 0 0 0 2px ${f.hex}, var(--shadow-lift)` } : undefined}
+            >
+              <span className="absolute left-0 top-0 bottom-0 w-1 transition-all" style={{ background: f.hex, opacity: on ? 1 : 0.25 }} />
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</span>
+                <span className="text-[13.5px] font-bold">{f.name}</span>
+                <span className="kbd ml-auto">{i + 1}</span>
+              </div>
+              <p className={`text-[12px] mt-1.5 flex items-center gap-1.5 ${p ? "text-status-ok font-semibold" : "text-text-muted"}`}>
+                {p ? <><Check className="w-3.5 h-3.5" strokeWidth={3} /> {p.name}</> : "상속 자원 미지정"}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-12 gap-5 items-start">
+        {/* list */}
+        <div className="col-span-7 card p-5 animate-fade-up">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-[16px] font-bold text-action">상속 후보 자원</h2>
+              <p className="text-[12px] text-text-muted mt-0.5"><span className="kbd">J</span> <span className="kbd">K</span> 이동 · <span className="kbd">↵</span> 지정</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setShowExcluded((s) => !s)} className="btn btn-ghost btn-sm">
+                {showExcluded ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />} 제외 후보
+              </button>
+              <Dropdown value={sort} onChange={setSort} align="right" options={[{ value: "score", label: "추천 점수순" }, { value: "distance", label: "거리순" }]} />
+            </div>
+          </div>
+
+          <div key={`${tab}-${sort}`} className="space-y-2 stagger">
+            {list.map((c, i) => {
+              const s = totalScore(c);
+              const isFocus = focus?.id === c.id;
+              const isPick = picks[tab] === c.id;
+              const isEx = excluded.has(c.id);
+              return (
+                <div
+                  key={c.id}
+                  onClick={() => setFocusId(c.id)}
+                  onDoubleClick={() => choose(c.id)}
+                  className={`group relative flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all ${
+                    isFocus ? "bg-surface-tint" : "border-border hover:border-border-strong hover:bg-surface-tint/60"
+                  } ${isEx ? "opacity-45" : ""}`}
+                  style={isFocus ? { borderColor: color, boxShadow: `0 0 0 3px ${color}1a` } : undefined}
+                >
+                  <div className="w-9 text-center">
+                    {i === 0 && sort === "score" && !isEx ? (
+                      <Crown className="w-5 h-5 mx-auto text-[#D9A12B]" />
+                    ) : (
+                      <span className="text-[13px] font-bold text-text-muted tnum">{i + 1}</span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className={`text-[14px] font-bold truncate ${isEx ? "line-through" : ""}`}>{c.name}</p>
+                      {isPick && <StatusBadge variant="confirmed" dot>지정됨</StatusBadge>}
+                      {isEx && <StatusBadge variant="error">제외</StatusBadge>}
+                    </div>
+                    <div className="flex items-center gap-3 mt-1 text-[12px] text-text-muted">
+                      <span className="px-1.5 py-0.5 rounded-md bg-surface-secondary font-semibold text-text-secondary">{c.type} {RESOURCE_TYPES[c.type]}</span>
+                      <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{c.distanceKm}km</span>
+                      <span className="flex items-center gap-1"><CalendarDays className="w-3 h-3" />{c.weekly}</span>
+                    </div>
+                  </div>
+                  <div className="w-[120px]">
+                    <div className="flex justify-between text-[11px] mb-1">
+                      <span className="text-text-muted">추천 점수</span>
+                      <span className="font-bold tnum" style={{ color }}>{s}</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-surface-secondary overflow-hidden">
+                      <div className="h-full rounded-full" style={{ width: `${s}%`, background: color, animation: "grow .8s cubic-bezier(.2,.7,.2,1) both", transformOrigin: "left" }} />
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); choose(c.id); }}
+                    disabled={isEx}
+                    className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isPick ? "border-transparent text-white scale-105" : "border-border-strong text-transparent hover:text-text-muted hover:border-text-muted"}`}
+                    style={isPick ? { background: color } : undefined}
+                    title="이 자원으로 상속"
+                  >
+                    <Check className={`w-4 h-4 ${isPick ? "animate-pop" : ""}`} strokeWidth={3} />
+                  </button>
+                </div>
+              );
+            })}
+            {list.length === 0 && <p className="text-center py-12 text-[13px] text-text-muted">표시할 후보가 없습니다.</p>}
+          </div>
+          <style>{`@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}`}</style>
+        </div>
+
+        {/* detail */}
+        {focus && (
+          <aside key={focus.id} className="col-span-5 card p-6 sticky top-4 animate-fade-up">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-[11px] font-bold" style={{ color }}>{focus.type} · {RESOURCE_TYPES[focus.type]}</p>
+                <h3 className="text-[19px] font-bold mt-0.5">{focus.name}</h3>
+                <p className="text-[12.5px] text-text-muted mt-1">{focus.note}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[34px] font-bold leading-none tracking-tight" style={{ color }}>
+                  <AnimatedNumber value={totalScore(focus)} duration={600} />
+                </p>
+                <p className="text-[11px] text-text-muted mt-1">종합 점수</p>
+              </div>
+            </div>
+
+            <div className="h-[230px] -mx-2 mt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData} outerRadius="72%">
+                  <PolarGrid stroke="#E4EAEF" />
+                  <PolarAngleAxis dataKey="factor" tick={{ fontSize: 11.5, fill: "#5E7180", fontWeight: 600 }} />
+                  <Tooltip
+                    content={({ active, payload, label }) =>
+                      active && payload?.length ? (
+                        <div className="px-3 py-2 rounded-xl bg-[#0C3341] text-white text-[12px]">
+                          <p className="text-white/60 text-[11px]">{label}</p>
+                          {payload.map((p) => <p key={String(p.name)} className="font-semibold">{p.name}: {p.value}</p>)}
+                        </div>
+                      ) : null
+                    }
+                  />
+                  {compare && <Radar name="1순위 후보" dataKey="best" stroke="#94A3AF" strokeDasharray="4 3" fill="#94A3AF" fillOpacity={0.08} />}
+                  <Radar name={focus.name} dataKey="focus" stroke={color} strokeWidth={2.5} fill={color} fillOpacity={0.22} animationDuration={700} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+            {compare && (
+              <p className="text-[11.5px] text-text-muted -mt-1 mb-3 flex items-center gap-1.5">
+                <span className="w-4 border-t-2 border-dashed border-text-muted" /> 1순위 후보 ({compare.name})와 비교
+              </p>
+            )}
+
+            <div className="space-y-2.5">
+              {SCORE_FACTORS.map((f) => {
+                const v = focus.scores[f.key];
+                const diff = compare ? v - compare.scores[f.key] : 0;
+                return (
+                  <div key={f.key} className="flex items-center gap-3 group">
+                    <span className="text-[12px] text-text-secondary w-[78px]">{f.label}</span>
+                    <div className="flex-1 h-1.5 bg-surface-secondary rounded-full overflow-hidden">
+                      <div className="h-full rounded-full transition-all duration-700" style={{ width: `${v}%`, background: color }} />
+                    </div>
+                    <span className="text-[12px] font-bold w-7 text-right tnum">{v}</span>
+                    {compare && (
+                      <span className={`text-[10.5px] font-bold w-8 text-right tnum ${diff > 0 ? "text-status-ok" : diff < 0 ? "text-status-error" : "text-text-muted"}`}>
+                        {diff > 0 ? `+${diff}` : diff}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex gap-2 mt-6">
+              <button
+                onClick={() => {
+                  toggleExcluded(focus.id);
+                  if (picks[tab] === focus.id) setPick(tab, null);
+                  toast({ kind: "info", title: excluded.has(focus.id) ? "후보 제외를 취소했습니다" : `${focus.name} 후보 제외` });
+                }}
+                className="btn btn-ghost flex-1"
+              >
+                {excluded.has(focus.id) ? <><Undo2 className="w-4 h-4" /> 제외 취소</> : <><Ban className="w-4 h-4" /> 후보 제외</>}
+              </button>
+              <button onClick={() => choose(focus.id)} disabled={excluded.has(focus.id)} className="btn flex-[2] text-white" style={{ background: picks[tab] === focus.id ? "#2E8466" : color }}>
+                {picks[tab] === focus.id ? <><Check className="w-4 h-4" strokeWidth={3} /> 상속 자원으로 지정됨</> : "이 자원으로 상속"}
+              </button>
+            </div>
+          </aside>
+        )}
+      </div>
+
+      <div className="flex justify-between mt-8">
+        <button onClick={() => navigate("/closures/demo/functions")} className="btn btn-ghost"><ArrowLeft className="w-4 h-4" /> 기능 분석으로</button>
+      </div>
+    </div>
+  );
+}

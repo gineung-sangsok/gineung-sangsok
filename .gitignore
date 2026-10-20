@@ -32,3 +32,6 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# front 빌드 파일
+frontend/tsconfig.tsbuildinfo
