@@ -1,0 +1,633 @@
+﻿entity_id,code,confidence,evidence,source
+store_0004,F01,0.9,업종 '식품판매업(기타)',keyword
+store_0004,F02,0.8,업종 '식품판매업(기타)',keyword
+store_0004,F03,0.7,업종 '식품판매업(기타)',keyword
+store_0005,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0006,F01,0.9,업종 '슈퍼마켓',keyword
+store_0006,F02,0.5,업종 '슈퍼마켓',keyword
+store_0009,F02,0.9,업종 '정육점',keyword
+store_0010,F01,0.9,업종 '슈퍼마켓',keyword
+store_0010,F02,0.8,이름에 '마트',keyword
+store_0010,F03,0.7,이름에 '마트',keyword
+store_0011,F01,0.9,업종 '편의점',keyword
+store_0012,F01,0.9,업종 '슈퍼마켓',keyword
+store_0012,F02,0.8,이름에 '하나로마트',keyword
+store_0012,F03,0.7,이름에 '하나로마트',keyword
+store_0013,F01,0.9,업종 '슈퍼마켓',keyword
+store_0013,F02,0.8,이름에 '하나로마트',keyword
+store_0013,F03,0.7,이름에 '하나로마트',keyword
+store_0014,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0015,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0016,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0016,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0017,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0019,F01,0.9,업종 '슈퍼마켓',keyword
+store_0019,F02,0.8,이름에 '마트',keyword
+store_0019,F03,0.7,이름에 '마트',keyword
+store_0021,F01,0.9,업종 '슈퍼마켓',keyword
+store_0021,F02,0.5,업종 '슈퍼마켓',keyword
+store_0022,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0023,F01,0.9,업종 '편의점',keyword
+store_0024,F02,0.9,업종 '정육점',keyword
+store_0025,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0027,F01,0.9,업종 '슈퍼마켓',keyword
+store_0027,F02,0.5,업종 '슈퍼마켓',keyword
+store_0028,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0029,F01,0.9,업종 '슈퍼마켓',keyword
+store_0029,F02,0.8,이름에 '마트',keyword
+store_0029,F03,0.7,이름에 '마트',keyword
+store_0030,F01,0.9,업종 '슈퍼마켓',keyword
+store_0030,F02,0.5,업종 '슈퍼마켓',keyword
+store_0032,F01,0.9,업종 '편의점',keyword
+store_0032,F02,0.8,이름에 '마트',keyword
+store_0032,F03,0.7,이름에 '마트',keyword
+store_0033,F01,0.9,업종 '슈퍼마켓',keyword
+store_0033,F02,0.5,업종 '슈퍼마켓',keyword
+store_0034,F01,0.9,업종 '슈퍼마켓',keyword
+store_0034,F02,0.5,업종 '슈퍼마켓',keyword
+store_0035,F01,0.9,업종 '슈퍼마켓',keyword
+store_0035,F02,0.5,업종 '슈퍼마켓',keyword
+store_0036,F01,0.9,업종 '슈퍼마켓',keyword
+store_0036,F02,0.5,업종 '슈퍼마켓',keyword
+store_0037,F02,0.9,업종 '수산물 소매업',keyword
+store_0038,F01,0.9,업종 '슈퍼마켓',keyword
+store_0038,F02,0.5,업종 '슈퍼마켓',keyword
+store_0039,F01,0.9,업종 '슈퍼마켓',keyword
+store_0039,F02,0.5,업종 '슈퍼마켓',keyword
+store_0040,F01,0.9,업종 '편의점',keyword
+store_0041,F01,0.9,업종 '슈퍼마켓',keyword
+store_0041,F02,0.5,업종 '슈퍼마켓',keyword
+store_0041,F04,0.5,성가리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0042,F01,0.9,업종 '슈퍼마켓',keyword
+store_0042,F02,0.5,업종 '슈퍼마켓',keyword
+store_0043,F01,0.9,업종 '슈퍼마켓',keyword
+store_0043,F02,0.5,업종 '슈퍼마켓',keyword
+store_0043,F04,0.5,오산리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0045,F01,0.9,업종 '슈퍼마켓',keyword
+store_0045,F02,0.5,업종 '슈퍼마켓',keyword
+store_0048,F01,0.9,업종 '슈퍼마켓',keyword
+store_0048,F02,0.5,업종 '슈퍼마켓',keyword
+store_0049,F01,0.9,업종 '슈퍼마켓',keyword
+store_0049,F02,0.5,업종 '슈퍼마켓',keyword
+store_0050,F01,0.9,업종 '슈퍼마켓',keyword
+store_0050,F02,0.5,업종 '슈퍼마켓',keyword
+store_0052,F01,0.9,업종 '슈퍼마켓',keyword
+store_0052,F02,0.5,업종 '슈퍼마켓',keyword
+store_0053,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0054,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0054,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0055,F01,0.9,업종 '슈퍼마켓',keyword
+store_0055,F02,0.5,업종 '슈퍼마켓',keyword
+store_0055,F04,0.5,삼계리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0056,F01,0.9,업종 '슈퍼마켓',keyword
+store_0056,F02,0.8,이름에 '마트',keyword
+store_0056,F03,0.7,이름에 '마트',keyword
+store_0058,F01,0.9,업종 '슈퍼마켓',keyword
+store_0058,F02,0.8,이름에 '마트',keyword
+store_0058,F03,0.7,이름에 '마트',keyword
+store_0059,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0059,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0060,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0061,F01,0.9,업종 '슈퍼마켓',keyword
+store_0061,F02,0.5,업종 '슈퍼마켓',keyword
+store_0063,F01,0.9,업종 '슈퍼마켓',keyword
+store_0063,F02,0.5,업종 '슈퍼마켓',keyword
+store_0064,F01,0.9,업종 '슈퍼마켓',keyword
+store_0064,F02,0.8,이름에 '마트',keyword
+store_0064,F03,0.7,이름에 '마트',keyword
+store_0065,F01,0.9,업종 '슈퍼마켓',keyword
+store_0065,F02,0.5,업종 '슈퍼마켓',keyword
+store_0066,F01,0.9,업종 '슈퍼마켓',keyword
+store_0066,F02,0.5,업종 '슈퍼마켓',keyword
+store_0067,F01,0.9,업종 '슈퍼마켓',keyword
+store_0067,F02,0.5,업종 '슈퍼마켓',keyword
+store_0068,F01,0.9,업종 '슈퍼마켓',keyword
+store_0068,F02,0.5,업종 '슈퍼마켓',keyword
+store_0069,F01,0.9,업종 '슈퍼마켓',keyword
+store_0069,F02,0.5,업종 '슈퍼마켓',keyword
+store_0069,F04,0.5,입석리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0070,F01,0.9,업종 '슈퍼마켓',keyword
+store_0070,F02,0.5,업종 '슈퍼마켓',keyword
+store_0071,F01,0.9,업종 '슈퍼마켓',keyword
+store_0071,F02,0.5,업종 '슈퍼마켓',keyword
+store_0071,F04,0.5,오봉리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0072,F01,0.9,업종 '슈퍼마켓',keyword
+store_0072,F02,0.5,업종 '슈퍼마켓',keyword
+store_0073,F01,0.9,업종 '슈퍼마켓',keyword
+store_0073,F02,0.5,업종 '슈퍼마켓',keyword
+store_0073,F04,0.5,용암리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0074,F01,0.9,업종 '슈퍼마켓',keyword
+store_0074,F02,0.5,업종 '슈퍼마켓',keyword
+store_0075,F01,0.9,업종 '슈퍼마켓',keyword
+store_0075,F02,0.5,업종 '슈퍼마켓',keyword
+store_0076,F01,0.9,업종 '슈퍼마켓',keyword
+store_0076,F02,0.5,업종 '슈퍼마켓',keyword
+store_0077,F02,0.9,업종 '수산물 소매업',keyword
+store_0078,F01,0.9,업종 '슈퍼마켓',keyword
+store_0078,F02,0.8,이름에 '마트',keyword
+store_0078,F03,0.7,이름에 '마트',keyword
+store_0079,F01,0.9,업종 '편의점',keyword
+store_0080,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0081,F01,0.9,업종 '편의점',keyword
+store_0081,F04,0.5,봉천리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0082,F01,0.9,업종 '슈퍼마켓',keyword
+store_0082,F02,0.5,업종 '슈퍼마켓',keyword
+store_0083,F01,0.9,업종 '슈퍼마켓',keyword
+store_0083,F02,0.5,업종 '슈퍼마켓',keyword
+store_0084,F01,0.9,업종 '슈퍼마켓',keyword
+store_0084,F02,0.8,이름에 '하나로마트',keyword
+store_0084,F03,0.7,이름에 '하나로마트',keyword
+store_0085,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0086,F01,0.9,업종 '편의점',keyword
+store_0087,F01,0.9,업종 '슈퍼마켓',keyword
+store_0087,F02,0.5,업종 '슈퍼마켓',keyword
+store_0088,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0089,F01,0.9,업종 '슈퍼마켓',keyword
+store_0089,F02,0.8,이름에 '마트',keyword
+store_0089,F03,0.7,이름에 '마트',keyword
+store_0090,F01,0.9,이름에 '마트',keyword
+store_0090,F02,0.9,업종 '정육점',keyword
+store_0090,F03,0.7,이름에 '마트',keyword
+store_0091,F01,0.9,업종 '편의점',keyword
+store_0092,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0092,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0093,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0094,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0094,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0094,F04,0.5,사곡리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0095,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0096,F01,0.9,업종 '편의점',keyword
+store_0096,F04,0.5,병암리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0097,F01,0.9,업종 '편의점',keyword
+store_0098,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0098,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0100,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0101,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0102,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0102,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0103,F01,0.9,업종 '슈퍼마켓',keyword
+store_0103,F02,0.8,이름에 '마트',keyword
+store_0103,F03,0.7,이름에 '마트',keyword
+store_0104,F01,0.9,업종 '슈퍼마켓',keyword
+store_0104,F02,0.5,업종 '슈퍼마켓',keyword
+store_0105,F01,0.9,업종 '슈퍼마켓',keyword
+store_0105,F02,0.5,업종 '슈퍼마켓',keyword
+store_0105,F04,0.5,운종리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0106,F01,0.9,업종 '편의점',keyword
+store_0107,F01,0.9,업종 '슈퍼마켓',keyword
+store_0107,F02,0.5,업종 '슈퍼마켓',keyword
+store_0107,F04,0.5,일중리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0108,F01,0.5,휴게소 안 편의점 → 주민 접근성 확인 필요,keyword
+store_0109,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0111,F03,0.8,업종 '곡물/곡분 소매업',keyword
+store_0112,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0113,F01,0.9,업종 '슈퍼마켓',keyword
+store_0113,F02,0.5,업종 '슈퍼마켓',keyword
+store_0114,F01,0.9,업종 '편의점',keyword
+store_0115,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0115,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0116,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0117,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0118,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0121,F01,0.9,업종 '슈퍼마켓',keyword
+store_0121,F02,0.5,업종 '슈퍼마켓',keyword
+store_0122,F01,0.9,이름에 '마트',keyword
+store_0122,F02,0.9,업종 '정육점',keyword
+store_0122,F03,0.7,이름에 '마트',keyword
+store_0123,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0124,F01,0.9,업종 '슈퍼마켓',keyword
+store_0124,F02,0.8,이름에 '마트',keyword
+store_0124,F03,0.7,이름에 '마트',keyword
+store_0124,F04,0.5,도인리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0125,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0125,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0126,F01,0.9,업종 '편의점',keyword
+store_0127,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0127,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0127,F04,0.5,장암리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0129,F02,0.9,업종 '정육점',keyword
+store_0131,F01,0.9,이름에 '마트',keyword
+store_0131,F02,0.8,이름에 '마트',keyword
+store_0131,F03,0.7,이름에 '마트',keyword
+store_0132,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0133,F01,0.9,업종 '슈퍼마켓',keyword
+store_0133,F02,0.5,업종 '슈퍼마켓',keyword
+store_0134,F01,0.9,업종 '편의점',keyword
+store_0135,F01,0.9,업종 '편의점',keyword
+store_0136,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0136,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0136,F04,0.5,천담리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0138,F01,0.9,업종 '편의점',keyword
+store_0140,F01,0.9,업종 '슈퍼마켓',keyword
+store_0140,F02,0.5,업종 '슈퍼마켓',keyword
+store_0140,F04,0.5,선거리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0141,F01,0.9,업종 '슈퍼마켓',keyword
+store_0141,F02,0.5,업종 '슈퍼마켓',keyword
+store_0143,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0144,F02,0.9,업종 '정육점',keyword
+store_0145,F01,0.9,업종 '슈퍼마켓',keyword
+store_0145,F02,0.5,업종 '슈퍼마켓',keyword
+store_0146,F01,0.9,업종 '슈퍼마켓',keyword
+store_0146,F02,0.5,업종 '슈퍼마켓',keyword
+store_0146,F04,0.5,방현리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0147,F01,0.9,업종 '슈퍼마켓',keyword
+store_0147,F02,0.5,업종 '슈퍼마켓',keyword
+store_0148,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0148,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0148,F04,0.5,신덕리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0149,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0150,F01,0.9,업종 '슈퍼마켓',keyword
+store_0150,F02,0.8,이름에 '하나로마트',keyword
+store_0150,F03,0.7,이름에 '하나로마트',keyword
+store_0150,F04,0.5,회문리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0151,F01,0.9,업종 '편의점',keyword
+store_0153,F01,0.9,업종 '슈퍼마켓',keyword
+store_0153,F02,0.5,업종 '슈퍼마켓',keyword
+store_0154,F01,0.9,업종 '슈퍼마켓',keyword
+store_0154,F02,0.8,이름에 '마트',keyword
+store_0154,F03,0.7,이름에 '마트',keyword
+store_0155,F01,0.9,업종 '편의점',keyword
+store_0155,F04,0.5,대곡리에 영업 중인 식료품점이 1곳뿐,keyword
+res_0001,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0001,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0002,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0002,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0003,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0003,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0004,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0004,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0005,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0005,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0006,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0006,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0007,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0007,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0008,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0008,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0009,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0009,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0010,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0010,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0011,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0011,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0012,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0012,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0013,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0013,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0014,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0014,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0015,F04,0.7,자원 종류 '노인여가복지시설',keyword
+res_0016,F04,0.7,자원 종류 '노인여가복지시설',keyword
+res_0017,F04,0.5,자원 종류 '노인일자리지원기관',keyword
+res_0018,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0018,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0019,F04,0.9,자원 종류 '경로당',keyword
+res_0020,F04,0.9,자원 종류 '경로당',keyword
+res_0021,F04,0.9,자원 종류 '경로당',keyword
+res_0022,F04,0.9,자원 종류 '경로당',keyword
+res_0023,F04,0.9,자원 종류 '경로당',keyword
+res_0024,F04,0.9,자원 종류 '경로당',keyword
+res_0025,F04,0.9,자원 종류 '경로당',keyword
+res_0026,F04,0.9,자원 종류 '경로당',keyword
+res_0027,F04,0.9,자원 종류 '경로당',keyword
+res_0028,F04,0.9,자원 종류 '경로당',keyword
+res_0029,F04,0.9,자원 종류 '경로당',keyword
+res_0030,F04,0.9,자원 종류 '경로당',keyword
+res_0031,F04,0.9,자원 종류 '경로당',keyword
+res_0032,F04,0.9,자원 종류 '경로당',keyword
+res_0033,F04,0.9,자원 종류 '경로당',keyword
+res_0034,F04,0.9,자원 종류 '경로당',keyword
+res_0035,F04,0.9,자원 종류 '경로당',keyword
+res_0036,F04,0.9,자원 종류 '경로당',keyword
+res_0037,F04,0.9,자원 종류 '경로당',keyword
+res_0038,F04,0.9,자원 종류 '경로당',keyword
+res_0039,F04,0.9,자원 종류 '경로당',keyword
+res_0040,F04,0.9,자원 종류 '경로당',keyword
+res_0041,F04,0.9,자원 종류 '경로당',keyword
+res_0042,F04,0.9,자원 종류 '경로당',keyword
+res_0043,F04,0.9,자원 종류 '경로당',keyword
+res_0044,F04,0.9,자원 종류 '경로당',keyword
+res_0045,F04,0.9,자원 종류 '경로당',keyword
+res_0046,F04,0.9,자원 종류 '경로당',keyword
+res_0047,F04,0.9,자원 종류 '경로당',keyword
+res_0048,F04,0.9,자원 종류 '경로당',keyword
+res_0049,F04,0.9,자원 종류 '경로당',keyword
+res_0050,F04,0.9,자원 종류 '경로당',keyword
+res_0051,F04,0.9,자원 종류 '경로당',keyword
+res_0052,F04,0.9,자원 종류 '경로당',keyword
+res_0053,F04,0.9,자원 종류 '경로당',keyword
+res_0054,F04,0.9,자원 종류 '경로당',keyword
+res_0055,F04,0.9,자원 종류 '경로당',keyword
+res_0056,F04,0.9,자원 종류 '경로당',keyword
+res_0057,F04,0.9,자원 종류 '경로당',keyword
+res_0058,F04,0.9,자원 종류 '경로당',keyword
+res_0059,F04,0.9,자원 종류 '경로당',keyword
+res_0060,F04,0.9,자원 종류 '경로당',keyword
+res_0061,F04,0.9,자원 종류 '경로당',keyword
+res_0062,F04,0.9,자원 종류 '경로당',keyword
+res_0063,F04,0.9,자원 종류 '경로당',keyword
+res_0064,F04,0.9,자원 종류 '경로당',keyword
+res_0065,F04,0.9,자원 종류 '경로당',keyword
+res_0066,F04,0.9,자원 종류 '경로당',keyword
+res_0067,F04,0.9,자원 종류 '경로당',keyword
+res_0068,F04,0.9,자원 종류 '경로당',keyword
+res_0069,F04,0.9,자원 종류 '경로당',keyword
+res_0070,F04,0.9,자원 종류 '경로당',keyword
+res_0071,F04,0.9,자원 종류 '경로당',keyword
+res_0072,F04,0.9,자원 종류 '경로당',keyword
+res_0073,F04,0.9,자원 종류 '경로당',keyword
+res_0074,F04,0.9,자원 종류 '경로당',keyword
+res_0075,F04,0.9,자원 종류 '경로당',keyword
+res_0076,F04,0.9,자원 종류 '경로당',keyword
+res_0077,F04,0.9,자원 종류 '경로당',keyword
+res_0078,F04,0.9,자원 종류 '경로당',keyword
+res_0079,F04,0.9,자원 종류 '경로당',keyword
+res_0080,F04,0.9,자원 종류 '경로당',keyword
+res_0081,F04,0.9,자원 종류 '경로당',keyword
+res_0082,F04,0.9,자원 종류 '경로당',keyword
+res_0083,F04,0.9,자원 종류 '경로당',keyword
+res_0084,F04,0.9,자원 종류 '경로당',keyword
+res_0085,F04,0.9,자원 종류 '경로당',keyword
+res_0086,F04,0.9,자원 종류 '경로당',keyword
+res_0087,F04,0.9,자원 종류 '경로당',keyword
+res_0088,F04,0.9,자원 종류 '경로당',keyword
+res_0089,F04,0.9,자원 종류 '경로당',keyword
+res_0090,F04,0.9,자원 종류 '경로당',keyword
+res_0091,F04,0.9,자원 종류 '경로당',keyword
+res_0092,F04,0.9,자원 종류 '경로당',keyword
+res_0093,F04,0.9,자원 종류 '경로당',keyword
+res_0094,F04,0.9,자원 종류 '경로당',keyword
+res_0095,F04,0.9,자원 종류 '경로당',keyword
+res_0096,F04,0.9,자원 종류 '경로당',keyword
+res_0097,F04,0.9,자원 종류 '경로당',keyword
+res_0098,F04,0.9,자원 종류 '경로당',keyword
+res_0099,F04,0.9,자원 종류 '경로당',keyword
+res_0100,F04,0.9,자원 종류 '경로당',keyword
+res_0101,F04,0.9,자원 종류 '경로당',keyword
+res_0102,F04,0.9,자원 종류 '경로당',keyword
+res_0103,F04,0.9,자원 종류 '경로당',keyword
+res_0104,F04,0.9,자원 종류 '경로당',keyword
+res_0105,F04,0.9,자원 종류 '경로당',keyword
+res_0106,F04,0.9,자원 종류 '경로당',keyword
+res_0107,F04,0.9,자원 종류 '경로당',keyword
+res_0108,F04,0.9,자원 종류 '경로당',keyword
+res_0109,F04,0.9,자원 종류 '경로당',keyword
+res_0110,F04,0.9,자원 종류 '경로당',keyword
+res_0111,F04,0.9,자원 종류 '경로당',keyword
+res_0112,F04,0.9,자원 종류 '경로당',keyword
+res_0113,F04,0.9,자원 종류 '경로당',keyword
+res_0114,F04,0.9,자원 종류 '경로당',keyword
+res_0115,F04,0.9,자원 종류 '경로당',keyword
+res_0116,F04,0.9,자원 종류 '경로당',keyword
+res_0117,F04,0.9,자원 종류 '경로당',keyword
+res_0118,F04,0.9,자원 종류 '경로당',keyword
+res_0119,F04,0.9,자원 종류 '경로당',keyword
+res_0120,F04,0.9,자원 종류 '경로당',keyword
+res_0121,F04,0.9,자원 종류 '경로당',keyword
+res_0122,F04,0.9,자원 종류 '경로당',keyword
+res_0123,F04,0.9,자원 종류 '경로당',keyword
+res_0124,F04,0.9,자원 종류 '경로당',keyword
+res_0125,F04,0.9,자원 종류 '경로당',keyword
+res_0126,F04,0.9,자원 종류 '경로당',keyword
+res_0127,F04,0.9,자원 종류 '경로당',keyword
+res_0128,F04,0.9,자원 종류 '경로당',keyword
+res_0129,F04,0.9,자원 종류 '경로당',keyword
+res_0130,F04,0.9,자원 종류 '경로당',keyword
+res_0131,F04,0.9,자원 종류 '경로당',keyword
+res_0132,F04,0.9,자원 종류 '경로당',keyword
+res_0133,F04,0.9,자원 종류 '경로당',keyword
+res_0134,F04,0.9,자원 종류 '경로당',keyword
+res_0135,F04,0.9,자원 종류 '경로당',keyword
+res_0136,F04,0.9,자원 종류 '경로당',keyword
+res_0137,F04,0.9,자원 종류 '경로당',keyword
+res_0138,F04,0.9,자원 종류 '경로당',keyword
+res_0139,F04,0.9,자원 종류 '경로당',keyword
+res_0140,F04,0.9,자원 종류 '경로당',keyword
+res_0141,F04,0.9,자원 종류 '경로당',keyword
+res_0142,F04,0.9,자원 종류 '경로당',keyword
+res_0143,F04,0.9,자원 종류 '경로당',keyword
+res_0144,F04,0.9,자원 종류 '경로당',keyword
+res_0145,F04,0.9,자원 종류 '경로당',keyword
+res_0146,F04,0.9,자원 종류 '경로당',keyword
+res_0147,F04,0.9,자원 종류 '경로당',keyword
+res_0148,F04,0.9,자원 종류 '경로당',keyword
+res_0149,F04,0.9,자원 종류 '경로당',keyword
+res_0150,F04,0.9,자원 종류 '경로당',keyword
+res_0151,F04,0.9,자원 종류 '경로당',keyword
+res_0152,F04,0.9,자원 종류 '경로당',keyword
+res_0153,F04,0.9,자원 종류 '경로당',keyword
+res_0154,F04,0.9,자원 종류 '경로당',keyword
+res_0155,F04,0.9,자원 종류 '경로당',keyword
+res_0156,F04,0.9,자원 종류 '경로당',keyword
+res_0157,F04,0.9,자원 종류 '경로당',keyword
+res_0158,F04,0.9,자원 종류 '경로당',keyword
+res_0159,F04,0.9,자원 종류 '경로당',keyword
+res_0160,F04,0.9,자원 종류 '경로당',keyword
+res_0161,F04,0.9,자원 종류 '경로당',keyword
+res_0162,F04,0.9,자원 종류 '경로당',keyword
+res_0163,F04,0.9,자원 종류 '경로당',keyword
+res_0164,F04,0.9,자원 종류 '경로당',keyword
+res_0165,F04,0.9,자원 종류 '경로당',keyword
+res_0166,F04,0.9,자원 종류 '경로당',keyword
+res_0167,F04,0.9,자원 종류 '경로당',keyword
+res_0168,F04,0.9,자원 종류 '경로당',keyword
+res_0169,F04,0.9,자원 종류 '경로당',keyword
+res_0170,F04,0.9,자원 종류 '경로당',keyword
+res_0171,F04,0.9,자원 종류 '경로당',keyword
+res_0172,F04,0.9,자원 종류 '경로당',keyword
+res_0173,F04,0.9,자원 종류 '경로당',keyword
+res_0174,F04,0.9,자원 종류 '경로당',keyword
+res_0175,F04,0.9,자원 종류 '경로당',keyword
+res_0176,F04,0.9,자원 종류 '경로당',keyword
+res_0177,F04,0.9,자원 종류 '경로당',keyword
+res_0178,F04,0.9,자원 종류 '경로당',keyword
+res_0179,F04,0.9,자원 종류 '경로당',keyword
+res_0180,F04,0.9,자원 종류 '경로당',keyword
+res_0181,F04,0.9,자원 종류 '경로당',keyword
+res_0182,F04,0.9,자원 종류 '경로당',keyword
+res_0183,F04,0.9,자원 종류 '경로당',keyword
+res_0184,F04,0.9,자원 종류 '경로당',keyword
+res_0185,F04,0.9,자원 종류 '경로당',keyword
+res_0186,F04,0.9,자원 종류 '경로당',keyword
+res_0187,F04,0.9,자원 종류 '경로당',keyword
+res_0188,F04,0.9,자원 종류 '경로당',keyword
+res_0189,F04,0.9,자원 종류 '경로당',keyword
+res_0190,F04,0.9,자원 종류 '경로당',keyword
+res_0191,F04,0.9,자원 종류 '경로당',keyword
+res_0192,F04,0.9,자원 종류 '경로당',keyword
+res_0193,F04,0.9,자원 종류 '경로당',keyword
+res_0194,F04,0.9,자원 종류 '경로당',keyword
+res_0195,F04,0.9,자원 종류 '경로당',keyword
+res_0196,F04,0.9,자원 종류 '경로당',keyword
+res_0197,F04,0.9,자원 종류 '경로당',keyword
+res_0198,F04,0.9,자원 종류 '경로당',keyword
+res_0199,F04,0.9,자원 종류 '경로당',keyword
+res_0200,F04,0.9,자원 종류 '경로당',keyword
+res_0201,F04,0.9,자원 종류 '경로당',keyword
+res_0202,F04,0.9,자원 종류 '경로당',keyword
+res_0203,F04,0.9,자원 종류 '경로당',keyword
+res_0204,F04,0.9,자원 종류 '경로당',keyword
+res_0205,F04,0.9,자원 종류 '경로당',keyword
+res_0206,F04,0.9,자원 종류 '경로당',keyword
+res_0207,F04,0.9,자원 종류 '경로당',keyword
+res_0208,F04,0.9,자원 종류 '경로당',keyword
+res_0209,F04,0.9,자원 종류 '경로당',keyword
+res_0210,F04,0.9,자원 종류 '경로당',keyword
+res_0211,F04,0.9,자원 종류 '경로당',keyword
+res_0212,F04,0.9,자원 종류 '경로당',keyword
+res_0213,F04,0.9,자원 종류 '경로당',keyword
+res_0214,F04,0.9,자원 종류 '경로당',keyword
+res_0215,F04,0.9,자원 종류 '경로당',keyword
+res_0216,F04,0.9,자원 종류 '경로당',keyword
+res_0217,F04,0.9,자원 종류 '경로당',keyword
+res_0218,F04,0.9,자원 종류 '경로당',keyword
+res_0219,F04,0.9,자원 종류 '경로당',keyword
+res_0220,F04,0.9,자원 종류 '경로당',keyword
+res_0221,F04,0.9,자원 종류 '경로당',keyword
+res_0222,F04,0.9,자원 종류 '경로당',keyword
+res_0223,F04,0.9,자원 종류 '경로당',keyword
+res_0224,F04,0.9,자원 종류 '경로당',keyword
+res_0225,F04,0.9,자원 종류 '경로당',keyword
+res_0226,F04,0.9,자원 종류 '경로당',keyword
+res_0227,F04,0.9,자원 종류 '경로당',keyword
+res_0228,F04,0.9,자원 종류 '경로당',keyword
+res_0229,F04,0.9,자원 종류 '경로당',keyword
+res_0230,F04,0.9,자원 종류 '경로당',keyword
+res_0231,F04,0.9,자원 종류 '경로당',keyword
+res_0232,F04,0.9,자원 종류 '경로당',keyword
+res_0233,F04,0.9,자원 종류 '경로당',keyword
+res_0234,F04,0.9,자원 종류 '경로당',keyword
+res_0235,F04,0.9,자원 종류 '경로당',keyword
+res_0236,F04,0.9,자원 종류 '경로당',keyword
+res_0237,F04,0.9,자원 종류 '경로당',keyword
+res_0238,F04,0.9,자원 종류 '경로당',keyword
+res_0239,F04,0.9,자원 종류 '경로당',keyword
+res_0240,F04,0.9,자원 종류 '경로당',keyword
+res_0241,F04,0.9,자원 종류 '경로당',keyword
+res_0242,F04,0.9,자원 종류 '경로당',keyword
+res_0243,F04,0.9,자원 종류 '경로당',keyword
+res_0244,F04,0.9,자원 종류 '경로당',keyword
+res_0245,F04,0.9,자원 종류 '경로당',keyword
+res_0246,F04,0.9,자원 종류 '경로당',keyword
+res_0247,F04,0.9,자원 종류 '경로당',keyword
+res_0248,F04,0.9,자원 종류 '경로당',keyword
+res_0249,F04,0.9,자원 종류 '경로당',keyword
+res_0250,F04,0.9,자원 종류 '경로당',keyword
+res_0251,F04,0.9,자원 종류 '경로당',keyword
+res_0252,F04,0.9,자원 종류 '경로당',keyword
+res_0253,F04,0.9,자원 종류 '경로당',keyword
+res_0254,F04,0.9,자원 종류 '경로당',keyword
+res_0255,F04,0.9,자원 종류 '경로당',keyword
+res_0256,F04,0.9,자원 종류 '경로당',keyword
+res_0257,F04,0.9,자원 종류 '경로당',keyword
+res_0258,F04,0.9,자원 종류 '경로당',keyword
+res_0259,F04,0.9,자원 종류 '경로당',keyword
+res_0260,F04,0.9,자원 종류 '경로당',keyword
+res_0261,F04,0.9,자원 종류 '경로당',keyword
+res_0262,F04,0.9,자원 종류 '경로당',keyword
+res_0263,F04,0.9,자원 종류 '경로당',keyword
+res_0264,F04,0.9,자원 종류 '경로당',keyword
+res_0265,F04,0.9,자원 종류 '경로당',keyword
+res_0266,F04,0.9,자원 종류 '경로당',keyword
+res_0267,F04,0.9,자원 종류 '경로당',keyword
+res_0268,F04,0.9,자원 종류 '경로당',keyword
+res_0269,F04,0.9,자원 종류 '경로당',keyword
+res_0270,F04,0.9,자원 종류 '경로당',keyword
+res_0271,F04,0.9,자원 종류 '경로당',keyword
+res_0272,F04,0.9,자원 종류 '경로당',keyword
+res_0273,F04,0.9,자원 종류 '경로당',keyword
+res_0274,F04,0.9,자원 종류 '경로당',keyword
+res_0275,F04,0.9,자원 종류 '경로당',keyword
+res_0276,F04,0.9,자원 종류 '경로당',keyword
+res_0277,F04,0.9,자원 종류 '경로당',keyword
+res_0278,F04,0.9,자원 종류 '경로당',keyword
+res_0279,F04,0.9,자원 종류 '경로당',keyword
+res_0280,F04,0.9,자원 종류 '경로당',keyword
+res_0281,F04,0.9,자원 종류 '경로당',keyword
+res_0282,F04,0.9,자원 종류 '경로당',keyword
+res_0283,F04,0.9,자원 종류 '경로당',keyword
+res_0284,F04,0.9,자원 종류 '경로당',keyword
+res_0285,F04,0.9,자원 종류 '경로당',keyword
+res_0286,F04,0.9,자원 종류 '경로당',keyword
+res_0287,F04,0.9,자원 종류 '경로당',keyword
+res_0288,F04,0.9,자원 종류 '경로당',keyword
+res_0289,F04,0.9,자원 종류 '경로당',keyword
+res_0290,F04,0.9,자원 종류 '경로당',keyword
+res_0291,F04,0.9,자원 종류 '경로당',keyword
+res_0292,F04,0.9,자원 종류 '경로당',keyword
+res_0293,F04,0.9,자원 종류 '경로당',keyword
+res_0294,F04,0.9,자원 종류 '경로당',keyword
+res_0295,F04,0.9,자원 종류 '경로당',keyword
+res_0296,F04,0.9,자원 종류 '경로당',keyword
+res_0297,F04,0.9,자원 종류 '경로당',keyword
+res_0298,F04,0.9,자원 종류 '경로당',keyword
+res_0299,F04,0.9,자원 종류 '경로당',keyword
+res_0300,F04,0.9,자원 종류 '경로당',keyword
+res_0301,F04,0.9,자원 종류 '경로당',keyword
+res_0302,F04,0.9,자원 종류 '경로당',keyword
+res_0303,F04,0.9,자원 종류 '경로당',keyword
+res_0304,F04,0.9,자원 종류 '경로당',keyword
+res_0305,F04,0.9,자원 종류 '경로당',keyword
+res_0306,F04,0.9,자원 종류 '경로당',keyword
+res_0307,F04,0.9,자원 종류 '경로당',keyword
+res_0308,F04,0.9,자원 종류 '경로당',keyword
+res_0309,F04,0.9,자원 종류 '경로당',keyword
+res_0310,F04,0.9,자원 종류 '경로당',keyword
+res_0311,F04,0.9,자원 종류 '경로당',keyword
+res_0312,F04,0.9,자원 종류 '경로당',keyword
+res_0313,F04,0.9,자원 종류 '경로당',keyword
+res_0314,F04,0.9,자원 종류 '경로당',keyword
+res_0315,F04,0.9,자원 종류 '경로당',keyword
+res_0316,F04,0.9,자원 종류 '경로당',keyword
+res_0317,F04,0.9,자원 종류 '경로당',keyword
+res_0318,F04,0.9,자원 종류 '경로당',keyword
+res_0319,F04,0.9,자원 종류 '경로당',keyword
+res_0320,F04,0.9,자원 종류 '경로당',keyword
+res_0321,F04,0.9,자원 종류 '경로당',keyword
+res_0322,F04,0.9,자원 종류 '경로당',keyword
+res_0323,F04,0.9,자원 종류 '경로당',keyword
+res_0324,F04,0.9,자원 종류 '경로당',keyword
+res_0325,F04,0.9,자원 종류 '경로당',keyword
+res_0326,F04,0.9,자원 종류 '경로당',keyword
+res_0327,F04,0.9,자원 종류 '경로당',keyword
+res_0328,F04,0.9,자원 종류 '경로당',keyword
+res_0329,F04,0.9,자원 종류 '경로당',keyword
+res_0330,F04,0.9,자원 종류 '경로당',keyword
+res_0331,F04,0.9,자원 종류 '경로당',keyword
+res_0332,F04,0.9,자원 종류 '경로당',keyword
+res_0333,F04,0.9,자원 종류 '경로당',keyword
+res_0334,F04,0.9,자원 종류 '경로당',keyword
+res_0335,F04,0.9,자원 종류 '경로당',keyword
+res_0336,F04,0.9,자원 종류 '경로당',keyword
+res_0337,F04,0.9,자원 종류 '경로당',keyword
+res_0338,F04,0.9,자원 종류 '경로당',keyword
+res_0339,F04,0.9,자원 종류 '경로당',keyword
+res_0340,F04,0.9,자원 종류 '경로당',keyword
+res_0341,F04,0.9,자원 종류 '경로당',keyword
+res_0342,F04,0.9,자원 종류 '경로당',keyword
+res_0343,F04,0.9,자원 종류 '경로당',keyword
+res_0344,F04,0.9,자원 종류 '경로당',keyword
+res_0345,F04,0.9,자원 종류 '경로당',keyword
+res_0346,F04,0.9,자원 종류 '경로당',keyword
+res_0347,F04,0.9,자원 종류 '경로당',keyword
+res_0348,F04,0.9,자원 종류 '경로당',keyword
+res_0349,F04,0.9,자원 종류 '경로당',keyword
+res_0350,F04,0.9,자원 종류 '경로당',keyword
+res_0351,F04,0.9,자원 종류 '경로당',keyword
+res_0352,F04,0.9,자원 종류 '경로당',keyword
+res_0353,F04,0.9,자원 종류 '경로당',keyword
+res_0354,F04,0.9,자원 종류 '경로당',keyword
+res_0355,F04,0.9,자원 종류 '경로당',keyword
+res_0356,F04,0.9,자원 종류 '경로당',keyword
+res_0357,F04,0.9,자원 종류 '경로당',keyword
+res_0358,F04,0.9,자원 종류 '경로당',keyword
+res_0359,F04,0.9,자원 종류 '경로당',keyword
+res_0360,F04,0.9,자원 종류 '경로당',keyword
+res_0361,F04,0.9,자원 종류 '경로당',keyword
+res_0362,F04,0.9,자원 종류 '경로당',keyword
+res_0363,F04,0.9,자원 종류 '경로당',keyword
+res_0364,F04,0.9,자원 종류 '경로당',keyword
+res_0365,F04,0.9,자원 종류 '경로당',keyword
+res_0366,F04,0.9,자원 종류 '경로당',keyword
+res_0367,F04,0.9,자원 종류 '경로당',keyword
+res_0368,F04,0.9,자원 종류 '경로당',keyword
