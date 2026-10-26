@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw } from "lucide-react";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
@@ -12,8 +12,10 @@ import { useDemo, type Decision } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 
 export function FacilityStrip() {
+  const { id } = useParams();
   const { facilities } = useDemo();
-  const f = facilities.find((x) => x.entity_id === "demo")!;
+  const f = facilities.find((x) => x.entity_id === id);
+  if (!f) return <div className="card p-5 mb-6">시설을 찾을 수 없습니다.</div>;
   const d = f.closure_date ? Math.ceil((new Date(f.closure_date).getTime() - Date.now()) / 86400000) : null;
   const items = [
     { icon: MapPin, k: "법정리", v: `${f.eup_myeon} ${f.ri}` },
@@ -40,7 +42,7 @@ export function FacilityStrip() {
       ))}
       <div className="ml-auto text-right">
         <p className="text-[11px] text-text-muted">폐업까지</p>
-        <p className={`text-[22px] font-bold tnum ${d !== null && d <= 60 ? "text-status-error" : "text-action"}`}>{d !== null ? `D-${d}` : "–"}</p>
+        <p className={`text-[22px] font-bold tnum ${d !== null && d <= 60 ? "text-status-error" : "text-action"}`}>{d !== null ? (d >= 0 ? `D-${d}` : `D+${Math.abs(d)}`) : "–"}</p>
       </div>
     </div>
   );
@@ -54,6 +56,7 @@ const DECISION_OPTS: { value: Decision; label: string; icon: typeof Check; cls: 
 
 export default function FunctionAnalysis() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const toast = useToast();
   const { fnDecisions, setFnDecision, fnNotes, setFnNote } = useDemo();
   const [selected, setSelected] = useState<FnCode | null>(null);
@@ -97,7 +100,7 @@ export default function FunctionAnalysis() {
         badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}
         desc="폐업으로 사라질 수 있는 생활 기능과 그 근거를 확인하고, 담당자가 최종 판단합니다."
         actions={
-          <button onClick={() => navigate("/closures/demo/inheritance")} className="btn btn-primary group">
+          <button onClick={() => navigate(`/closures/${id}/inheritance`)} className="btn btn-primary group">
             상속안 추천으로 이동 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
         }

@@ -40,6 +40,9 @@ export default function DataManagement() {
 
   useEffect(() => {
     setChecked(new Set());
+  }, [tab, q, vf]);
+
+  useEffect(() => {
     setLoading(true);
     const t = setTimeout(() => setLoading(false), 350);
     return () => clearTimeout(t);
@@ -51,12 +54,18 @@ export default function DataManagement() {
       .map((r, i) => ({ ...r, key: `${tab}-${i}` }))
       .filter((r) => !s || `${r.name}${r.type}${r.ri}${r.source}`.includes(s))
       .filter((r) => (vf === "all" ? true : vf === "yes" ? verified[r.key] : !verified[r.key]))
-      .sort((a, b) => (a[sort.key] > b[sort.key] ? 1 : -1) * sort.dir);
+      .sort((a, b) => {
+        const primary = sort.key === "name"
+          ? a.name.localeCompare(b.name, "ko")
+          : a.updated > b.updated ? 1 : a.updated < b.updated ? -1 : 0;
+        return (primary || a.name.localeCompare(b.name, "ko")) * sort.dir;
+      });
   }, [tab, q, vf, sort, verified]);
 
   const allKeys = Object.keys(verified);
   const verifiedRate = Math.round((allKeys.filter((k) => verified[k]).length / allKeys.length) * 100);
   const allChecked = rows.length > 0 && rows.every((r) => checked.has(r.key));
+  const selectedRows = rows.filter((r) => checked.has(r.key));
 
   const toggleSort = (key: typeof sort.key) => setSort((s) => (s.key === key ? { key, dir: (s.dir * -1) as 1 | -1 } : { key, dir: 1 }));
 
@@ -110,13 +119,13 @@ export default function DataManagement() {
           </div>
           <Dropdown value={vf} onChange={setVf} options={[{ value: "all", label: "검증 상태: 전체" }, { value: "yes", label: "검증 완료" }, { value: "no", label: "확인 필요" }]} />
 
-          {checked.size > 0 && (
+          {selectedRows.length > 0 && (
             <div className="ml-auto flex items-center gap-2 h-9 pl-3 pr-1 rounded-xl bg-[#0C3341] text-white animate-scale-in">
-              <span className="text-[12px] font-semibold">{checked.size}개 선택</span>
+              <span className="text-[12px] font-semibold">{selectedRows.length}개 선택</span>
               <button
                 onClick={() => {
-                  setVerified((p) => { const n = { ...p }; checked.forEach((k) => (n[k] = true)); return n; });
-                  toast({ title: `${checked.size}건 검증 완료 처리` });
+                  setVerified((p) => { const n = { ...p }; selectedRows.forEach((r) => (n[r.key] = true)); return n; });
+                  toast({ title: `${selectedRows.length}건 검증 완료 처리` });
                   setChecked(new Set());
                 }}
                 className="h-7 px-2.5 rounded-lg bg-white/15 hover:bg-white/25 text-[12px] font-semibold inline-flex items-center gap-1"

@@ -33,7 +33,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         label: f.name,
         hint: `${f.eup_myeon} ${f.ri}`,
         icon: Building2,
-        to: "/closures/demo/functions",
+        to: `/closures/${f.entity_id}/functions`,
       })),
     ],
     [facilities],

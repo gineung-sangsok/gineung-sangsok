@@ -1,22 +1,24 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { generatePath, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Check } from "lucide-react";
 
 export const FLOW = [
   { to: "/closures/new", label: "시설 등록", short: "등록" },
-  { to: "/closures/demo/functions", label: "기능 공백 분석", short: "기능 분석" },
-  { to: "/closures/demo/inheritance", label: "상속안 제안", short: "상속안" },
-  { to: "/closures/demo/review", label: "최종 검토", short: "검토" },
+  { to: "/closures/:id/functions", label: "기능 공백 분석", short: "기능 분석" },
+  { to: "/closures/:id/inheritance", label: "상속안 제안", short: "상속안" },
+  { to: "/closures/:id/review", label: "최종 검토", short: "검토" },
 ];
 
 /** 분석 흐름 4단계 진행 표시 — 클릭으로 단계 이동 */
 export default function FlowStepper() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const current = FLOW.findIndex((s) => pathname.startsWith(s.to));
+  const { id = "demo" } = useParams();
+  const flow = FLOW.map((s) => ({ ...s, to: generatePath(s.to, { id }) }));
+  const current = flow.findIndex((s) => pathname.startsWith(s.to));
 
   return (
     <div className="flex items-center gap-1.5">
-      {FLOW.map((s, i) => {
+      {flow.map((s, i) => {
         const done = i < current;
         const active = i === current;
         return (
@@ -40,7 +42,7 @@ export default function FlowStepper() {
               </span>
               {s.short}
             </button>
-            {i < FLOW.length - 1 && (
+            {i < flow.length - 1 && (
               <span className="w-6 h-[2px] rounded-full bg-border overflow-hidden">
                 <span
                   className="block h-full bg-brand transition-all duration-500"

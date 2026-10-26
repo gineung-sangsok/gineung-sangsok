@@ -17,6 +17,11 @@ export default function AnimatedNumber({
   const from = useRef(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(value);
+      from.current = value;
+      return;
+    }
     const start = performance.now();
     const a = from.current;
     let raf = 0;

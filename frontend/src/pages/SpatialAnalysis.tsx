@@ -22,7 +22,7 @@ const valueOf = (m: RiMetrics, f: Filter) => (f === "ALL" ? m.overall : m.gap[f]
 
 export default function SpatialAnalysis() {
   const [params] = useSearchParams();
-  const initial = (params.get("fn") as FnCode | null) ?? "ALL";
+  const initial: Filter = FUNCTIONS.find((f) => f.code === params.get("fn"))?.code ?? "ALL";
 
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);

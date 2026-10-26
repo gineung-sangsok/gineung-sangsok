@@ -19,8 +19,13 @@ export default function Segmented<T extends string>({
 
   useLayoutEffect(() => {
     const el = wrap.current?.querySelector<HTMLButtonElement>(`[data-v="${CSS.escape(value)}"]`);
-    if (el) setInd({ left: el.offsetLeft, width: el.offsetWidth });
-  }, [value, options.length]);
+    if (!el) return;
+    const measure = () => setInd({ left: el.offsetLeft, width: el.offsetWidth });
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value, options]);
 
   const h = size === "sm" ? "h-8 text-[12px] px-3" : "h-9 text-[13px] px-4";
 

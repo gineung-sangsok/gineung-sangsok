@@ -21,6 +21,10 @@ const STATUS: FacilityStatus[] = ["CLOSING", "SUSPENDED", "SEASONAL", "CLOSED", 
 
 interface RiOpt { code: string; ri: string; eup: string; lat: number; lng: number }
 
+function localDateString(date: Date): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
 function centroid(coords: number[][][] | number[][][][]): [number, number] {
   const ring = (Array.isArray(coords[0][0][0]) ? (coords as number[][][][])[0][0] : (coords as number[][][])[0]) as number[][];
   let x = 0, y = 0;
@@ -73,7 +77,10 @@ export default function ClosureRegister() {
 
   useEffect(() => {
     fetch("/data/legal_ri_imsil.geojson")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((g) =>
         setRiList(
           g.features.map((f: { properties: { ri_code: string; ri_name: string; eup_myeon: string }; geometry: { coordinates: number[][][] } }) => {
@@ -82,7 +89,7 @@ export default function ClosureRegister() {
           }),
         ),
       )
-      .catch(() => {});
+      .catch(() => setErrors((e) => ({ ...e, address: "법정리 데이터를 불러오지 못했습니다. 다시 시도해 주세요." })));
   }, []);
 
   const update = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) => {
@@ -115,7 +122,7 @@ export default function ClosureRegister() {
   const setDateOffset = (days: number) => {
     const d = new Date();
     d.setDate(d.getDate() + days);
-    update("closure_date", d.toISOString().slice(0, 10));
+    update("closure_date", localDateString(d));
   };
 
   const dday = form.closure_date ? Math.ceil((new Date(form.closure_date).getTime() - Date.now()) / 86400000) : null;
@@ -135,8 +142,9 @@ export default function ClosureRegister() {
     }
     setSubmitting(true);
     setTimeout(() => {
+      const id = `c-${Date.now()}`;
       addFacility({
-        entity_id: `c-${Date.now()}`,
+        entity_id: id,
         entity_type: "store",
         name: form.name,
         biz_type: form.biz_type,
@@ -150,12 +158,12 @@ export default function ClosureRegister() {
         affected_pop: 80 + Math.round(Math.random() * 200),
         functions: fns,
         stage: "functions",
-        updated_at: new Date().toISOString().slice(0, 10),
+        updated_at: localDateString(new Date()),
         verified_by_officer: false,
         data_sources: ["사업자 신고 정보"],
       });
       toast({ title: `${form.name} 등록 완료`, desc: "기능 공백 분석을 시작합니다." });
-      navigate("/closures/demo/functions");
+      navigate(`/closures/${id}/functions`);
     }, 900);
   };
 

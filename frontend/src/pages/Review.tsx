@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus } from "lucide-react";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
@@ -41,6 +41,7 @@ function Confetti() {
 
 export default function Review() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const toast = useToast();
   const { fnDecisions, fnNotes, picks, reviewed, setReviewed, reviewDone, setReviewDone } = useDemo();
   const [open, setOpen] = useState<string | null>("F01");
@@ -136,7 +137,7 @@ export default function Review() {
                                 <p className="text-text-muted text-[11px] mt-1">종합 점수 {totalScore(cand)}점 · {cand.note}</p>
                               </>
                             ) : (
-                              <button onClick={() => navigate("/closures/demo/inheritance")} className="text-brand font-semibold hover:underline">상속안 지정하러 가기 →</button>
+                              <button onClick={() => navigate(`/closures/${id}/inheritance`)} className="text-brand font-semibold hover:underline">상속안 지정하러 가기 →</button>
                             )}
                           </div>
                           <div>
@@ -238,7 +239,7 @@ export default function Review() {
             )}
           </div>
 
-          <button onClick={() => navigate("/closures/demo/inheritance")} className="btn btn-ghost w-full"><ArrowLeft className="w-4 h-4" /> 상속안 단계로</button>
+          <button onClick={() => navigate(`/closures/${id}/inheritance`)} className="btn btn-ghost w-full"><ArrowLeft className="w-4 h-4" /> 상속안 단계로</button>
         </aside>
       </div>
     </div>

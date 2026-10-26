@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check, MapPin, CalendarDays, Ban, Undo2, Crown, Eye, EyeOff } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
@@ -17,6 +17,7 @@ type SortKey = "score" | "distance";
 
 export default function Inheritance() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const toast = useToast();
   const { picks, setPick, excluded, toggleExcluded } = useDemo();
   const [tab, setTab] = useState<FnCode>("F01");
@@ -41,8 +42,10 @@ export default function Inheritance() {
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const t = e.target as HTMLElement;
       if (t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
+      if ((e.key === "Enter" || e.key === " ") && t.closest("button, a, select, [role='button']")) return;
       const i = list.findIndex((c) => c.id === focus?.id);
       if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); setFocusId(list[Math.min(list.length - 1, i + 1)]?.id ?? null); }
       if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); setFocusId(list[Math.max(0, i - 1)]?.id ?? null); }
@@ -80,7 +83,7 @@ export default function Inheritance() {
         actions={
           <>
             <button onClick={() => navigate("/spatial")} className="btn btn-ghost">공간 분석에서 보기</button>
-            <button onClick={() => navigate("/closures/demo/review")} className="btn btn-primary group">
+            <button onClick={() => navigate(`/closures/${id}/review`)} className="btn btn-primary group">
               최종 검토 ({pickedCount}/4) <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </>
@@ -276,7 +279,7 @@ export default function Inheritance() {
       </div>
 
       <div className="flex justify-between mt-8">
-        <button onClick={() => navigate("/closures/demo/functions")} className="btn btn-ghost"><ArrowLeft className="w-4 h-4" /> 기능 분석으로</button>
+        <button onClick={() => navigate(`/closures/${id}/functions`)} className="btn btn-ghost"><ArrowLeft className="w-4 h-4" /> 기능 분석으로</button>
       </div>
     </div>
   );

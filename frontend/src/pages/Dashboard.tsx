@@ -50,7 +50,7 @@ export default function Dashboard() {
   const [hoverRank, setHoverRank] = useState<string | null>(null);
 
   // table state
-  const [stageFilter, setStageFilter] = useState<"all" | Stage>("all");
+  const [stageFilter, setStageFilter] = useState<"all" | "pending" | Stage>("all");
   const [q, setQ] = useState("");
   const [sort, setSort] = useState<{ key: "updated_at" | "closure_date" | "affected_pop"; dir: 1 | -1 }>({ key: "updated_at", dir: -1 });
   const [page, setPage] = useState(0);
@@ -71,7 +71,7 @@ export default function Dashboard() {
   const rows = useMemo(() => {
     const s = q.trim();
     return facilities
-      .filter((f) => (stageFilter === "all" ? true : f.stage === stageFilter))
+      .filter((f) => (stageFilter === "all" ? true : stageFilter === "pending" ? f.stage !== "reviewed" : f.stage === stageFilter))
       .filter((f) => !s || `${f.name}${f.eup_myeon}${f.ri}${f.biz_type}`.includes(s))
       .sort((a, b) => {
         const av = a[sort.key] ?? "", bv = b[sort.key] ?? "";
@@ -112,7 +112,7 @@ export default function Dashboard() {
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
         <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#D0893A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
-        <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#3F7BC4" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "functions"} onClick={() => { setStageFilter("functions"); setPage(0); }} />
+        <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#3F7BC4" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
         <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#C65555" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
         <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#2E8C7E" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
       </div>
@@ -286,6 +286,7 @@ export default function Dashboard() {
               onChange={(v) => { setStageFilter(v); setPage(0); }}
               options={[
                 { value: "all", label: `전체 ${facilities.length}` },
+                { value: "pending", label: `검토 대기 ${pending}` },
                 ...(Object.keys(STAGE_LABEL) as Stage[]).map((s) => ({
                   value: s,
                   label: `${STAGE_LABEL[s]} ${facilities.filter((f) => f.stage === s).length}`,
@@ -316,7 +317,7 @@ export default function Dashboard() {
                   return (
                     <tr
                       key={f.entity_id}
-                      onClick={() => navigate("/closures/demo/functions")}
+                      onClick={() => navigate(`/closures/${f.entity_id}/functions`)}
                       className={`border-t border-border cursor-pointer transition-colors hover:bg-surface-tint group ${hoverStage && hoverStage !== f.stage ? "opacity-40" : ""}`}
                     >
                       <td className="py-3 px-4">
