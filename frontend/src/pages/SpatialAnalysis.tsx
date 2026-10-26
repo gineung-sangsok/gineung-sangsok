@@ -6,7 +6,7 @@ import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 
 import StatusBadge from "../components/ui/StatusBadge";
 import { DemoTag } from "../components/ui/PageHeader";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { FN, FUNCTIONS, GAP_BINS, gapColor, riMetrics, type FnCode, type RiMetrics } from "../data/demo";
+import { FN, FUNCTIONS, GAP_BINS, gapColor, riMetrics, fetchVillages, type FnCode, type RiMetrics, type VillageRecord } from "../data/demo";
 
 const IMSIL_CENTER: [number, number] = [35.617, 127.289];
 const IMSIL_ZOOM = 11;
@@ -71,14 +71,17 @@ export default function SpatialAnalysis() {
     mapRef.current = map;
     L.tileLayer(VWORLD_TILE, { attribution: "© VWorld", maxZoom: 18 }).addTo(map);
 
-    fetch("/data/legal_ri_imsil.geojson")
-      .then((res) => res.json())
-      .then((geojson) => {
+    Promise.all([
+      fetch("/data/legal_ri_imsil.geojson").then((res) => res.json()),
+      fetchVillages(),
+    ])
+      .then(([geojson, villageMap]) => {
         const list: RiItem[] = [];
         const gj = L.geoJSON(geojson, {
           onEachFeature: (feature, layer) => {
             const props = (feature as { properties: RiProperties }).properties;
-            const it: RiItem = { props, m: riMetrics(props.ri_code, props.eup_myeon), layer: layer as L.Path };
+            const village = villageMap.get(props.ri_code);
+            const it: RiItem = { props, m: riMetrics(props.ri_code, props.eup_myeon, village), layer: layer as L.Path };
             list.push(it);
             (layer as L.Path).setStyle(styleFor(it));
             layer.bindTooltip(() => {

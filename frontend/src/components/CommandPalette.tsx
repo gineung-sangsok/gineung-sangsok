@@ -9,9 +9,9 @@ interface Cmd { id: string; group: string; label: string; hint?: string; icon: L
 const PAGES: Cmd[] = [
   { id: "p-home", group: "페이지", label: "대시보드", icon: Home, to: "/" },
   { id: "p-new", group: "페이지", label: "폐업 예정 시설 등록", icon: Store, to: "/closures/new", hint: "N" },
-  { id: "p-fn", group: "페이지", label: "기능 공백 분석", icon: Layers, to: "/closures/demo/functions" },
-  { id: "p-inh", group: "페이지", label: "상속안 제안", icon: GitBranch, to: "/closures/demo/inheritance" },
-  { id: "p-rev", group: "페이지", label: "최종 검토", icon: ClipboardCheck, to: "/closures/demo/review" },
+  { id: "p-fn", group: "페이지", label: "기능 공백 분석", icon: Layers, to: "/closures/store_0001/functions" },
+  { id: "p-inh", group: "페이지", label: "상속안 제안", icon: GitBranch, to: "/closures/store_0001/inheritance" },
+  { id: "p-rev", group: "페이지", label: "최종 검토", icon: ClipboardCheck, to: "/closures/store_0001/review" },
   { id: "p-map", group: "페이지", label: "공간 분석 (지도)", icon: Map, to: "/spatial" },
   { id: "p-data", group: "페이지", label: "데이터 관리", icon: Database, to: "/data" },
 ];

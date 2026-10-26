@@ -17,11 +17,16 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-const FLOW_ITEMS = [
+function getClosureId(pathname: string): string {
+  const m = pathname.match(/^\/closures\/([^/]+)/);
+  return m?.[1] && m[1] !== "new" ? m[1] : "store_0001";
+}
+
+const flowItems = (id: string) => [
   { to: "/closures/new", icon: Store, label: "폐업 예정 시설 등록" },
-  { to: "/closures/demo/functions", icon: Layers, label: "기능 공백 분석" },
-  { to: "/closures/demo/inheritance", icon: GitBranch, label: "상속안 제안" },
-  { to: "/closures/demo/review", icon: ClipboardCheck, label: "최종 검토" },
+  { to: `/closures/${id}/functions`, icon: Layers, label: "기능 공백 분석" },
+  { to: `/closures/${id}/inheritance`, icon: GitBranch, label: "상속안 제안" },
+  { to: `/closures/${id}/review`, icon: ClipboardCheck, label: "최종 검토" },
 ];
 
 function Item({
@@ -124,7 +129,7 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
             >
               <div className="overflow-hidden">
                 <div className="relative ml-[21px] pl-4 py-1.5 space-y-0.5 border-l border-white/10">
-                  {FLOW_ITEMS.map((it, i) => (
+                  {flowItems(getClosureId(pathname)).map((it, i) => (
                     <NavLink
                       key={it.to}
                       to={it.to}

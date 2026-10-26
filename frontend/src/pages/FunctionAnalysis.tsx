@@ -7,7 +7,7 @@ import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
-import { FN, FUNCTION_RESULTS, type FnCode } from "../data/demo";
+import { FN, FUNCTION_RESULTS, TAGGING_SOURCE_LABEL, type FnCode } from "../data/demo";
 import { useDemo, type Decision } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 
@@ -140,7 +140,7 @@ export default function FunctionAnalysis() {
             index={order.indexOf(f.code)}
             confidence={f.confidence}
             evidence={f.evidence}
-            source={f.source}
+            source={TAGGING_SOURCE_LABEL[f.source]}
             decision={fnDecisions[f.code]}
             selected={selected === f.code}
             onClick={() => setSelected(f.code)}
@@ -213,7 +213,7 @@ export default function FunctionAnalysis() {
                   <Quote className="w-4 h-4 text-brand absolute -top-2 left-3 bg-surface-tint" />
                   <p className="text-[13px] text-text-secondary leading-relaxed">{sel.quote}</p>
                 </div>
-                <p className="text-[12px] text-text-muted mt-2 flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> 출처 · {sel.source}</p>
+                <p className="text-[12px] text-text-muted mt-2 flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> 태깅 방법 · {TAGGING_SOURCE_LABEL[sel.source]}</p>
               </div>
 
               <div>

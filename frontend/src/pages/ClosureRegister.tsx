@@ -142,7 +142,7 @@ export default function ClosureRegister() {
     }
     setSubmitting(true);
     setTimeout(() => {
-      const id = `c-${Date.now()}`;
+      const id = `store_${String(Date.now() % 10000).padStart(4, "0")}`;
       addFacility({
         entity_id: id,
         entity_type: "store",

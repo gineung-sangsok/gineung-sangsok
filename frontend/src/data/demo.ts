@@ -52,32 +52,35 @@ export interface Facility {
 }
 
 export const FACILITIES: Facility[] = [
-  { entity_id: "demo", entity_type: "store", name: "죽계상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-12-31", village_id: "5275037001", eup_myeon: "삼계면", ri: "죽계리", address: "전북 임실군 삼계면 죽계리 123", location: null, affected_pop: 214, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-18" },
-  { entity_id: "c-102", entity_type: "store", name: "갈담슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-11-30", village_id: "5275037002", eup_myeon: "강진면", ri: "갈담리", address: "전북 임실군 강진면 갈담리 45", location: null, affected_pop: 388, functions: ["F01", "F02", "F03"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-16" },
-  { entity_id: "c-103", entity_type: "store", name: "옥정상회", biz_type: "식료품점", status: "SUSPENDED", closure_date: "2027-01-15", village_id: "5275037003", eup_myeon: "운암면", ri: "옥정리", address: "전북 임실군 운암면 옥정리 8", location: null, affected_pop: 132, functions: ["F01", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-14" },
-  { entity_id: "c-104", entity_type: "store", name: "필봉정육점", biz_type: "정육점", status: "CLOSING", closure_date: "2026-12-10", village_id: "5275037004", eup_myeon: "강진면", ri: "필봉리", address: "전북 임실군 강진면 필봉리 201", location: null, affected_pop: 176, functions: ["F02"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-09" },
-  { entity_id: "c-105", entity_type: "store", name: "신덕농협하나로", biz_type: "농협마트", status: "SEASONAL", closure_date: "2027-02-28", village_id: "5275037005", eup_myeon: "신덕면", ri: "신덕리", address: "전북 임실군 신덕면 신덕리 67", location: null, affected_pop: 512, functions: ["F01", "F02", "F03"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-05" },
-  { entity_id: "c-106", entity_type: "store", name: "학석상점", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-11-20", village_id: "5275037006", eup_myeon: "관촌면", ri: "학석리", address: "전북 임실군 관촌면 학석리 12", location: null, affected_pop: 98, functions: ["F01", "F03", "F04"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-29" },
-  { entity_id: "c-107", entity_type: "store", name: "오수방앗간", biz_type: "정미소", status: "CLOSED", closure_date: "2026-09-30", village_id: "5275037007", eup_myeon: "오수면", ri: "주천리", address: "전북 임실군 오수면 주천리 33", location: null, affected_pop: 241, functions: ["F03"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-21" },
-  { entity_id: "c-108", entity_type: "store", name: "두월상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2027-03-31", village_id: "5275037008", eup_myeon: "성수면", ri: "두월리", address: "전북 임실군 성수면 두월리 90", location: null, affected_pop: 156, functions: ["F01", "F02", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-18" },
-  { entity_id: "c-109", entity_type: "store", name: "회진슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-12-20", village_id: "5275037009", eup_myeon: "덕치면", ri: "회진리", address: "전북 임실군 덕치면 회진리 4", location: null, affected_pop: 203, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-11" },
-  { entity_id: "c-110", entity_type: "store", name: "금평연쇄점", biz_type: "식료품점", status: "ACTIVE", closure_date: "2027-06-30", village_id: "5275037010", eup_myeon: "청웅면", ri: "금평리", address: "전북 임실군 청웅면 금평리 18", location: null, affected_pop: 119, functions: ["F01"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-02" },
+  { entity_id: "store_0001", entity_type: "store", name: "죽계상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-12-31", village_id: "5275037001", eup_myeon: "삼계면", ri: "죽계리", address: "전북 임실군 삼계면 죽계리 123", location: null, affected_pop: 214, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-18" },
+  { entity_id: "store_0002", entity_type: "store", name: "갈담슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-11-30", village_id: "5275037002", eup_myeon: "강진면", ri: "갈담리", address: "전북 임실군 강진면 갈담리 45", location: null, affected_pop: 388, functions: ["F01", "F02", "F03"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-16" },
+  { entity_id: "store_0003", entity_type: "store", name: "옥정상회", biz_type: "식료품점", status: "SUSPENDED", closure_date: "2027-01-15", village_id: "5275037003", eup_myeon: "운암면", ri: "옥정리", address: "전북 임실군 운암면 옥정리 8", location: null, affected_pop: 132, functions: ["F01", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-14" },
+  { entity_id: "store_0004", entity_type: "store", name: "필봉정육점", biz_type: "정육점", status: "CLOSING", closure_date: "2026-12-10", village_id: "5275037004", eup_myeon: "강진면", ri: "필봉리", address: "전북 임실군 강진면 필봉리 201", location: null, affected_pop: 176, functions: ["F02"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-09" },
+  { entity_id: "store_0005", entity_type: "store", name: "신덕농협하나로", biz_type: "농협마트", status: "SEASONAL", closure_date: "2027-02-28", village_id: "5275037005", eup_myeon: "신덕면", ri: "신덕리", address: "전북 임실군 신덕면 신덕리 67", location: null, affected_pop: 512, functions: ["F01", "F02", "F03"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-10-05" },
+  { entity_id: "store_0006", entity_type: "store", name: "학석상점", biz_type: "식료품점", status: "CLOSING", closure_date: "2026-11-20", village_id: "5275037006", eup_myeon: "관촌면", ri: "학석리", address: "전북 임실군 관촌면 학석리 12", location: null, affected_pop: 98, functions: ["F01", "F03", "F04"], stage: "functions", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-29" },
+  { entity_id: "store_0007", entity_type: "store", name: "오수방앗간", biz_type: "정미소", status: "CLOSED", closure_date: "2026-09-30", village_id: "5275037007", eup_myeon: "오수면", ri: "주천리", address: "전북 임실군 오수면 주천리 33", location: null, affected_pop: 241, functions: ["F03"], stage: "reviewed", verified_by_officer: true, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-21" },
+  { entity_id: "store_0008", entity_type: "store", name: "두월상회", biz_type: "식료품점", status: "CLOSING", closure_date: "2027-03-31", village_id: "5275037008", eup_myeon: "성수면", ri: "두월리", address: "전북 임실군 성수면 두월리 90", location: null, affected_pop: 156, functions: ["F01", "F02", "F04"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-18" },
+  { entity_id: "store_0009", entity_type: "store", name: "회진슈퍼", biz_type: "슈퍼마켓", status: "CLOSING", closure_date: "2026-12-20", village_id: "5275037009", eup_myeon: "덕치면", ri: "회진리", address: "전북 임실군 덕치면 회진리 4", location: null, affected_pop: 203, functions: ["F01", "F02", "F03", "F04"], stage: "inheritance", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-11" },
+  { entity_id: "store_0010", entity_type: "store", name: "금평연쇄점", biz_type: "식료품점", status: "ACTIVE", closure_date: "2027-06-30", village_id: "5275037010", eup_myeon: "청웅면", ri: "금평리", address: "전북 임실군 청웅면 금평리 18", location: null, affected_pop: 119, functions: ["F01"], stage: "registered", verified_by_officer: false, data_sources: ["사업자 신고 정보"], updated_at: "2026-09-02" },
 ];
 
 // 데모 시설의 기능 분석 결과
+export type TaggingSource = "llm" | "keyword" | "manual";
+export const TAGGING_SOURCE_LABEL: Record<TaggingSource, string> = { llm: "AI 분석", keyword: "키워드 매칭", manual: "수동 입력" };
+
 export interface FunctionResult {
   code: FnCode;
   confidence: number | null;
   evidence: string;
-  source: string;
+  source: TaggingSource;
   quote: string;
 }
 
 export const FUNCTION_RESULTS: FunctionResult[] = [
-  { code: "F01", confidence: 0.86, evidence: "라면·휴지·세제 등 공산품 상시 판매", source: "현장 조사 (2026.10)", quote: "\"동네에서 휴지랑 라면 사려면 여기밖에 없어요.\" — 주민 인터뷰 #3" },
-  { code: "F02", confidence: 0.52, evidence: "냉장 진열대 1대, 두부·계란 소량 판매", source: "사업자 신고 정보", quote: "냉장 설비 보유 기록은 있으나 판매 품목 범위는 확인되지 않음" },
-  { code: "F03", confidence: 0.71, evidence: "쌀 20kg·생수 배달 (주 2회)", source: "주민 인터뷰", quote: "\"쌀은 사장님이 트럭으로 갖다줬지.\" — 주민 인터뷰 #7" },
-  { code: "F04", confidence: 0.34, evidence: "가게 앞 평상, 택배 대리 수령", source: "현장 조사 (2026.10)", quote: "모임 장소 역할은 관찰되었으나 정기성 여부는 확인 필요" },
+  { code: "F01", confidence: 0.86, evidence: "라면·휴지·세제 등 공산품 상시 판매", source: "llm", quote: "\"동네에서 휴지랑 라면 사려면 여기밖에 없어요.\" — 주민 인터뷰 #3" },
+  { code: "F02", confidence: 0.52, evidence: "냉장 진열대 1대, 두부·계란 소량 판매", source: "keyword", quote: "냉장 설비 보유 기록은 있으나 판매 품목 범위는 확인되지 않음" },
+  { code: "F03", confidence: 0.71, evidence: "쌀 20kg·생수 배달 (주 2회)", source: "llm", quote: "\"쌀은 사장님이 트럭으로 갖다줬지.\" — 주민 인터뷰 #7" },
+  { code: "F04", confidence: 0.34, evidence: "가게 앞 평상, 택배 대리 수령", source: "manual", quote: "모임 장소 역할은 관찰되었으나 정기성 여부는 확인 필요" },
 ];
 
 // 상속 후보 자원
@@ -91,12 +94,11 @@ export const RESOURCE_TYPES: Record<ResourceType, string> = {
 };
 
 export const SCORE_FACTORS = [
-  { key: "schedule", label: "운영 일정" },
-  { key: "visits", label: "주간 방문" },
-  { key: "delivery", label: "배송 가능" },
-  { key: "scope", label: "서비스 범위" },
-  { key: "access", label: "이동 접근성" },
-  { key: "capacity", label: "수용 용량" },
+  { key: "distance", label: "거리" },
+  { key: "hours", label: "운영 시간" },
+  { key: "delivery", label: "배송" },
+  { key: "transport", label: "교통수단" },
+  { key: "service_area", label: "서비스 권역" },
 ] as const;
 export type FactorKey = (typeof SCORE_FACTORS)[number]["key"];
 
@@ -113,23 +115,23 @@ export interface Candidate {
 
 const c = (
   id: string, fn: FnCode, name: string, type: ResourceType, distanceKm: number, weekly: string,
-  s: [number, number, number, number, number, number], note: string,
+  s: [number, number, number, number, number], note: string,
 ): Candidate => ({
   id, fn, name, type, distanceKm, weekly, note,
-  scores: { schedule: s[0], visits: s[1], delivery: s[2], scope: s[3], access: s[4], capacity: s[5] },
+  scores: { distance: s[0], hours: s[1], delivery: s[2], transport: s[3], service_area: s[4] },
 });
 
 export const CANDIDATES: Candidate[] = [
-  c("r1", "F01", "임실 이동장터 3호 노선", "R01", 0.4, "주 2회 (화·금)", [82, 64, 40, 88, 92, 70], "노선에 죽계리 정차 추가 시 도보 5분 이내"),
-  c("r2", "F01", "삼계농협 하나로마트", "R02", 6.8, "주 3회 배송", [90, 78, 95, 84, 46, 88], "전화 주문 → 익일 배송, 최소 주문 1만원"),
-  c("r3", "F01", "삼계면 사회적협동조합 상점", "R05", 3.1, "평일 상시", [74, 90, 30, 66, 58, 52], "버스 1회 환승 필요"),
-  c("r4", "F02", "임실 이동장터 3호 노선", "R01", 0.4, "주 2회 (화·금)", [80, 58, 36, 72, 92, 60], "냉장 탑차 운영 — 신선식품 취급 가능"),
-  c("r5", "F02", "임실로컬푸드 직매장", "R02", 11.2, "주 1회 배송", [70, 42, 85, 92, 30, 76], "꾸러미 정기배송 프로그램 신청 필요"),
-  c("r6", "F03", "삼계농협 하나로마트", "R02", 6.8, "주 3회 배송", [88, 78, 96, 90, 46, 90], "쌀·생수·LPG 배송 가능"),
-  c("r7", "F03", "임실군 생활지원센터", "R04", 9.4, "요청 시", [60, 40, 80, 58, 52, 44], "고령 단독가구 우선 지원"),
-  c("r8", "F04", "죽계리 마을회관", "R03", 0.2, "상시 개방", [92, 96, 10, 70, 98, 64], "택배 공동수령함 설치 검토"),
-  c("r9", "F04", "삼계면 경로당 연합", "R03", 1.6, "평일 상시", [84, 80, 10, 62, 74, 58], "안부 확인 프로그램 운영 중"),
-  c("r10", "F04", "임실군 노인복지관 분관", "R04", 7.9, "주 2회 방문", [64, 46, 20, 82, 40, 70], "찾아가는 돌봄 연계 가능"),
+  c("r1", "F01", "임실 이동장터 3호 노선", "R01", 0.4, "주 2회 (화·금)", [92, 64, 40, 88, 82], "노선에 죽계리 정차 추가 시 도보 5분 이내"),
+  c("r2", "F01", "삼계농협 하나로마트", "R02", 6.8, "주 3회 배송", [46, 78, 95, 84, 90], "전화 주문 → 익일 배송, 최소 주문 1만원"),
+  c("r3", "F01", "삼계면 사회적협동조합 상점", "R05", 3.1, "평일 상시", [58, 90, 30, 52, 74], "버스 1회 환승 필요"),
+  c("r4", "F02", "임실 이동장터 3호 노선", "R01", 0.4, "주 2회 (화·금)", [92, 58, 36, 80, 72], "냉장 탑차 운영 — 신선식품 취급 가능"),
+  c("r5", "F02", "임실로컬푸드 직매장", "R02", 11.2, "주 1회 배송", [30, 42, 85, 70, 92], "꾸러미 정기배송 프로그램 신청 필요"),
+  c("r6", "F03", "삼계농협 하나로마트", "R02", 6.8, "주 3회 배송", [46, 78, 96, 88, 90], "쌀·생수·LPG 배송 가능"),
+  c("r7", "F03", "임실군 생활지원센터", "R04", 9.4, "요청 시", [38, 40, 80, 52, 58], "고령 단독가구 우선 지원"),
+  c("r8", "F04", "죽계리 마을회관", "R03", 0.2, "상시 개방", [98, 96, 10, 92, 70], "택배 공동수령함 설치 검토"),
+  c("r9", "F04", "삼계면 경로당 연합", "R03", 1.6, "평일 상시", [74, 80, 10, 84, 62], "안부 확인 프로그램 운영 중"),
+  c("r10", "F04", "임실군 노인복지관 분관", "R04", 7.9, "주 2회 방문", [40, 46, 20, 64, 82], "찾아가는 돌봄 연계 가능"),
 ];
 
 export function totalScore(cand: Candidate) {
@@ -171,13 +173,14 @@ export const EUP_MYEON_GAP = [
 export const FUNCTION_GAP_RATE: Record<FnCode, number> = { F01: 42, F02: 63, F03: 37, F04: 28 };
 
 export const NOTIFICATIONS = [
-  { id: 1, title: "갈담슈퍼 폐업 예정일이 40일 남았습니다", time: "10분 전", kind: "warn" as const, to: "/closures/demo/functions" },
-  { id: 2, title: "죽계상회 F02 신뢰도 확인 요청", time: "1시간 전", kind: "info" as const, to: "/closures/demo/functions" },
-  { id: 3, title: "필봉정육점 상속안 검토가 완료되었습니다", time: "어제", kind: "ok" as const, to: "/closures/demo/review" },
+  { id: 1, title: "갈담슈퍼 폐업 예정일이 40일 남았습니다", time: "10분 전", kind: "warn" as const, to: "/closures/store_0002/functions" },
+  { id: 2, title: "죽계상회 F02 신뢰도 확인 요청", time: "1시간 전", kind: "info" as const, to: "/closures/store_0001/functions" },
+  { id: 3, title: "필봉정육점 상속안 검토가 완료되었습니다", time: "어제", kind: "ok" as const, to: "/closures/store_0004/review" },
   { id: 4, title: "이동장터 3호 노선 운행 정보가 갱신되었습니다", time: "2일 전", kind: "info" as const, to: "/data" },
 ];
 
-// ── 공간 데이터: 법정리별 데모 지표 (ri_code 해시 기반으로 결정적 생성)
+// ── 공간 데이터: 법정리별 지표
+// gap 점수는 백엔드 공백 분석 API 연결 전까지 ri_code 해시 기반으로 결정적 생성
 function hash(s: string, salt = 0) {
   let h = 2166136261 ^ salt;
   for (let i = 0; i < s.length; i++) {
@@ -185,6 +188,15 @@ function hash(s: string, salt = 0) {
     h = Math.imul(h, 16777619);
   }
   return ((h >>> 0) % 10000) / 10000;
+}
+
+export interface VillageRecord {
+  ri_code: string;
+  ri_name: string;
+  eup_myeon: string;
+  total_pop: number;
+  aging_rate: number;
+  nearest_stop_m: number;
 }
 
 export interface RiMetrics {
@@ -195,17 +207,36 @@ export interface RiMetrics {
   overall: number;
 }
 
-export function riMetrics(riCode: string, eupMyeon: string): RiMetrics {
+export function riMetrics(riCode: string, eupMyeon: string, village?: VillageRecord): RiMetrics {
   const town = eupMyeon === "임실읍" ? 0.55 : eupMyeon === "오수면" || eupMyeon === "관촌면" ? 0.8 : 1;
   const g = (salt: number) => Math.round(Math.min(98, (20 + hash(riCode, salt) * 78) * town));
   const gap = { F01: g(1), F02: g(2), F03: g(3), F04: g(4) };
   return {
-    pop: Math.round(60 + hash(riCode, 9) * (eupMyeon === "임실읍" ? 1400 : 420)),
-    aging: Math.round(32 + hash(riCode, 7) * 30),
-    stopM: Math.round(120 + hash(riCode, 5) * 2400 * town),
+    pop: village?.total_pop ?? Math.round(60 + hash(riCode, 9) * (eupMyeon === "임실읍" ? 1400 : 420)),
+    aging: village ? Math.round(village.aging_rate) : Math.round(32 + hash(riCode, 7) * 30),
+    stopM: village?.nearest_stop_m ?? Math.round(120 + hash(riCode, 5) * 2400 * town),
     gap,
     overall: Math.round((gap.F01 + gap.F02 + gap.F03 + gap.F04) / 4),
   };
+}
+
+export async function fetchVillages(): Promise<Map<string, VillageRecord>> {
+  const res = await fetch("/data/villages_ri.csv");
+  const text = await res.text();
+  const lines = text.trim().replace(/^\uFEFF/, "").split("\n");
+  const map = new Map<string, VillageRecord>();
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(",");
+    map.set(cols[0], {
+      ri_code: cols[0],
+      ri_name: cols[1],
+      eup_myeon: cols[2],
+      total_pop: Number(cols[5]),
+      aging_rate: Number(cols[7]),
+      nearest_stop_m: Number(cols[12]),
+    });
+  }
+  return map;
 }
 
 export const GAP_BINS = [
@@ -223,7 +254,7 @@ export function gapColor(v: number) {
 export const DATA_ROWS: Record<string, { name: string; type: string; ri: string; fns: FnCode[]; status: string; source: string; verified: boolean; updated: string }[]> = {
   시설: FACILITIES.map((f) => ({
     name: f.name, type: f.biz_type, ri: `${f.eup_myeon} ${f.ri}`, fns: f.functions, status: f.status,
-    source: "사업자 신고 정보", verified: f.stage === "reviewed" || f.entity_id === "demo", updated: f.updated_at,
+    source: "사업자 신고 정보", verified: f.stage === "reviewed" || f.entity_id === "store_0001", updated: f.updated_at,
   })),
   자원: Array.from(new Map(CANDIDATES.map((x) => [x.name, x])).values()).map((x, i) => ({
     name: x.name, type: RESOURCE_TYPES[x.type], ri: "삼계면 일대",

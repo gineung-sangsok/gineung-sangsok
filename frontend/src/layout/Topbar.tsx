@@ -4,15 +4,18 @@ import { Bell, Search, ChevronDown, CalendarDays, AlertTriangle, Info, CheckCirc
 import { NOTIFICATIONS } from "../data/demo";
 import { useClickOutside } from "../components/ui/Dropdown";
 
-const CRUMBS: Record<string, string[]> = {
-  "/": ["대시보드"],
-  "/closures/new": ["분석 흐름", "시설 등록"],
-  "/closures/demo/functions": ["분석 흐름", "기능 공백 분석"],
-  "/closures/demo/inheritance": ["분석 흐름", "상속안 제안"],
-  "/closures/demo/review": ["분석 흐름", "최종 검토"],
-  "/spatial": ["공간 분석"],
-  "/data": ["데이터 관리"],
-};
+const CRUMB_PATTERNS: [RegExp, string[]][] = [
+  [/^\/$/, ["대시보드"]],
+  [/^\/closures\/new$/, ["분석 흐름", "시설 등록"]],
+  [/^\/closures\/[^/]+\/functions$/, ["분석 흐름", "기능 공백 분석"]],
+  [/^\/closures\/[^/]+\/inheritance$/, ["분석 흐름", "상속안 제안"]],
+  [/^\/closures\/[^/]+\/review$/, ["분석 흐름", "최종 검토"]],
+  [/^\/spatial$/, ["공간 분석"]],
+  [/^\/data$/, ["데이터 관리"]],
+];
+function getCrumbs(pathname: string): string[] {
+  return CRUMB_PATTERNS.find(([re]) => re.test(pathname))?.[1] ?? [];
+}
 
 const KIND_ICON = { warn: AlertTriangle, info: Info, ok: CheckCircle2 };
 const KIND_TONE = { warn: "bg-[#FBF1E4] text-status-warn", info: "bg-[#E7F0FA] text-status-info", ok: "bg-[#E4F3EC] text-status-ok" };
@@ -20,7 +23,7 @@ const KIND_TONE = { warn: "bg-[#FBF1E4] text-status-warn", info: "bg-[#E7F0FA] t
 export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const crumbs = CRUMBS[pathname] ?? ["더 가까이"];
+  const crumbs = getCrumbs(pathname).length ? getCrumbs(pathname) : ["더 가까이"];
 
   const [bellOpen, setBellOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
