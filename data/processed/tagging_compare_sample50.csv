@@ -1,0 +1,201 @@
+﻿entity_id,entity_type,name,category,code,keyword,llm,kw_yes,llm_yes
+store_0100,store,관촌건어물상회,건어물/젓갈 소매업,F01,0.6,0.5,True,False
+store_0100,store,관촌건어물상회,건어물/젓갈 소매업,F02,0.0,0.0,False,False
+store_0100,store,관촌건어물상회,건어물/젓갈 소매업,F03,0.0,0.0,False,False
+store_0100,store,관촌건어물상회,건어물/젓갈 소매업,F04,0.0,0.5,False,False
+store_0149,store,여수건어물,건어물/젓갈 소매업,F01,0.6,0.5,True,False
+store_0149,store,여수건어물,건어물/젓갈 소매업,F02,0.0,0.0,False,False
+store_0149,store,여수건어물,건어물/젓갈 소매업,F03,0.0,0.0,False,False
+store_0149,store,여수건어물,건어물/젓갈 소매업,F04,0.0,0.0,False,False
+store_0112,store,청정식품,건어물/젓갈 소매업,F01,0.6,0.52,True,False
+store_0112,store,청정식품,건어물/젓갈 소매업,F02,0.0,0.0,False,False
+store_0112,store,청정식품,건어물/젓갈 소매업,F03,0.0,0.0,False,False
+store_0112,store,청정식품,건어물/젓갈 소매업,F04,0.0,0.5,False,False
+store_0111,store,잡곡미곡상회,곡물/곡분 소매업,F01,0.0,0.0,False,False
+store_0111,store,잡곡미곡상회,곡물/곡분 소매업,F02,0.0,0.0,False,False
+store_0111,store,잡곡미곡상회,곡물/곡분 소매업,F03,0.8,0.95,True,True
+store_0111,store,잡곡미곡상회,곡물/곡분 소매업,F04,0.0,0.5,False,False
+store_0018,store,축복이넘치는농장,곡물/곡분 소매업,F01,0.0,0.0,False,False
+store_0018,store,축복이넘치는농장,곡물/곡분 소매업,F02,0.0,0.0,False,False
+store_0018,store,축복이넘치는농장,곡물/곡분 소매업,F03,0.0,0.97,False,True
+store_0018,store,축복이넘치는농장,곡물/곡분 소매업,F04,0.0,0.5,False,False
+store_0005,store,여니주니맘,그 외 기타 종합 소매업,F01,0.6,0.5,True,False
+store_0005,store,여니주니맘,그 외 기타 종합 소매업,F02,0.0,0.0,False,False
+store_0005,store,여니주니맘,그 외 기타 종합 소매업,F03,0.0,0.0,False,False
+store_0005,store,여니주니맘,그 외 기타 종합 소매업,F04,0.0,0.5,False,False
+store_0095,store,다이소,그 외 기타 종합 소매업,F01,0.0,0.95,False,True
+store_0095,store,다이소,그 외 기타 종합 소매업,F02,0.0,0.0,False,False
+store_0095,store,다이소,그 외 기타 종합 소매업,F03,0.0,0.0,False,False
+store_0095,store,다이소,그 외 기타 종합 소매업,F04,0.0,0.5,False,False
+store_0116,store,올띵스,그 외 기타 종합 소매업,F01,0.6,0.5,True,False
+store_0116,store,올띵스,그 외 기타 종합 소매업,F02,0.0,0.0,False,False
+store_0116,store,올띵스,그 외 기타 종합 소매업,F03,0.0,0.0,False,False
+store_0116,store,올띵스,그 외 기타 종합 소매업,F04,0.0,0.5,False,False
+store_0016,store,삼미민속제과,반찬/식료품 소매업,F01,0.6,0.62,True,True
+store_0016,store,삼미민속제과,반찬/식료품 소매업,F02,0.6,0.48,True,False
+store_0016,store,삼미민속제과,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0016,store,삼미민속제과,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0025,store,임실치즈N푸드,반찬/식료품 소매업,F01,0.0,0.55,False,False
+store_0025,store,임실치즈N푸드,반찬/식료품 소매업,F02,0.0,0.7,False,True
+store_0025,store,임실치즈N푸드,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0025,store,임실치즈N푸드,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0085,store,임실치즈벨리,반찬/식료품 소매업,F01,0.0,0.0,False,False
+store_0085,store,임실치즈벨리,반찬/식료품 소매업,F02,0.0,0.0,False,False
+store_0085,store,임실치즈벨리,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0085,store,임실치즈벨리,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0077,store,오복상회,수산물 소매업,F01,0.0,0.0,False,False
+store_0077,store,오복상회,수산물 소매업,F02,0.9,0.7,True,True
+store_0077,store,오복상회,수산물 소매업,F03,0.0,0.0,False,False
+store_0077,store,오복상회,수산물 소매업,F04,0.0,0.5,False,False
+store_0037,store,여수해물상회,수산물 소매업,F01,0.0,0.0,False,False
+store_0037,store,여수해물상회,수산물 소매업,F02,0.9,0.95,True,True
+store_0037,store,여수해물상회,수산물 소매업,F03,0.0,0.0,False,False
+store_0037,store,여수해물상회,수산물 소매업,F04,0.0,0.5,False,False
+store_0140,store,선슈퍼마켓,슈퍼마켓,F01,0.9,0.9,True,True
+store_0140,store,선슈퍼마켓,슈퍼마켓,F02,0.5,0.6,False,True
+store_0140,store,선슈퍼마켓,슈퍼마켓,F03,0.0,0.5,False,False
+store_0140,store,선슈퍼마켓,슈퍼마켓,F04,0.5,0.5,False,False
+store_0006,store,터미널슈퍼,슈퍼마켓,F01,0.9,0.95,True,True
+store_0006,store,터미널슈퍼,슈퍼마켓,F02,0.5,0.55,False,False
+store_0006,store,터미널슈퍼,슈퍼마켓,F03,0.0,0.5,False,False
+store_0006,store,터미널슈퍼,슈퍼마켓,F04,0.0,0.0,False,False
+store_0103,store,최고로마트,슈퍼마켓,F01,0.9,0.95,True,True
+store_0103,store,최고로마트,슈퍼마켓,F02,0.8,0.75,True,True
+store_0103,store,최고로마트,슈퍼마켓,F03,0.7,0.7,True,True
+store_0103,store,최고로마트,슈퍼마켓,F04,0.0,0.0,False,False
+store_0004,store,임실축협하나로마트,식품판매업(기타),F01,0.9,0.95,True,True
+store_0004,store,임실축협하나로마트,식품판매업(기타),F02,0.8,0.85,True,True
+store_0004,store,임실축협하나로마트,식품판매업(기타),F03,0.7,0.8,True,True
+store_0004,store,임실축협하나로마트,식품판매업(기타),F04,0.0,0.0,False,False
+store_0009,store,지루골축산물판매장,정육점,F01,0.0,0.0,False,False
+store_0009,store,지루골축산물판매장,정육점,F02,0.9,0.95,True,True
+store_0009,store,지루골축산물판매장,정육점,F03,0.0,0.0,False,False
+store_0009,store,지루골축산물판매장,정육점,F04,0.0,0.0,False,False
+store_0024,store,관촌닭집,정육점,F01,0.0,0.0,False,False
+store_0024,store,관촌닭집,정육점,F02,0.9,0.95,True,True
+store_0024,store,관촌닭집,정육점,F03,0.0,0.0,False,False
+store_0024,store,관촌닭집,정육점,F04,0.0,0.0,False,False
+store_0144,store,우리동네정육점,정육점,F01,0.0,0.0,False,False
+store_0144,store,우리동네정육점,정육점,F02,0.9,0.98,True,True
+store_0144,store,우리동네정육점,정육점,F03,0.0,0.0,False,False
+store_0144,store,우리동네정육점,정육점,F04,0.0,0.0,False,False
+store_0101,store,박사골김가네밤법인,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0101,store,박사골김가네밤법인,채소/과일 소매업,F02,0.9,0.72,True,True
+store_0101,store,박사골김가네밤법인,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0101,store,박사골김가네밤법인,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0123,store,최고로청과,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0123,store,최고로청과,채소/과일 소매업,F02,0.9,0.95,True,True
+store_0123,store,최고로청과,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0123,store,최고로청과,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0014,store,하은식품,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0014,store,하은식품,채소/과일 소매업,F02,0.9,0.95,True,True
+store_0014,store,하은식품,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0014,store,하은식품,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0011,store,지에스25오수IC점,편의점,F01,0.9,0.95,True,True
+store_0011,store,지에스25오수IC점,편의점,F02,0.0,0.0,False,False
+store_0011,store,지에스25오수IC점,편의점,F03,0.0,0.0,False,False
+store_0011,store,지에스25오수IC점,편의점,F04,0.0,0.5,False,False
+store_0081,store,세븐일레븐임실,편의점,F01,0.9,0.95,True,True
+store_0081,store,세븐일레븐임실,편의점,F02,0.0,0.0,False,False
+store_0081,store,세븐일레븐임실,편의점,F03,0.0,0.0,False,False
+store_0081,store,세븐일레븐임실,편의점,F04,0.5,0.5,False,False
+store_0108,store,비지에프휴먼넷CUE오수휴게소전주점,편의점,F01,0.0,0.0,False,False
+store_0108,store,비지에프휴먼넷CUE오수휴게소전주점,편의점,F02,0.0,0.0,False,False
+store_0108,store,비지에프휴먼넷CUE오수휴게소전주점,편의점,F03,0.0,0.0,False,False
+store_0108,store,비지에프휴먼넷CUE오수휴게소전주점,편의점,F04,0.0,0.0,False,False
+store_0091,store,세븐일레븐전북,편의점,F01,0.9,0.95,True,True
+store_0091,store,세븐일레븐전북,편의점,F02,0.0,0.0,False,False
+store_0091,store,세븐일레븐전북,편의점,F03,0.0,0.0,False,False
+store_0091,store,세븐일레븐전북,편의점,F04,0.0,0.5,False,False
+store_0033,store,옥식상회,슈퍼마켓,F01,0.9,0.9,True,True
+store_0033,store,옥식상회,슈퍼마켓,F02,0.5,0.55,False,False
+store_0033,store,옥식상회,슈퍼마켓,F03,0.0,0.45,False,False
+store_0033,store,옥식상회,슈퍼마켓,F04,0.0,0.0,False,False
+store_0145,store,가정생활,슈퍼마켓,F01,0.9,0.85,True,True
+store_0145,store,가정생활,슈퍼마켓,F02,0.5,0.65,False,True
+store_0145,store,가정생활,슈퍼마켓,F03,0.0,0.55,False,False
+store_0145,store,가정생활,슈퍼마켓,F04,0.0,0.0,False,False
+store_0084,store,오수관촌농업협동조합하나로마트,슈퍼마켓,F01,0.9,0.95,True,True
+store_0084,store,오수관촌농업협동조합하나로마트,슈퍼마켓,F02,0.8,0.85,True,True
+store_0084,store,오수관촌농업협동조합하나로마트,슈퍼마켓,F03,0.7,0.8,True,True
+store_0084,store,오수관촌농업협동조합하나로마트,슈퍼마켓,F04,0.0,0.0,False,False
+res_0176,resource,상촌경로당,경로당,F01,0.0,0.0,False,False
+res_0176,resource,상촌경로당,경로당,F02,0.0,0.0,False,False
+res_0176,resource,상촌경로당,경로당,F03,0.0,0.0,False,False
+res_0176,resource,상촌경로당,경로당,F04,0.9,0.98,True,True
+res_0360,resource,청계경로당,경로당,F01,0.0,0.0,False,False
+res_0360,resource,청계경로당,경로당,F02,0.0,0.0,False,False
+res_0360,resource,청계경로당,경로당,F03,0.0,0.0,False,False
+res_0360,resource,청계경로당,경로당,F04,0.9,0.98,True,True
+res_0334,resource,선원경로당,경로당,F01,0.0,0.0,False,False
+res_0334,resource,선원경로당,경로당,F02,0.0,0.0,False,False
+res_0334,resource,선원경로당,경로당,F03,0.0,0.0,False,False
+res_0334,resource,선원경로당,경로당,F04,0.9,0.98,True,True
+res_0253,resource,운종경로당,경로당,F01,0.0,0.0,False,False
+res_0253,resource,운종경로당,경로당,F02,0.0,0.0,False,False
+res_0253,resource,운종경로당,경로당,F03,0.0,0.0,False,False
+res_0253,resource,운종경로당,경로당,F04,0.9,0.95,True,True
+res_0174,resource,사기경로당,경로당,F01,0.0,0.0,False,False
+res_0174,resource,사기경로당,경로당,F02,0.0,0.0,False,False
+res_0174,resource,사기경로당,경로당,F03,0.0,0.0,False,False
+res_0174,resource,사기경로당,경로당,F04,0.9,0.98,True,True
+res_0016,resource,임실군북부권노인복지관,노인여가복지시설,F01,0.0,0.0,False,False
+res_0016,resource,임실군북부권노인복지관,노인여가복지시설,F02,0.0,0.0,False,False
+res_0016,resource,임실군북부권노인복지관,노인여가복지시설,F03,0.0,0.0,False,False
+res_0016,resource,임실군북부권노인복지관,노인여가복지시설,F04,0.7,0.9,True,True
+res_0015,resource,임실군노인종합복지관,노인여가복지시설,F01,0.0,0.0,False,False
+res_0015,resource,임실군노인종합복지관,노인여가복지시설,F02,0.0,0.0,False,False
+res_0015,resource,임실군노인종합복지관,노인여가복지시설,F03,0.0,0.0,False,False
+res_0015,resource,임실군노인종합복지관,노인여가복지시설,F04,0.7,0.95,True,True
+res_0017,resource,임실시니어클럽,노인일자리지원기관,F01,0.0,0.0,False,False
+res_0017,resource,임실시니어클럽,노인일자리지원기관,F02,0.0,0.0,False,False
+res_0017,resource,임실시니어클럽,노인일자리지원기관,F03,0.0,0.0,False,False
+res_0017,resource,임실시니어클럽,노인일자리지원기관,F04,0.5,0.9,False,True
+res_0010,resource,해피노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0010,resource,해피노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0010,resource,해피노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0010,resource,해피노인복지센터,재가노인복지시설,F04,0.6,0.8,True,True
+res_0012,resource,참조은노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0012,resource,참조은노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0012,resource,참조은노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0012,resource,참조은노인복지센터,재가노인복지시설,F04,0.6,0.9,True,True
+res_0001,resource,섬김노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0001,resource,섬김노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0001,resource,섬김노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0001,resource,섬김노인복지센터,재가노인복지시설,F04,0.6,0.86,True,True
+res_0014,resource,늘사랑주간보호센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0014,resource,늘사랑주간보호센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0014,resource,늘사랑주간보호센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0014,resource,늘사랑주간보호센터,재가노인복지시설,F04,0.6,0.86,True,True
+res_0006,resource,임실효나눔재활주간보호센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0006,resource,임실효나눔재활주간보호센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0006,resource,임실효나눔재활주간보호센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0006,resource,임실효나눔재활주간보호센터,재가노인복지시설,F04,0.6,0.9,True,True
+res_0238,resource,주천경로당,경로당,F01,0.0,0.0,False,False
+res_0238,resource,주천경로당,경로당,F02,0.0,0.0,False,False
+res_0238,resource,주천경로당,경로당,F03,0.0,0.0,False,False
+res_0238,resource,주천경로당,경로당,F04,0.9,0.98,True,True
+res_0051,resource,도봉어머니경로당,경로당,F01,0.0,0.0,False,False
+res_0051,resource,도봉어머니경로당,경로당,F02,0.0,0.0,False,False
+res_0051,resource,도봉어머니경로당,경로당,F03,0.0,0.0,False,False
+res_0051,resource,도봉어머니경로당,경로당,F04,0.9,0.98,True,True
+res_0268,resource,용은경로당,경로당,F01,0.0,0.0,False,False
+res_0268,resource,용은경로당,경로당,F02,0.0,0.0,False,False
+res_0268,resource,용은경로당,경로당,F03,0.0,0.0,False,False
+res_0268,resource,용은경로당,경로당,F04,0.9,0.98,True,True
+res_0193,resource,창인경로당,경로당,F01,0.0,0.0,False,False
+res_0193,resource,창인경로당,경로당,F02,0.0,0.0,False,False
+res_0193,resource,창인경로당,경로당,F03,0.0,0.0,False,False
+res_0193,resource,창인경로당,경로당,F04,0.9,0.98,True,True
+res_0065,resource,복지경로당,경로당,F01,0.0,0.0,False,False
+res_0065,resource,복지경로당,경로당,F02,0.0,0.0,False,False
+res_0065,resource,복지경로당,경로당,F03,0.0,0.0,False,False
+res_0065,resource,복지경로당,경로당,F04,0.9,0.95,True,True
+res_0345,resource,명교경로당,경로당,F01,0.0,0.0,False,False
+res_0345,resource,명교경로당,경로당,F02,0.0,0.0,False,False
+res_0345,resource,명교경로당,경로당,F03,0.0,0.0,False,False
+res_0345,resource,명교경로당,경로당,F04,0.9,0.98,True,True
+res_0024,resource,백련경로당,경로당,F01,0.0,0.0,False,False
+res_0024,resource,백련경로당,경로당,F02,0.0,0.0,False,False
+res_0024,resource,백련경로당,경로당,F03,0.0,0.0,False,False
+res_0024,resource,백련경로당,경로당,F04,0.9,0.98,True,True
