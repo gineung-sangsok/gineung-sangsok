@@ -9,7 +9,10 @@
 출력 (data/processed/)
   - tagging_keyword.csv, tagging_llm.csv : entity_id별 기능 태그 (한 행 = 태그 하나)
   - tagging_compare.csv                  : 엔티티·기능별 두 방법 비교
-  --sample이면 파일명에 _sample<n>이 붙고, data/labels/sample<n>.csv(정답 라벨용 빈 표)를 만든다.
+  --sample이면 파일명에 _<name>(기본 sample<n>)이 붙고, data/labels/에 정답 라벨용 빈 표를 만든다.
+  평가용 새 표본 예:
+  uv run python scripts/run_tagging.py --method all --prompt v4 --sample 50 --name eval50 \
+      --seed 7 --store-ratio 0.8 --exclude data/labels/sample50.csv --labelers A B
 """
 
 import argparse
@@ -39,8 +42,12 @@ def load() -> tuple[pd.DataFrame, pd.DataFrame]:
     return stores[stores["status"] != "CLOSED"], resources
 
 
-def sample(stores: pd.DataFrame, resources: pd.DataFrame, n: int, seed: int = 42):
-    """가게:자원 = 3:2, 업종·자원 종류별로 고르게 뽑는다."""
+def sample(stores: pd.DataFrame, resources: pd.DataFrame, n: int, seed: int = 42,
+           store_ratio: float = 0.6, exclude: frozenset[str] = frozenset()):
+    """업종·자원 종류별로 고르게 뽑는다. exclude에 든 엔티티(이전 표본)는 뽑지 않는다."""
+    stores = stores[~stores["entity_id"].isin(exclude)]
+    resources = resources[~resources["entity_id"].isin(exclude)]
+
     def spread(df: pd.DataFrame, k: int) -> pd.DataFrame:
         per = max(1, k // df["category"].nunique())
         picked = pd.concat(
@@ -50,7 +57,7 @@ def sample(stores: pd.DataFrame, resources: pd.DataFrame, n: int, seed: int = 42
         extra = rest.sample(max(0, k - len(picked)), random_state=seed)
         return pd.concat([picked, extra]).head(k)
 
-    n_store = round(n * 0.6)
+    n_store = round(n * store_ratio)
     return spread(stores, n_store), spread(resources, n - n_store)
 
 
@@ -114,7 +121,14 @@ def report(grid: pd.DataFrame) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--method", choices=["keyword", "all"], default="keyword")
-    parser.add_argument("--sample", type=int, help="샘플 n건만 실행 (가게 60%%, 자원 40%%)")
+    parser.add_argument("--sample", type=int, help="샘플 n건만 실행")
+    parser.add_argument("--name", help="표본 이름 (기본 sample<n>). 파일명에 쓰인다")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--store-ratio", type=float, default=0.6, help="표본 중 가게 비율")
+    parser.add_argument("--exclude", nargs="*", default=[],
+                        help="이 라벨 파일의 엔티티는 표본에서 뺀다")
+    parser.add_argument("--labelers", nargs="*", default=[],
+                        help="라벨러별 빈 라벨 표를 만든다 (예: A B → <name>_A.csv, <name>_B.csv)")
     parser.add_argument("--prompt", default="v1", help="track1_tagging/prompts/<버전>.md")
     parser.add_argument("--workers", type=int, default=8)
     args = parser.parse_args()
@@ -123,19 +137,23 @@ def main() -> None:
     # F04 규칙·법정리 가게 수는 전체 가게 기준이어야 하므로 샘플링 전에 계산한다
     kw = keyword.run(stores, resources)
     counts = village_store_counts(stores, kw)
+    name = args.name or (f"sample{args.sample}" if args.sample else "")
     if args.sample:
-        stores, resources = sample(stores, resources, args.sample)
+        exclude = frozenset().union(*(set(pd.read_csv(p)["entity_id"]) for p in args.exclude))
+        stores, resources = sample(stores, resources, args.sample, args.seed,
+                                   args.store_ratio, exclude)
         kw = {eid: kw[eid] for eid in pd.concat([stores, resources])["entity_id"]}
-        # 사람이 정답 기능을 적을 수 있게 샘플 목록을 남긴다 (F01~F04 칸은 비워 둠)
-        # 이미 있으면 라벨을 덮어쓰지 않는다
-        label_file = LABELS / f"sample{args.sample}.csv"
-        if not label_file.exists():
-            LABELS.mkdir(parents=True, exist_ok=True)
-            cols = ["entity_id", "entity_type", "name", "category", "village_name", "address"]
-            pd.concat([stores, resources])[cols].assign(**{c: "" for c in CODES}).to_csv(
-                label_file, index=False, encoding="utf-8-sig"
-            )
-    suffix = f"_sample{args.sample}" if args.sample else ""
+        # 사람이 정답 기능을 적을 수 있게 빈 라벨 표를 남긴다. 이미 있으면 덮어쓰지 않는다
+        cols = ["entity_id", "entity_type", "name", "category", "village_name", "address"]
+        sheet = pd.concat([stores, resources])[cols].assign(**{c: "" for c in CODES})
+        LABELS.mkdir(parents=True, exist_ok=True)
+        for label_file in [LABELS / f"{name}_{who}.csv" for who in args.labelers] or [
+            LABELS / f"{name}.csv"
+        ]:
+            if not label_file.exists():
+                sheet.to_csv(label_file, index=False, encoding="utf-8-sig")
+                print(f"빈 라벨 표: {label_file.relative_to(LABELS.parents[1])}")
+    suffix = f"_{name}" if name else ""
 
     kw_df = to_frame(kw)
     kw_df.to_csv(PROCESSED / f"tagging_keyword{suffix}.csv", index=False, encoding="utf-8-sig")
