@@ -82,12 +82,14 @@ def add_f04_rule(stores: pd.DataFrame, functions: dict[str, list[FunctionTag]]) 
     ]
     counts = grocery.groupby("village_id")["entity_id"].count()
     for row in grocery[grocery["village_id"].map(counts) == 1].itertuples():
+        # CSV 빈칸은 NaN(참 값)이라 `or`로 거르지 못한다
+        village = row.village_name if isinstance(row.village_name, str) else row.village_id
         functions[row.entity_id] = keep([
             *functions[row.entity_id],
             FunctionTag(
                 code="F04",
                 confidence=0.5,
-                evidence=f"{row.village_name or row.village_id}에 영업 중인 식료품점이 1곳뿐",
+                evidence=f"{village}에 영업 중인 식료품점이 1곳뿐",
                 source="keyword",
             ),
         ])

@@ -45,8 +45,9 @@ class Tagger:
         self.output_tokens = 0
 
     def _key(self, entity: dict) -> str:
-        raw = json.dumps([self.prompt_version, self.model, entity], ensure_ascii=False,
-                         sort_keys=True)
+        # 같은 파일명의 프롬프트를 고쳐도 이전 결과를 재사용하지 않도록 본문까지 넣는다
+        raw = json.dumps([self.prompt_version, self.prompt, self.model, entity],
+                         ensure_ascii=False, sort_keys=True)
         return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
     def tag_entity(self, entity: dict) -> list[FunctionTag]:

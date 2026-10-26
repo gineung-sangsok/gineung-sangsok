@@ -81,3 +81,24 @@ def test_llm_tagger_caches_and_filters(tmp_path, monkeypatch):
     reloaded = llm.Tagger("test-model", client=SimpleNamespace(responses=fake))
     reloaded.tag_entity(entity)
     assert fake.calls == 1  # 파일 캐시에서 읽음
+
+
+def test_f04_evidence_uses_village_id_when_name_missing():
+    stores = pd.DataFrame({
+        "entity_id": ["s1"], "name": ["우리슈퍼"], "category": ["슈퍼마켓"],
+        "status": ["ACTIVE"], "village_id": ["5275040026"], "village_name": [float("nan")],
+    })
+    functions = {"s1": keyword.tag_store("우리슈퍼", "슈퍼마켓")}
+    keyword.add_f04_rule(stores, functions)
+    f04 = next(tag for tag in functions["s1"] if tag.code == "F04")
+    assert f04.evidence.startswith("5275040026")
+
+
+def test_llm_cache_key_changes_with_prompt_text(tmp_path, monkeypatch):
+    monkeypatch.setattr(llm, "CACHE_DIR", tmp_path)
+    fake = FakeResponses()
+    tagger = llm.Tagger("test-model", client=SimpleNamespace(responses=fake))
+    entity = {"이름": "우리슈퍼"}
+    before = tagger._key(entity)
+    tagger.prompt += "\n- 규칙 하나 추가"
+    assert tagger._key(entity) != before
