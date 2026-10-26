@@ -142,7 +142,7 @@ export default function ClosureRegister() {
     }
     setSubmitting(true);
     setTimeout(() => {
-      const id = `store_${String(Date.now() % 10000).padStart(4, "0")}`;
+      const id = `store_${crypto.randomUUID().slice(0, 8)}`;
       addFacility({
         entity_id: id,
         entity_type: "store",

@@ -1,32 +1,42 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Search, Home, Store, Layers, GitBranch, Map, Database, ClipboardCheck, CornerDownLeft, Building2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useDemo } from "../store/DemoStore";
 
 interface Cmd { id: string; group: string; label: string; hint?: string; icon: LucideIcon; to: string }
 
-const PAGES: Cmd[] = [
-  { id: "p-home", group: "페이지", label: "대시보드", icon: Home, to: "/" },
-  { id: "p-new", group: "페이지", label: "폐업 예정 시설 등록", icon: Store, to: "/closures/new", hint: "N" },
-  { id: "p-fn", group: "페이지", label: "기능 공백 분석", icon: Layers, to: "/closures/store_0001/functions" },
-  { id: "p-inh", group: "페이지", label: "상속안 제안", icon: GitBranch, to: "/closures/store_0001/inheritance" },
-  { id: "p-rev", group: "페이지", label: "최종 검토", icon: ClipboardCheck, to: "/closures/store_0001/review" },
-  { id: "p-map", group: "페이지", label: "공간 분석 (지도)", icon: Map, to: "/spatial" },
-  { id: "p-data", group: "페이지", label: "데이터 관리", icon: Database, to: "/data" },
-];
+const DEFAULT_FACILITY = "store_0001";
+
+function buildPages(facilityId: string): Cmd[] {
+  return [
+    { id: "p-home", group: "페이지", label: "대시보드", icon: Home, to: "/" },
+    { id: "p-new", group: "페이지", label: "폐업 예정 시설 등록", icon: Store, to: "/closures/new", hint: "N" },
+    { id: "p-fn", group: "페이지", label: "기능 공백 분석", icon: Layers, to: `/closures/${facilityId}/functions` },
+    { id: "p-inh", group: "페이지", label: "상속안 제안", icon: GitBranch, to: `/closures/${facilityId}/inheritance` },
+    { id: "p-rev", group: "페이지", label: "최종 검토", icon: ClipboardCheck, to: `/closures/${facilityId}/review` },
+    { id: "p-map", group: "페이지", label: "공간 분석 (지도)", icon: Map, to: "/spatial" },
+    { id: "p-data", group: "페이지", label: "데이터 관리", icon: Database, to: "/data" },
+  ];
+}
 
 export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { facilities } = useDemo();
   const [q, setQ] = useState("");
   const [idx, setIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const facilityId = useMemo(() => {
+    const m = location.pathname.match(/^\/closures\/([^/]+)/);
+    return m && m[1] !== "new" ? m[1] : DEFAULT_FACILITY;
+  }, [location.pathname]);
+
   const all = useMemo<Cmd[]>(
     () => [
-      ...PAGES,
+      ...buildPages(facilityId),
       ...facilities.map((f) => ({
         id: `f-${f.entity_id}`,
         group: "시설",
@@ -36,7 +46,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         to: `/closures/${f.entity_id}/functions`,
       })),
     ],
-    [facilities],
+    [facilities, facilityId],
   );
 
   const results = useMemo(() => {

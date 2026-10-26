@@ -71,9 +71,14 @@ export default function SpatialAnalysis() {
     mapRef.current = map;
     L.tileLayer(VWORLD_TILE, { attribution: "© VWorld", maxZoom: 18 }).addTo(map);
 
+    const villagePromise = fetchVillages().catch((err) => {
+      console.warn("마을 지표 로드 실패", err);
+      return new Map() as Awaited<ReturnType<typeof fetchVillages>>;
+    });
+
     Promise.all([
       fetch("/data/legal_ri_imsil.geojson").then((res) => res.json()),
-      fetchVillages(),
+      villagePromise,
     ])
       .then(([geojson, villageMap]) => {
         const list: RiItem[] = [];
