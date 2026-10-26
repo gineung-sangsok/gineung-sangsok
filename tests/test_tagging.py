@@ -28,6 +28,11 @@ def test_store_rules():
     assert hanaro == {"F01": 0.9, "F02": 0.8, "F03": 0.7}
     # 업종이 슈퍼마켓이어도 휴게소는 생필품 구매처로 보지 않는다
     assert keyword.tag_store("이도령휴게소", "슈퍼마켓") == []
+    # 10/26 A·B 합의
+    assert codes(keyword.tag_store("다이소", "그 외 기타 종합 소매업")) == {"F01": 0.6}
+    assert codes(keyword.tag_store("관촌건어물상회", "건어물/젓갈 소매업")) == {"F01": 0.6}
+    assert codes(keyword.tag_store("임실치즈벨리", "반찬/식료품 소매업")) == {"F02": 0.6}
+    assert codes(keyword.tag_store("CU오수휴게소점", "편의점")) == {"F01": 0.5}
 
 
 def test_resource_rules():

@@ -4,9 +4,12 @@ store_0149,F01,0.6,업종 '건어물/젓갈 소매업',keyword
 store_0112,F01,0.6,업종 '건어물/젓갈 소매업',keyword
 store_0111,F03,0.8,업종 '곡물/곡분 소매업',keyword
 store_0005,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
+store_0095,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
 store_0116,F01,0.6,업종 '그 외 기타 종합 소매업',keyword
 store_0016,F01,0.6,업종 '반찬/식료품 소매업',keyword
 store_0016,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0025,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0085,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
 store_0077,F02,0.9,업종 '수산물 소매업',keyword
 store_0037,F02,0.9,업종 '수산물 소매업',keyword
 store_0140,F01,0.9,업종 '슈퍼마켓',keyword
@@ -29,6 +32,7 @@ store_0014,F02,0.9,업종 '채소/과일 소매업',keyword
 store_0011,F01,0.9,업종 '편의점',keyword
 store_0081,F01,0.9,업종 '편의점',keyword
 store_0081,F04,0.5,봉천리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0108,F01,0.5,휴게소 안 편의점 → 주민 접근성 확인 필요,keyword
 store_0091,F01,0.9,업종 '편의점',keyword
 store_0033,F01,0.9,업종 '슈퍼마켓',keyword
 store_0033,F02,0.5,업종 '슈퍼마켓',keyword

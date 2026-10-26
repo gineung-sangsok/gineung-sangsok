@@ -26,10 +26,16 @@ MART_WORDS = ["하나로마트", "농협", "마트", "에브리데이"]
 MART_TAGS = [("F01", 0.9), ("F02", 0.8), ("F03", 0.7)]
 
 # 이름에 이 말이 있으면 생필품 구매처가 아닐 가능성이 크다 → 모든 기능을 0.3으로 낮춘다
+# (10/26 A·B 합의) 다이소·천원숍은 생활용품 F01이므로 목록에서 뺐다
 NOT_GROCERY_WORDS = [
     "휴게소", "휴게실", "쉼터", "카페", "디저트", "아이스", "박물관", "매점", "구내식당",
-    "바베큐", "산장", "주유소", "튀밥", "치즈", "다이소", "천원", "벌꿀", "농장",
+    "바베큐", "산장", "주유소", "튀밥", "벌꿀", "농장",
 ]
+
+# (10/26 A·B 합의) 치즈 특산물 판매장은 유제품이므로 F02만 준다
+CHEESE_TAGS = [("F02", 0.6)]
+# (10/26 A·B 합의) 휴게소 안 편의점은 상품은 팔지만 주민 접근이 어려워 F01을 확인 필요로 둔다
+REST_AREA_STORE = ("F01", 0.5)
 
 # 자원 종류 → (기능, confidence)
 RESOURCE_RULES: dict[str, list[tuple[str, float]]] = {
@@ -41,6 +47,16 @@ RESOURCE_RULES: dict[str, list[tuple[str, float]]] = {
 
 
 def tag_store(name: str, category: str) -> list[FunctionTag]:
+    if "치즈" in name:
+        return keep([
+            FunctionTag(code=code, confidence=conf, evidence="이름에 '치즈' → 유제품 판매",
+                        source="keyword")
+            for code, conf in CHEESE_TAGS
+        ])
+    if category == "편의점" and "휴게소" in name:
+        code, conf = REST_AREA_STORE
+        return [FunctionTag(code=code, confidence=conf, source="keyword",
+                            evidence="휴게소 안 편의점 → 주민 접근성 확인 필요")]
     tags = [
         FunctionTag(code=code, confidence=conf, evidence=f"업종 '{category}'", source="keyword")
         for code, conf in CATEGORY_RULES.get(category, [])
