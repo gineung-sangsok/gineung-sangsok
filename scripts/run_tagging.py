@@ -127,11 +127,14 @@ def main() -> None:
         stores, resources = sample(stores, resources, args.sample)
         kw = {eid: kw[eid] for eid in pd.concat([stores, resources])["entity_id"]}
         # 사람이 정답 기능을 적을 수 있게 샘플 목록을 남긴다 (F01~F04 칸은 비워 둠)
-        LABELS.mkdir(parents=True, exist_ok=True)
-        cols = ["entity_id", "entity_type", "name", "category", "village_name", "address"]
-        pd.concat([stores, resources])[cols].assign(**{c: "" for c in CODES}).to_csv(
-            LABELS / f"sample{args.sample}.csv", index=False, encoding="utf-8-sig"
-        )
+        # 이미 있으면 라벨을 덮어쓰지 않는다
+        label_file = LABELS / f"sample{args.sample}.csv"
+        if not label_file.exists():
+            LABELS.mkdir(parents=True, exist_ok=True)
+            cols = ["entity_id", "entity_type", "name", "category", "village_name", "address"]
+            pd.concat([stores, resources])[cols].assign(**{c: "" for c in CODES}).to_csv(
+                label_file, index=False, encoding="utf-8-sig"
+            )
     suffix = f"_sample{args.sample}" if args.sample else ""
 
     kw_df = to_frame(kw)
