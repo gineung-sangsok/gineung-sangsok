@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus } from "lucide-react";
-import PageHeader, { DemoTag } from "../components/ui/PageHeader";
+import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus, Loader2 } from "lucide-react";
+import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Donut from "../components/ui/Donut";
@@ -53,24 +53,42 @@ export default function Review() {
   // API에서 데이터 가져오기
   const [functionResults, setFunctionResults] = useState<FunctionTag[]>([]);
   const [inheritancePlans, setInheritancePlans] = useState<InheritancePlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
-    fetch(`${API_BASE}/closures/${id}/functions`)
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => d && setFunctionResults(d.functions))
-      .catch(() => {});
-    fetch(`${API_BASE}/closures/${id}/inheritance`)
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => d && setInheritancePlans(d.plans))
-      .catch(() => {});
+    let cancelled = false;
+    setLoading(true);
+    setApiError(null);
+
+    Promise.all([
+      fetch(`${API_BASE}/closures/${id}/functions`).then((r) => r.ok ? r.json() : null),
+      fetch(`${API_BASE}/closures/${id}/inheritance`).then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([fnData, inhData]) => {
+        if (cancelled) return;
+        if (fnData) {
+          setFunctionResults(fnData.functions);
+          if (fnData.verified_by_officer) setReviewDone(true);
+        }
+        if (inhData) setInheritancePlans(inhData.plans);
+      })
+      .catch((err) => {
+        if (!cancelled) setApiError(err instanceof Error ? err.message : "데이터를 불러오지 못했습니다.");
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+
+    return () => { cancelled = true; };
   }, [id]);
 
   // 기능별 최고점 상속안을 pick으로 간주
   const picks: Record<FnCode, string | null> = { F01: null, F02: null, F03: null, F04: null };
   for (const p of inheritancePlans) {
-    const cur = picks[p.function_code as FnCode];
-    if (!cur) picks[p.function_code as FnCode] = p.resource_id;
+    const code = p.function_code as FnCode;
+    const cur = picks[code];
+    const curPlan = cur ? inheritancePlans.find((x) => x.resource_id === cur && x.function_code === code) : null;
+    if (!cur || (curPlan && p.score > curPlan.score)) picks[code] = p.resource_id;
   }
   // 기능 분석 결과 기반 판단 상태
   const fnDecisions: Record<FnCode, "accepted" | "rejected" | "pending"> = { F01: "pending", F02: "pending", F03: "pending", F04: "pending" };
@@ -82,13 +100,15 @@ export default function Review() {
   const picked = FUNCTIONS.filter((f) => picks[f.code]).length;
   const issues = FUNCTIONS.filter((f) => fnDecisions[f.code] === "pending" || !picks[f.code]).length;
 
-  const patchFunctions = async () => {
+  const patchFunctions = async (verified?: boolean) => {
     if (!id || functionResults.length === 0) return false;
     try {
+      const body: { functions: FunctionTag[]; verified_by_officer?: boolean } = { functions: functionResults };
+      if (verified !== undefined) body.verified_by_officer = verified;
       const res = await fetch(`${API_BASE}/closures/${id}/functions`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ functions: functionResults }),
+        body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error(`API ${res.status}`);
       return true;
@@ -105,7 +125,7 @@ export default function Review() {
       toast({ kind: "warn", title: `${4 - done}개 기능 확인이 남았습니다`, desc: "각 행의 체크를 눌러 확인해 주세요." });
       return;
     }
-    const ok = await patchFunctions();
+    const ok = await patchFunctions(true);
     if (!ok) return;
     setReviewDone(true);
     setCelebrate(true);
@@ -118,11 +138,23 @@ export default function Review() {
         en="Final Review"
         eyebrow={<FlowStepper />}
         title="최종 제안 검토"
-        badge={<>{reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}<DemoTag /></>}
+        badge={reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}
         desc="기능별 상속안과 근거를 마지막으로 확인하고 제안 내용을 확정합니다."
       />
 
       <FacilityStrip />
+
+      {loading && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-surface-tint border border-border text-[13px] text-text-secondary animate-fade-in">
+          <Loader2 className="w-4 h-4 animate-spin" /> 검토 데이터를 불러오는 중...
+        </div>
+      )}
+      {apiError && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-[#FBF1E4] border border-[#E8D5B7] text-[13px] text-status-warn animate-fade-in">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          API 연결 실패: {apiError}
+        </div>
+      )}
 
       <div className="grid grid-cols-12 gap-5 items-start">
         <div className={`col-span-8 space-y-5 ${shake ? "animate-shake" : ""}`}>
@@ -282,7 +314,7 @@ export default function Review() {
             {reviewDone && (
               <p className="text-[11px] text-text-muted text-center pt-1 animate-fade-in">
                 담당자 검토 완료를 의미하며, 공식적인 행정 승인과는 구분됩니다.
-                <button onClick={() => setReviewDone(false)} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
+                <button onClick={async () => { const ok = await patchFunctions(false); if (ok) setReviewDone(false); }} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
               </p>
             )}
           </div>
