@@ -10,63 +10,10 @@ import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 import { FacilityStrip } from "./FunctionAnalysis";
-
-// ── 백엔드 스키마 기준 타입 (schemas.py) ──
-type FnCode = "F01" | "F02" | "F03" | "F04";
-type ResourceType = "R01" | "R02" | "R03" | "R04" | "R05";
-
-interface ScoreBreakdown {
-  distance: number;
-  hours: number;
-  delivery: number;
-  transport: number;
-  service_area: number;
-}
-
-interface InheritancePlan {
-  function_code: FnCode;
-  resource_id: string;
-  resource_type: ResourceType;
-  resource_name: string;
-  action: string;
-  score: number;
-  score_breakdown: ScoreBreakdown;
-  reason: string;
-  needs_officer_check: boolean;
-}
-
-interface InheritanceResponse {
-  closure_id: string;
-  plans: InheritancePlan[];
-  uncovered_functions: FnCode[];
-}
-
-// ── 상수 (계약 v1.0 기준) ──
-const FUNCTIONS: { code: FnCode; name: string; hex: string }[] = [
-  { code: "F01", name: "생필품 구매", hex: "#3F7BC4" },
-  { code: "F02", name: "신선식품 구매", hex: "#3E9A74" },
-  { code: "F03", name: "무거운 상품 구매", hex: "#D0893A" },
-  { code: "F04", name: "마을 생활거점", hex: "#8063BA" },
-];
-const FN = Object.fromEntries(FUNCTIONS.map((f) => [f.code, f])) as Record<FnCode, (typeof FUNCTIONS)[number]>;
-
-const RESOURCE_TYPES: Record<ResourceType, string> = {
-  R01: "이동장터 노선",
-  R02: "농협·지역마트 배송",
-  R03: "마을회관·경로당",
-  R04: "복지기관·생활지원",
-  R05: "인근 상점·사회적경제",
-};
-
-const SCORE_FACTORS: { key: keyof ScoreBreakdown; label: string }[] = [
-  { key: "distance", label: "거리" },
-  { key: "hours", label: "운영 시간" },
-  { key: "delivery", label: "배송" },
-  { key: "transport", label: "교통수단" },
-  { key: "service_area", label: "서비스 권역" },
-];
-
-const API_BASE = "http://localhost:8000";
+import {
+  API_BASE, FUNCTIONS, FN, RESOURCE_TYPES, SCORE_FACTORS,
+  type FnCode, type ScoreBreakdown, type InheritancePlan, type InheritanceResponse,
+} from "../data/constants";
 
 // ── 컴포넌트 ──
 type SortKey = "score" | "distance";
