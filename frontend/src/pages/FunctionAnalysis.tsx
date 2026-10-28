@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw } from "lucide-react";
+import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw, Loader2, AlertTriangle } from "lucide-react";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
@@ -66,17 +66,25 @@ export default function FunctionAnalysis() {
   // API에서 기능 태깅 결과 가져오기
   const [functionResults, setFunctionResults] = useState<(FunctionTag & { quote?: string })[]>([]);
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
+    let cancelled = false;
+    setLoading(true);
+    setApiError(null);
+    setFunctionResults([]);
     const closureId = id === "store_0001" ? "closure_0001" : id;
     fetch(`${API_BASE}/closures/${closureId}/functions`)
       .then((res) => { if (!res.ok) throw new Error(`API ${res.status}`); return res.json(); })
       .then((data: { functions: FunctionTag[] }) => {
-        setFunctionResults(data.functions.map((f) => ({ ...f, quote: "" })));
+        if (!cancelled) setFunctionResults(data.functions.map((f) => ({ ...f, quote: "" })));
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        if (!cancelled) setApiError(err instanceof Error ? err.message : "기능 분석 결과를 불러오지 못했습니다.");
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [id]);
 
   const order = functionResults.map((r) => r.code);
@@ -94,11 +102,11 @@ export default function FunctionAnalysis() {
     const h = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       if (t.tagName === "TEXTAREA" || t.tagName === "INPUT") return;
-      if (["1", "2", "3", "4"].includes(e.key)) setSelected(order[+e.key - 1]);
-      if (!selected) return;
+      if (order.length > 0 && +e.key >= 1 && +e.key <= order.length) setSelected(order[+e.key - 1]);
+      if (!selected || order.length === 0) return;
       if (e.key === "Escape") setSelected(null);
-      if (e.key === "ArrowRight") setSelected(order[(order.indexOf(selected) + 1) % 4]);
-      if (e.key === "ArrowLeft") setSelected(order[(order.indexOf(selected) + 3) % 4]);
+      if (e.key === "ArrowRight") setSelected(order[(order.indexOf(selected) + 1) % order.length]);
+      if (e.key === "ArrowLeft") setSelected(order[(order.indexOf(selected) + order.length - 1) % order.length]);
       if (e.key.toLowerCase() === "a") decide(selected, "accepted");
       if (e.key.toLowerCase() === "r") decide(selected, "rejected");
       if (e.key.toLowerCase() === "p") decide(selected, "pending");
@@ -126,14 +134,26 @@ export default function FunctionAnalysis() {
 
       <FacilityStrip />
 
+      {loading && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-surface-tint border border-border text-[13px] text-text-secondary animate-fade-in">
+          <Loader2 className="w-4 h-4 animate-spin" /> 기능 분석 결과를 불러오는 중...
+        </div>
+      )}
+      {apiError && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-[#FBF1E4] border border-[#E8D5B7] text-[13px] text-status-warn animate-fade-in">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          API 연결 실패: {apiError}
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-4 animate-fade-up">
         <Segmented
           size="sm"
           value={filter}
           onChange={setFilter}
           options={[
-            { value: "all", label: "전체 4" },
-            { value: "pending", label: `검토 대기 ${4 - doneCount}` },
+            { value: "all", label: `전체 ${order.length}` },
+            { value: "pending", label: `검토 대기 ${order.length - doneCount}` },
             { value: "done", label: `판단 완료 ${doneCount}` },
           ]}
         />
@@ -143,9 +163,9 @@ export default function FunctionAnalysis() {
           </span>
           <div className="flex items-center gap-2">
             <div className="w-28 h-2 rounded-full bg-surface-secondary overflow-hidden">
-              <div className="h-full bg-brand rounded-full transition-all duration-500" style={{ width: `${(doneCount / 4) * 100}%` }} />
+              <div className="h-full bg-brand rounded-full transition-all duration-500" style={{ width: order.length > 0 ? `${(doneCount / order.length) * 100}%` : "0%" }} />
             </div>
-            <span className="text-[12px] font-bold tnum">{doneCount}/4</span>
+            <span className="text-[12px] font-bold tnum">{doneCount}/{order.length}</span>
           </div>
         </div>
       </div>
@@ -165,7 +185,7 @@ export default function FunctionAnalysis() {
           />
           </HouseFrame>
         ))}
-        {visible.length === 0 && (
+        {visible.length === 0 && order.length > 0 && (
           <div className="col-span-2 card py-16 text-center text-[13px] text-text-muted">
             모든 기능 검토를 마쳤습니다 🎉
           </div>
@@ -203,9 +223,9 @@ export default function FunctionAnalysis() {
             <div className="h-1.5 shrink-0" style={{ background: FN[sel.code].hex }} />
             <div className="flex items-center justify-between px-6 h-16 border-b border-border shrink-0">
               <div className="flex items-center gap-2">
-                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 3) % 4])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
-                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 1) % 4])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
-                <span className="text-[12px] text-text-muted tnum">{order.indexOf(sel.code) + 1} / 4</span>
+                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + order.length - 1) % order.length])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
+                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 1) % order.length])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
+                <span className="text-[12px] text-text-muted tnum">{order.indexOf(sel.code) + 1} / {order.length}</span>
               </div>
               <button onClick={() => setSelected(null)} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><X className="w-4 h-4" /></button>
             </div>
