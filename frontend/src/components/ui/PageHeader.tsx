@@ -32,7 +32,7 @@ export function DemoTag() {
   return (
     <span
       title="API 연결 전 UI 시연용 샘플 데이터입니다"
-      className="inline-flex items-center gap-1 px-2.5 py-[3px] rounded-full text-[11px] font-bold tracking-wide bg-lime text-ink border border-ink"
+      className="inline-flex items-center gap-1 px-2.5 py-[3px] rounded-full text-[11px] font-bold tracking-wide bg-sage text-ink border border-ink"
     >
       데모 데이터
     </span>

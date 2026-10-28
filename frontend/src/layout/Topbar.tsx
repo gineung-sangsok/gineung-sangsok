@@ -39,7 +39,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
   return (
     <header className="h-[68px] shrink-0 bg-ink text-white flex items-center gap-6 px-8 sticky top-0 z-20">
       <NavLink to="/" className="flex items-center gap-2.5 shrink-0">
-        <span className="w-9 h-9 rounded-full bg-lime text-ink flex items-center justify-center">
+        <span className="w-9 h-9 rounded-full bg-sage text-ink flex items-center justify-center">
           <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
         </span>
         <span className="leading-tight">
@@ -56,7 +56,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
             end={it.end}
             className={({ isActive }) =>
               `h-9 px-3.5 rounded-full text-[13.5px] font-semibold flex items-center transition-colors whitespace-nowrap ${
-                isActive ? "bg-lime text-ink" : "text-white/70 hover:text-white hover:bg-white/10"
+                isActive ? "bg-sage text-ink" : "text-white/70 hover:text-white hover:bg-white/10"
               }`
             }
           >
@@ -69,7 +69,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
         <button
           onClick={onOpenSearch}
           title="검색 (⌘K)"
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white/75 hover:text-ink hover:bg-lime transition-colors"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-white/75 hover:text-ink hover:bg-sage transition-colors"
         >
           <Search className="w-[18px] h-[18px]" />
         </button>
@@ -78,7 +78,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
         <div ref={bellRef} className="relative">
           <button
             onClick={() => setBellOpen((o) => !o)}
-            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-colors ${bellOpen ? "bg-lime text-ink" : "text-white/75 hover:text-ink hover:bg-lime"}`}
+            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-colors ${bellOpen ? "bg-sage text-ink" : "text-white/75 hover:text-ink hover:bg-sage"}`}
           >
             <Bell className={`w-[18px] h-[18px] ${unread ? "origin-top hover:animate-[shake_.5s]" : ""}`} />
             {unread > 0 && (
@@ -135,7 +135,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
             onClick={() => setUserOpen((o) => !o)}
             className="flex items-center gap-2.5 h-11 pl-1.5 pr-3 rounded-full hover:bg-white/10 transition-colors"
           >
-            <span className="w-8 h-8 rounded-full bg-lime text-ink text-[12px] font-bold flex items-center justify-center">임</span>
+            <span className="w-8 h-8 rounded-full bg-sage text-ink text-[12px] font-bold flex items-center justify-center">임</span>
             <span className="text-left">
               <span className="block text-[13px] font-semibold text-white leading-tight">임실군 담당자</span>
               <span className="block text-[11px] text-white/50">데모 계정</span>

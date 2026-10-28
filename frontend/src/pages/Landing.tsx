@@ -70,7 +70,7 @@ export default function Landing() {
       {/* 상단 */}
       <header className="max-w-[1280px] mx-auto px-8 h-[72px] flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <span className="w-9 h-9 rounded-full bg-ink text-lime flex items-center justify-center">
+          <span className="w-9 h-9 rounded-full bg-ink text-sage flex items-center justify-center">
             <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
           </span>
           <span className="font-display text-[19px] font-black tracking-tight">더 가까이</span>
@@ -94,12 +94,12 @@ export default function Landing() {
             <radialGradient id="shade" cx="35%" cy="30%" r="75%">
               <stop offset="0%" stopColor="#ffffff" stopOpacity="0.28" />
               <stop offset="60%" stopColor="#ffffff" stopOpacity="0" />
-              <stop offset="100%" stopColor="#1E2A1C" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#1C1C1C" stopOpacity="0.35" />
             </radialGradient>
           </defs>
 
           {/* 라임 고리 */}
-          <circle cx={CX + 10} cy={CY + 8} r={R + 22} fill="none" stroke="#CCFF00" strokeWidth="16" />
+          <circle cx={CX + 10} cy={CY + 8} r={R + 22} fill="none" stroke="#8FC79A" strokeWidth="16" />
 
           {/* 돌아가는 행성 */}
           <g className="planet-spin">
@@ -136,7 +136,7 @@ export default function Landing() {
           </g>
 
           {/* 찢은 검은 띠 */}
-          <path d={BAND} fill="#121212" />
+          <path d={BAND} fill="#1C1C1C" />
           <path d={BAND} fill="none" stroke="#FBF8F2" strokeWidth="5" strokeLinejoin="round" opacity="0.9" />
 
           {/* 꼭대기: 나무를 심는 주민 둘 */}
@@ -153,7 +153,7 @@ export default function Landing() {
 
         {/* 띠 위 제목 */}
         <div className="absolute inset-x-0 top-[57%] -translate-y-1/2 text-center pointer-events-none">
-          <h1 className="font-display font-black text-lime tracking-tight leading-none text-[clamp(56px,9vw,124px)]">더 가까이</h1>
+          <h1 className="font-display font-black text-sage tracking-tight leading-none text-[clamp(56px,9vw,124px)]">더 가까이</h1>
           <p className="text-white/75 text-[clamp(13px,1.3vw,17px)] mt-4 font-medium">
             마을 가게가 문을 닫아도, 생활은 이어지도록 — 농촌 생활서비스 기능 상속 플랫폼
           </p>
@@ -173,7 +173,7 @@ export default function Landing() {
       <section id="about" className="bg-ink text-white">
         <div className="max-w-[1280px] mx-auto px-8 py-20 grid grid-cols-12 gap-10 items-end">
           <div className="col-span-5">
-            <p className="text-[13px] font-semibold text-lime tracking-wide">ABOUT</p>
+            <p className="text-[13px] font-semibold text-sage tracking-wide">ABOUT</p>
             <h2 className="font-display text-[40px] font-black leading-[1.25] mt-3">
               사라지는 건
               <br />
@@ -191,7 +191,7 @@ export default function Landing() {
               [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리"],
             ].map(([v, u, label]) => (
               <div key={label} className="border-t border-white/20 pt-5">
-                <dd className="font-display text-[56px] font-black leading-none text-lime tnum">
+                <dd className="font-display text-[56px] font-black leading-none text-sage tnum">
                   {v}
                   <span className="text-[20px] text-white/80 ml-1">{u}</span>
                 </dd>

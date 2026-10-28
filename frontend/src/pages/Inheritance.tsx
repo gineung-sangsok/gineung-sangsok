@@ -216,18 +216,18 @@ export default function Inheritance() {
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData} outerRadius="72%">
                   <PolarGrid stroke="#E4EAEF" />
-                  <PolarAngleAxis dataKey="factor" tick={{ fontSize: 11.5, fill: "#4A463E", fontWeight: 600 }} />
+                  <PolarAngleAxis dataKey="factor" tick={{ fontSize: 11.5, fill: "#4E5A4E", fontWeight: 600 }} />
                   <Tooltip
                     content={({ active, payload, label }) =>
                       active && payload?.length ? (
-                        <div className="px-3 py-2 rounded-xl bg-[#1E2A1C] text-white text-[12px]">
+                        <div className="px-3 py-2 rounded-xl bg-[#1C1C1C] text-white text-[12px]">
                           <p className="text-white/60 text-[11px]">{label}</p>
                           {payload.map((p) => <p key={String(p.name)} className="font-semibold">{p.name}: {p.value}</p>)}
                         </div>
                       ) : null
                     }
                   />
-                  {compare && <Radar name="1순위 후보" dataKey="best" stroke="#8A8478" strokeDasharray="4 3" fill="#8A8478" fillOpacity={0.08} />}
+                  {compare && <Radar name="1순위 후보" dataKey="best" stroke="#8E978C" strokeDasharray="4 3" fill="#8E978C" fillOpacity={0.08} />}
                   <Radar name={focus.name} dataKey="focus" stroke={color} strokeWidth={2.5} fill={color} fillOpacity={0.22} animationDuration={700} />
                 </RadarChart>
               </ResponsiveContainer>

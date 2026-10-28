@@ -11,7 +11,7 @@ export default function StatCard({
   delta,
   deltaGood = "up",
   trend,
-  color = "#121212",
+  color = "#1C1C1C",
   onClick,
   active,
 }: {

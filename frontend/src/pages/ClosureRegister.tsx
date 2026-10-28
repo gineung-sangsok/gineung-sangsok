@@ -347,7 +347,7 @@ export default function ClosureRegister() {
         {/* Live preview */}
         <aside className="col-span-4 sticky top-4 space-y-4 animate-fade-up" style={{ animationDelay: ".15s" }}>
           <div className="card overflow-hidden">
-            <div className="h-24 relative bg-sidebar" style={{ backgroundImage: "radial-gradient(80% 120% at 100% 0%, #5E8C4A 0%, transparent 60%)" }}>
+            <div className="h-24 relative bg-sidebar" style={{ backgroundImage: "radial-gradient(80% 120% at 100% 0%, #4F8A68 0%, transparent 60%)" }}>
               <span className="absolute left-5 bottom-3 text-[11px] font-bold text-white/60 tracking-widest">미리보기</span>
               {dday !== null && (
                 <span key={dday} className="absolute right-4 top-4 px-2.5 py-1 rounded-lg bg-white/15 text-white text-[13px] font-bold animate-pop tnum">

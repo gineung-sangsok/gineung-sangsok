@@ -213,13 +213,13 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
               <>
                 가게가 하던 일 네 가지,
                 <br />
-                <span className="text-lime">마을이 나눠서 이어받아요</span>
+                <span className="text-sage">마을이 나눠서 이어받아요</span>
               </>
             ) : (
               <>
                 마을 하나뿐인 가게가
                 <br />
-                <span className="text-lime">문을 닫으면?</span>
+                <span className="text-sage">문을 닫으면?</span>
               </>
             )}
           </h1>
@@ -247,7 +247,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
             [inherited ? "3" : "0", "곳", "이어받는 곳"],
           ].map(([v, u, label]) => (
             <div key={label}>
-              <dd className="font-display text-[46px] font-black leading-none text-lime tnum">
+              <dd className="font-display text-[46px] font-black leading-none text-sage tnum">
                 {v}
                 <span className="text-[18px] text-white/80 ml-1">{u}</span>
               </dd>
@@ -260,7 +260,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
       {/* 지도 */}
       <div className="relative" style={{ background: "#CFE0A0" }}>
         <svg viewBox={`0 0 ${W} 22`} preserveAspectRatio="none" className="absolute left-0 top-0 w-full h-[22px] z-[1]" aria-hidden>
-          <path d={TORN} fill="#121212" />
+          <path d={TORN} fill="#1C1C1C" />
         </svg>
         <svg viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto select-none" role="img" aria-label="죽계리 생활서비스 마을 지도">
           <defs>
@@ -420,10 +420,10 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
                   transition: `transform 1.4s cubic-bezier(.5,0,.2,1) ${inherited ? 0.3 + i * 0.2 : 0}s`,
                 }}
               >
-                <circle r="19" fill="#FBF8F2" stroke="#121212" strokeWidth="2" />
+                <circle r="19" fill="#FBF8F2" stroke="#1C1C1C" strokeWidth="2" />
                 <circle r="14" fill={`${FN[c].hex}26`} />
                 <Icon x={-9} y={-9} width={18} height={18} color={FN[c].hex} strokeWidth={2.4} />
-                <text y="36" textAnchor="middle" fontSize="16" fontWeight="700" fill="#121212" stroke="#FBF8F2" strokeWidth="4" paintOrder="stroke" style={HAND}>
+                <text y="36" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1C1C1C" stroke="#FBF8F2" strokeWidth="4" paintOrder="stroke" style={HAND}>
                   {FN[c].short}
                 </text>
               </g>
@@ -447,7 +447,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
         {/* 핀 설명 말풍선 */}
         {shown && (
           <div
-            className="absolute z-10 w-[250px] -translate-x-1/2 rounded-xl bg-surface border-[1.5px] border-ink px-4 py-3 shadow-[4px_4px_0_#121212] pointer-events-none animate-scale-in"
+            className="absolute z-10 w-[250px] -translate-x-1/2 rounded-xl bg-surface border-[1.5px] border-ink px-4 py-3 shadow-[4px_4px_0_#1C1C1C] pointer-events-none animate-scale-in"
             style={{ left: `${(shown.x / W) * 100}%`, top: `calc(${(shown.y / H) * 100}% + 14px)` }}
           >
             <p className="font-display text-[15px] font-bold">{shown.name}</p>

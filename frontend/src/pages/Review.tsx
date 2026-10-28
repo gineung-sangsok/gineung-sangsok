@@ -19,7 +19,7 @@ const DECISION_BADGE = {
 };
 
 function Confetti() {
-  const colors = ["#6B8F3E", "#2E6B4F", "#B07A3B", "#5F7F8C", "#A9C08A", "#D9B77A"];
+  const colors = ["#7BB58A", "#4F8A68", "#B39443", "#857F72", "#B9DABF", "#D8CB98"];
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {Array.from({ length: 60 }, (_, i) => {
