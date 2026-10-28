@@ -49,6 +49,11 @@ def read_labels(path: str) -> pd.DataFrame:
     labels = pd.read_csv(path)
     if labels[CODES].isna().any().any():
         raise SystemExit(f"{path}에 빈칸이 있습니다. F01~F04를 모두 0/1로 채워 주세요.")
+    # astype(int) 전에 걸러야 0.5가 0으로 바뀌거나 2가 통계에 섞이지 않는다
+    bad = ~labels[CODES].isin([0, 1])
+    if bad.any().any():
+        where = [f"{labels.at[i, 'entity_id']} {c}" for i, c in bad.stack().loc[lambda x: x].index]
+        raise SystemExit(f"{path}에 0/1이 아닌 값이 있습니다: {', '.join(where[:5])}")
     return labels
 
 
@@ -76,8 +81,14 @@ def agreement(path_a: str, path_b: str) -> None:
         for eid in a.index for code in CODES
         if int(a.loc[eid, code]) != int(b.loc[eid, code])
     ]
-    pd.DataFrame(diff).to_csv(labels_dir / f"{name}_disagree.csv", index=False,
-                              encoding="utf-8-sig")
+    disagree = labels_dir / f"{name}_disagree.csv"
+    diff_df = pd.DataFrame(diff, columns=["entity_id", *info, "code", "A", "B", "final"])
+    if disagree.exists():
+        # 다시 실행해도 이미 적어 둔 합의값(final)은 지우지 않는다
+        prev = pd.read_csv(disagree, dtype={"final": str}).set_index(["entity_id", "code"])["final"]
+        kept = diff_df.set_index(["entity_id", "code"]).index.map(prev.get)
+        diff_df["final"] = pd.Series(kept, index=diff_df.index).fillna("")
+    diff_df.to_csv(disagree, index=False, encoding="utf-8-sig")
     print(f"\n의견이 갈린 칸 {len(diff)}개 → {name}_disagree.csv (final 칸에 합의값 기록)")
 
     gold = labels_dir / f"{name}.csv"

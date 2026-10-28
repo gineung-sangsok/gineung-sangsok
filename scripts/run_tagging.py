@@ -144,8 +144,14 @@ def main() -> None:
                                    args.store_ratio, exclude)
         kw = {eid: kw[eid] for eid in pd.concat([stores, resources])["entity_id"]}
         # 사람이 정답 기능을 적을 수 있게 빈 라벨 표를 남긴다. 이미 있으면 덮어쓰지 않는다
+        # F04 판단용으로 가게 행에만 같은 법정리의 영업 식료품점 수를 적는다 (자원은 빈칸)
         cols = ["entity_id", "entity_type", "name", "category", "village_name", "address"]
-        sheet = pd.concat([stores, resources])[cols].assign(**{c: "" for c in CODES})
+        sheet = pd.concat([stores, resources])[cols + ["village_id"]]
+        sheet["같은_법정리_식료품점_수"] = [
+            counts.get(vid, 0) if kind == "store" else ""
+            for vid, kind in zip(sheet["village_id"], sheet["entity_type"], strict=True)
+        ]
+        sheet = sheet.drop(columns="village_id").assign(**{c: "" for c in CODES})
         LABELS.mkdir(parents=True, exist_ok=True)
         for label_file in [LABELS / f"{name}_{who}.csv" for who in args.labelers] or [
             LABELS / f"{name}.csv"
