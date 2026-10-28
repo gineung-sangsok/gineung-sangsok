@@ -7,7 +7,8 @@ import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge
 import Donut from "../components/ui/Donut";
 import Segmented from "../components/ui/Segmented";
 import Dropdown from "../components/ui/Dropdown";
-import { CardHeader, DemoTag } from "../components/ui/PageHeader";
+import { CardHeader } from "../components/ui/PageHeader";
+import VillageMap from "../components/VillageMap";
 import FunctionIcon from "../components/ui/FunctionIcon";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
@@ -93,51 +94,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="relative overflow-hidden rounded-[28px] mb-6 px-9 py-8 flex items-center gap-8 animate-fade-up"
-        style={{ background: "linear-gradient(120deg, #CFE6FF 0%, #E6F2FF 55%, #F5FAFF 100%)" }}
-      >
-        <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full bg-white/40" />
-        <div className="absolute right-40 -bottom-24 w-56 h-56 rounded-full bg-white/30" />
-        <div className="relative flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="px-3 py-1 rounded-full bg-white/80 text-[12px] font-bold text-action">임실군 생활서비스 현황</span>
-            <DemoTag />
-          </div>
-          <h1 className="text-[32px] font-extrabold tracking-tight leading-[1.25] text-text-primary">
-            문을 닫는 가게가 하던 일,
-            <br />
-            <span className="text-action">이어받을 곳</span>을 함께 찾아요
-          </h1>
-          <p className="text-[15px] text-text-secondary mt-3">
-            폐업 예정 시설 <b className="text-text-primary tnum">{closing}곳</b> · 검토 대기 <b className="text-text-primary tnum">{pending}건</b> · 영향 인구 약{" "}
-            <b className="text-text-primary tnum">{pop.toLocaleString()}명</b>
-          </p>
-          <div className="flex items-center gap-2 mt-6">
-            <button onClick={() => navigate("/closures/new")} className="btn btn-primary">
-              <Plus className="w-4 h-4" /> 폐업 예정 시설 등록
-              <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-white/20">N</span>
-            </button>
-            <button onClick={() => navigate("/spatial")} className="btn btn-ghost">
-              지도에서 보기
-            </button>
-          </div>
-        </div>
-        <div className="relative hidden xl:grid grid-cols-2 gap-3 shrink-0">
-          {FUNCTIONS.map((f) => (
-            <button
-              key={f.code}
-              onClick={() => navigate(`/spatial?fn=${f.code}`)}
-              className="group w-[150px] rounded-[22px] bg-white/90 px-4 py-4 text-left shadow-[var(--shadow-card)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] transition-all"
-            >
-              <FunctionIcon code={f.code} size={40} />
-              <p className="text-[14px] font-bold mt-2.5 text-text-primary">{f.short}</p>
-              <p className="text-[11.5px] text-text-muted">공백 {FUNCTION_GAP_RATE[f.code]}%</p>
-            </button>
-          ))}
-        </div>
-      </section>
+      <VillageMap />
 
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
