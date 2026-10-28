@@ -181,7 +181,7 @@ export default function DataManagement() {
                         <td className="py-3 px-3 text-text-secondary">{r.ri}</td>
                         <td className="py-3 px-3">
                           <div className="flex gap-1">
-                            {r.fns.length ? r.fns.map((c) => <span key={c} className="text-[10.5px] font-bold px-1.5 py-0.5 rounded-md text-white" style={{ background: FN[c].hex }}>{c}</span>) : <span className="text-text-muted">–</span>}
+                            {r.fns.length ? r.fns.map((c) => <span key={c} className="text-[10.5px] font-bold px-1.5 py-0.5 rounded-md text-ink" style={{ background: FN[c].hex }}>{c}</span>) : <span className="text-text-muted">–</span>}
                           </div>
                         </td>
                         <td className="py-3 px-3">{st && <StatusBadge variant={st.variant}>{st.label}</StatusBadge>}</td>

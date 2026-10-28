@@ -361,7 +361,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
                   key={`${run}-${k}`}
                   d={`M${store.x} ${store.y - 40} Q ${(store.x + t.x) / 2} ${Math.min(store.y, t.y) - 110} ${t.x} ${t.y - 50}`}
                   fill="none"
-                  stroke={FN[code].hex}
+                  stroke={FN[code].deep}
                   strokeWidth="3"
                   strokeDasharray="2 9"
                   strokeLinecap="round"
@@ -422,8 +422,8 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
                 }}
               >
                 <circle r="19" fill="#FBF8F2" stroke="#1C1C1C" strokeWidth="2" />
-                <circle r="14" fill={`${FN[c].hex}26`} />
-                <Icon x={-9} y={-9} width={18} height={18} color={FN[c].hex} strokeWidth={2.4} />
+                <circle r="14" fill={`${FN[c].hex}99`} />
+                <Icon x={-9} y={-9} width={18} height={18} color={FN[c].deep} strokeWidth={2.4} />
                 <text y="36" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1C1C1C" stroke="#FBF8F2" strokeWidth="4" paintOrder="stroke" style={HAND}>
                   {FN[c].short}
                 </text>
@@ -456,7 +456,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
             <p className="text-[12px] text-text-secondary mt-1.5 leading-relaxed">{shown.detail}</p>
             <div className="flex gap-1 mt-2">
               {shown.fns.map((c) => (
-                <span key={c} className="text-[10.5px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: FN[c].hex }}>
+                <span key={c} className="text-[10.5px] font-bold px-2 py-0.5 rounded-full text-ink" style={{ background: FN[c].hex }}>
                   {FN[c].short}
                 </span>
               ))}

@@ -15,10 +15,10 @@ import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, 
 import { useDemo } from "../store/DemoStore";
 
 const STAGE_COLORS: Record<Stage, string> = {
-  registered: "#D7DDD3",
-  functions: "#B9DABF",
-  inheritance: "#4F8A68",
-  reviewed: "#2F5E43",
+  registered: "#E6EAE3",
+  functions: "#A9CDE6",
+  inheritance: "#A3D9B8",
+  reviewed: "#F3DA86",
 };
 
 type Metric = "gaps" | "closures" | "resolved";
@@ -98,10 +98,10 @@ export default function Dashboard() {
 
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
-        <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#B39443" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
-        <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#7BB58A" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
-        <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#857F72" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
-        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#4F8A68" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
+        <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#E8957A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
+        <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#6FA8D0" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
+        <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#D4B24C" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
+        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#6CBF8E" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
       </div>
 
       {/* Function gap donuts */}
@@ -119,7 +119,7 @@ export default function Dashboard() {
             >
               <div className="flex items-start justify-between">
                 <FunctionIcon code={f.code} size={44} />
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: f.hex }}>{f.code}</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink" style={{ background: f.hex }}>{f.code}</span>
               </div>
               <h3 className="text-[17px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
               <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
@@ -127,7 +127,7 @@ export default function Dashboard() {
                 <Donut
                   size={150}
                   thickness={active ? 30 : 26}
-                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#E6EEE3" }]}
+                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#F0F4EE" }]}
                   center={
                     <div>
                       <p className="text-[30px] font-extrabold leading-none tracking-tight text-text-primary">
@@ -184,15 +184,15 @@ export default function Dashboard() {
                 <AreaChart data={MONTHLY} key={`a-${metric}`}>
                   <defs>
                     <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#2F5E43" stopOpacity={0.22} />
-                      <stop offset="100%" stopColor="#2F5E43" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#A3D9B8" stopOpacity={0.55} />
+                      <stop offset="100%" stopColor="#A3D9B8" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid vertical={false} stroke="#E3EBE0" />
                   <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8E978C" }} />
                   <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8E978C" }} width={36} />
-                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#2F5E43", strokeDasharray: "4 4" }} />
-                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#2F5E43" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
+                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#5FAF82", strokeDasharray: "4 4" }} />
+                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#5FAF82" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
                 </AreaChart>
               ) : (
                 <ComposedChart data={MONTHLY} key={`b-${metric}`}>
@@ -201,7 +201,7 @@ export default function Dashboard() {
                   <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8E978C" }} width={36} />
                   <Tooltip content={<ChartTip />} cursor={{ fill: "#2F5E430d" }} />
                   <Bar dataKey={metric} name={METRIC_LABEL[metric]} fill="#7BB58A" radius={[8, 8, 3, 3]} barSize={18} animationDuration={700} />
-                  <Line dataKey={metric} name="추세" stroke="#2F5E43" strokeWidth={0} dot={false} legendType="none" />
+                  <Line dataKey={metric} name="추세" stroke="#5FAF82" strokeWidth={0} dot={false} legendType="none" />
                 </ComposedChart>
               )}
             </ResponsiveContainer>
@@ -221,7 +221,7 @@ export default function Dashboard() {
           <div className="space-y-2.5 mt-2">
             {ranking.map((r, i) => {
               const dim = hoverRank && hoverRank !== r.name;
-              const color = r.score >= 70 ? "#2F5E43" : r.score >= 55 ? "#4F8A68" : r.score >= 40 ? "#8FC79A" : "#B9DABF";
+              const color = r.score >= 70 ? "#EE9A80" : r.score >= 55 ? "#F5BBA2" : r.score >= 40 ? "#F3DA86" : "#CDE8D4";
               return (
                 <div
                   key={r.name}
@@ -238,7 +238,7 @@ export default function Dashboard() {
                       className="h-full rounded-lg flex items-center justify-end pr-2 transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)]"
                       style={{ width: `${r.score}%`, background: color, animation: "grow .8s cubic-bezier(.2,.7,.2,1) both", animationDelay: `${i * 40}ms`, transformOrigin: "left" }}
                     >
-                      <span className="text-[11px] font-bold text-white tnum">{r.score}</span>
+                      <span className="text-[11px] font-bold text-ink/80 tnum">{r.score}</span>
                     </div>
                   </div>
                 </div>
@@ -318,7 +318,7 @@ export default function Dashboard() {
                       <td className="py-3 px-3">
                         <div className="flex -space-x-1">
                           {f.functions.map((c) => (
-                            <span key={c} title={FN[c].name} className="w-6 h-6 rounded-full ring-2 ring-white text-[9px] font-bold text-white flex items-center justify-center hover:-translate-y-0.5 hover:z-10 transition-transform" style={{ background: FN[c].hex }}>
+                            <span key={c} title={FN[c].name} className="w-6 h-6 rounded-full ring-2 ring-white text-[9px] font-bold text-ink flex items-center justify-center hover:-translate-y-0.5 hover:z-10 transition-transform" style={{ background: FN[c].hex }}>
                               {c.slice(1)}
                             </span>
                           ))}

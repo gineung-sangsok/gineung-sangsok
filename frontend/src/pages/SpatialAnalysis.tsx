@@ -298,7 +298,7 @@ export default function SpatialAnalysis() {
                   const v = selected.m.gap[f.code];
                   return (
                     <button key={f.code} onClick={() => setFilter(f.code)} className={`w-full flex items-center gap-3 rounded-lg transition-opacity ${filter !== "ALL" && filter !== f.code ? "opacity-45 hover:opacity-100" : ""}`}>
-                      <span className="text-[11px] font-bold w-8 text-left" style={{ color: f.hex }}>{f.code}</span>
+                      <span className="text-[11px] font-bold w-8 text-left" style={{ color: f.deep }}>{f.code}</span>
                       <span className="text-[12px] w-[76px] text-left text-text-secondary">{f.short}</span>
                       <div className="flex-1 h-2 bg-surface-secondary rounded-full overflow-hidden">
                         <div className="h-full rounded-full transition-all duration-700" style={{ width: `${v}%`, background: f.hex }} />

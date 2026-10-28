@@ -107,7 +107,7 @@ export default function Inheritance() {
             >
               <span className="absolute left-0 top-0 bottom-0 w-1 transition-all" style={{ background: f.hex, opacity: on ? 1 : 0.25 }} />
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</span>
+                <span className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</span>
                 <span className="text-[13.5px] font-bold">{f.name}</span>
                 <span className="kbd ml-auto">{i + 1}</span>
               </div>

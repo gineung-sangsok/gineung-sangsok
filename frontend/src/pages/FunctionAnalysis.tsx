@@ -200,7 +200,7 @@ export default function FunctionAnalysis() {
                   center={<p className="text-[24px] font-bold tnum">{Math.round((sel.confidence ?? 0) * 100)}<span className="text-[13px] text-text-muted">%</span></p>}
                 />
                 <div>
-                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].hex }}>{sel.code}</p>
+                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].deep }}>{sel.code}</p>
                   <h3 className="text-[21px] font-bold">{FN[sel.code].name}</h3>
                   <p className="text-[12.5px] text-text-muted">{FN[sel.code].desc}</p>
                   <div className="mt-2"><StatusBadge variant={confidenceLabel(sel.confidence).variant}>{confidenceLabel(sel.confidence).text}</StatusBadge></div>

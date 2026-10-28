@@ -105,7 +105,7 @@ export default function Review() {
                     <div className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => setOpen(isOpen ? null : f.code)}>
                       <span className="w-1.5 h-10 rounded-full" style={{ background: f.hex }} />
                       <div className="w-[150px]">
-                        <p className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</p>
+                        <p className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</p>
                         <p className="text-[14px] font-bold">{f.name}</p>
                       </div>
                       <div className="flex-1 min-w-0">
