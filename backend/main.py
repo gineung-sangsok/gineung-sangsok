@@ -61,6 +61,16 @@ def health() -> dict:
     return {"status": "ok"}
 
 
+@app.get("/closures", response_model=list[Closure], tags=["① 등록"])
+def list_closures() -> list[Closure]:
+    return list(closures.closures.values())
+
+
+@app.get("/closures/{closure_id}", response_model=Closure, responses=ERRORS, tags=["① 등록"])
+def read_closure(closure_id: str) -> Closure:
+    return get_closure(closure_id)
+
+
 @app.post("/closures", response_model=Closure, status_code=201, responses=ERRORS, tags=["① 등록"])
 def create_closure(body: ClosureCreate) -> Closure:
     found = store.stores_by_id().get(body.store_id)
@@ -106,6 +116,11 @@ def get_inheritance(closure_id: str) -> Inheritance:
 def get_gap(closure_id: str) -> Gap:
     get_closure(closure_id)
     return closures.gap(closure_id)
+
+
+@app.get("/stores", response_model=list[Entity], tags=["① 등록"])
+def list_stores() -> list[Entity]:
+    return list(store.stores_by_id().values())
 
 
 @app.get("/resources", response_model=list[Entity], tags=["지도"])

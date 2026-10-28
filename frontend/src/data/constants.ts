@@ -150,3 +150,34 @@ export interface GapResponse {
   summary: { gap_population_before: number; gap_population_after: number };
 }
 
+export interface Population {
+  total: number | null;
+  age65plus: number | null;
+  aging_rate: number | null;
+  source: string | null;
+  year: number | null;
+}
+
+export interface ApiVillage {
+  village_id: string;
+  ri_name: string;
+  eup_myeon: string;
+  rep_point: Location;
+  population: Population;
+  nearest_bus_stop_m: number | null;
+  has_food_store: boolean | null;
+}
+
+export interface ApiEntity {
+  entity_id: string;
+  entity_type: "store" | "resource";
+  resource_type: ResourceType | null;
+  name: string;
+  village_id: string;
+  location: Location | null;
+  functions: FunctionTag[];
+  status: FacilityStatus;
+  closure_date: string | null;
+  verified_by_officer: boolean;
+}
+
