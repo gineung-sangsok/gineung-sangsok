@@ -6,7 +6,8 @@ import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 
 import StatusBadge from "../components/ui/StatusBadge";
 import { DemoTag } from "../components/ui/PageHeader";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { FN, FUNCTIONS, GAP_BINS, gapColor, riMetrics, fetchVillages, type FnCode, type RiMetrics, type VillageRecord } from "../data/demo";
+import { FN, FUNCTIONS, GAP_BINS, gapColor, type FnCode } from "../data/constants";
+import { riMetrics, fetchVillages, type RiMetrics, type VillageRecord } from "../data/demo";
 
 const IMSIL_CENTER: [number, number] = [35.617, 127.289];
 const IMSIL_ZOOM = 11;
