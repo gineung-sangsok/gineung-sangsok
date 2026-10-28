@@ -1,21 +1,23 @@
 import { useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Bell, Search, ChevronDown, CalendarDays, AlertTriangle, Info, CheckCircle2, LogOut, UserCog, ChevronRight } from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Bell, Search, ChevronDown, AlertTriangle, Info, CheckCircle2, LogOut, UserCog, Map as MapIcon } from "lucide-react";
 import { NOTIFICATIONS } from "../data/demo";
 import { useClickOutside } from "../components/ui/Dropdown";
 
-const CRUMB_PATTERNS: [RegExp, string[]][] = [
-  [/^\/$/, ["대시보드"]],
-  [/^\/closures\/new$/, ["분석 흐름", "시설 등록"]],
-  [/^\/closures\/[^/]+\/functions$/, ["분석 흐름", "기능 공백 분석"]],
-  [/^\/closures\/[^/]+\/inheritance$/, ["분석 흐름", "상속안 제안"]],
-  [/^\/closures\/[^/]+\/review$/, ["분석 흐름", "최종 검토"]],
-  [/^\/spatial$/, ["공간 분석"]],
-  [/^\/data$/, ["데이터 관리"]],
-];
-function getCrumbs(pathname: string): string[] {
-  return CRUMB_PATTERNS.find(([re]) => re.test(pathname))?.[1] ?? [];
+function getClosureId(pathname: string): string {
+  const m = pathname.match(/^\/closures\/([^/]+)/);
+  return m?.[1] && m[1] !== "new" ? m[1] : "store_0001";
 }
+
+const navItems = (id: string) => [
+  { to: "/dashboard", label: "대시보드", end: true },
+  { to: "/closures/new", label: "시설 등록" },
+  { to: `/closures/${id}/functions`, label: "기능 분석" },
+  { to: `/closures/${id}/inheritance`, label: "상속안" },
+  { to: `/closures/${id}/review`, label: "최종 검토" },
+  { to: "/spatial", label: "공간 분석" },
+  { to: "/data", label: "데이터 관리" },
+];
 
 const KIND_ICON = { warn: AlertTriangle, info: Info, ok: CheckCircle2 };
 const KIND_TONE = { warn: "bg-[#FBF1E4] text-status-warn", info: "bg-[#E7F0FA] text-status-info", ok: "bg-[#E4F3EC] text-status-ok" };
@@ -23,7 +25,6 @@ const KIND_TONE = { warn: "bg-[#FBF1E4] text-status-warn", info: "bg-[#E7F0FA] t
 export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const crumbs = getCrumbs(pathname).length ? getCrumbs(pathname) : ["더 가까이"];
 
   const [bellOpen, setBellOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
@@ -34,53 +35,60 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
   useClickOutside(userRef, () => setUserOpen(false), userOpen);
 
   const unread = NOTIFICATIONS.filter((n) => !read.has(n.id)).length;
-  const today = new Date().toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "short" });
 
   return (
-    <header className="h-[76px] shrink-0 bg-surface/80 backdrop-blur-md border-b border-border flex items-center gap-6 px-8 sticky top-0 z-10">
-      {/* breadcrumb */}
-      <div className="flex items-center gap-1.5 text-[13px] min-w-[180px]">
-        {crumbs.map((c, i) => (
-          <span key={c} className="flex items-center gap-1.5">
-            {i > 0 && <ChevronRight className="w-3.5 h-3.5 text-text-muted" />}
-            <span className={i === crumbs.length - 1 ? "font-semibold text-text-primary" : "text-text-muted"}>{c}</span>
-          </span>
-        ))}
-      </div>
-
-      {/* search */}
-      <button
-        onClick={onOpenSearch}
-        className="group flex-1 max-w-[460px] h-11 flex items-center gap-3 px-4 rounded-xl bg-surface-secondary border border-transparent hover:border-border-strong hover:bg-surface transition-all text-left"
-      >
-        <Search className="w-[17px] h-[17px] text-text-muted group-hover:text-action transition-colors" />
-        <span className="flex-1 text-[13px] text-text-muted">시설, 법정리, 페이지 검색</span>
-        <span className="flex gap-1">
-          <span className="kbd">⌘</span>
-          <span className="kbd">K</span>
+    <header className="h-[68px] shrink-0 bg-ink text-white flex items-center gap-6 px-8 sticky top-0 z-20">
+      <NavLink to="/" className="flex items-center gap-2.5 shrink-0">
+        <span className="w-9 h-9 rounded-full bg-sage text-ink flex items-center justify-center">
+          <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
         </span>
-      </button>
+        <span className="leading-tight">
+          <span className="block font-display text-[16px] font-extrabold tracking-[0.08em]">CLOSER</span>
+          <span className="block text-[10.5px] text-white/50">더 가까이 · 농촌 생활서비스 연계</span>
+        </span>
+      </NavLink>
+
+      <nav className="flex items-center gap-1 ml-4">
+        {navItems(getClosureId(pathname)).map((it) => (
+          <NavLink
+            key={it.label}
+            to={it.to}
+            end={it.end}
+            className={({ isActive }) =>
+              `h-9 px-3.5 rounded-full text-[13.5px] font-semibold flex items-center transition-colors whitespace-nowrap ${
+                isActive ? "bg-sage text-ink" : "text-white/70 hover:text-white hover:bg-white/10"
+              }`
+            }
+          >
+            {it.label}
+          </NavLink>
+        ))}
+      </nav>
 
       <div className="ml-auto flex items-center gap-2">
-        <span className="hidden xl:inline-flex items-center gap-1.5 h-9 px-3 rounded-xl border border-border text-[12px] font-semibold text-text-secondary">
-          <CalendarDays className="w-3.5 h-3.5" /> {today}
-        </span>
+        <button
+          onClick={onOpenSearch}
+          title="검색 (⌘K)"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-white/75 hover:text-ink hover:bg-sage transition-colors"
+        >
+          <Search className="w-[18px] h-[18px]" />
+        </button>
 
         {/* notifications */}
         <div ref={bellRef} className="relative">
           <button
             onClick={() => setBellOpen((o) => !o)}
-            className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${bellOpen ? "bg-brand-soft text-action" : "hover:bg-surface-secondary text-text-secondary"}`}
+            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-colors ${bellOpen ? "bg-sage text-ink" : "text-white/75 hover:text-ink hover:bg-sage"}`}
           >
             <Bell className={`w-[18px] h-[18px] ${unread ? "origin-top hover:animate-[shake_.5s]" : ""}`} />
             {unread > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-status-error text-white text-[9.5px] font-bold flex items-center justify-center ring-2 ring-white animate-pop">
+              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-status-error text-white text-[9.5px] font-bold flex items-center justify-center ring-2 ring-ink animate-pop">
                 {unread}
               </span>
             )}
           </button>
           {bellOpen && (
-            <div className="absolute right-0 mt-2 w-[360px] bg-surface border border-border rounded-2xl overflow-hidden animate-scale-in origin-top-right z-40" style={{ boxShadow: "var(--shadow-pop)" }}>
+            <div className="absolute right-0 mt-2 w-[360px] bg-surface border border-border rounded-2xl overflow-hidden animate-scale-in origin-top-right z-40 text-text-primary" style={{ boxShadow: "var(--shadow-pop)" }}>
               <div className="flex items-center justify-between px-4 h-12 border-b border-border">
                 <p className="text-[14px] font-bold">알림</p>
                 <button
@@ -120,23 +128,22 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
           )}
         </div>
 
-        <span className="w-px h-6 bg-border mx-1" />
-
+        
         {/* user */}
         <div ref={userRef} className="relative">
           <button
             onClick={() => setUserOpen((o) => !o)}
-            className="flex items-center gap-2.5 h-11 pl-1.5 pr-2.5 rounded-xl hover:bg-surface-secondary transition-colors"
+            className="flex items-center gap-2.5 h-11 pl-1.5 pr-3 rounded-full hover:bg-white/10 transition-colors"
           >
-            <span className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-action text-white text-[12px] font-bold flex items-center justify-center">임</span>
+            <span className="w-8 h-8 rounded-full bg-sage text-ink text-[12px] font-bold flex items-center justify-center">임</span>
             <span className="text-left">
-              <span className="block text-[13px] font-semibold text-action leading-tight">임실군 담당자</span>
-              <span className="block text-[11px] text-text-muted">데모 계정</span>
+              <span className="block text-[13px] font-semibold text-white leading-tight">임실군 담당자</span>
+              <span className="block text-[11px] text-white/50">데모 계정</span>
             </span>
-            <ChevronDown className={`w-4 h-4 text-text-muted transition-transform ${userOpen ? "rotate-180" : ""}`} />
+            <ChevronDown className={`w-4 h-4 text-white/50 transition-transform ${userOpen ? "rotate-180" : ""}`} />
           </button>
           {userOpen && (
-            <div className="absolute right-0 mt-2 w-[220px] bg-surface border border-border rounded-2xl p-1.5 animate-scale-in origin-top-right z-40" style={{ boxShadow: "var(--shadow-pop)" }}>
+            <div className="absolute right-0 mt-2 w-[220px] bg-surface border border-border rounded-2xl p-1.5 animate-scale-in origin-top-right z-40 text-text-primary" style={{ boxShadow: "var(--shadow-pop)" }}>
               <button className="w-full flex items-center gap-2.5 px-3 h-10 rounded-xl hover:bg-surface-secondary text-[13px]">
                 <UserCog className="w-4 h-4 text-text-muted" /> 계정 설정
               </button>

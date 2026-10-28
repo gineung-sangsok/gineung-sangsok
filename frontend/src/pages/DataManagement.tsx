@@ -72,6 +72,7 @@ export default function DataManagement() {
   return (
     <div>
       <PageHeader
+        en="Data Management"
         title="데이터 관리"
         badge={<DemoTag />}
         desc="분석에 활용된 데이터의 출처와 검증 상태를 확인하고 관리합니다."
@@ -120,7 +121,7 @@ export default function DataManagement() {
           <Dropdown value={vf} onChange={setVf} options={[{ value: "all", label: "검증 상태: 전체" }, { value: "yes", label: "검증 완료" }, { value: "no", label: "확인 필요" }]} />
 
           {selectedRows.length > 0 && (
-            <div className="ml-auto flex items-center gap-2 h-9 pl-3 pr-1 rounded-xl bg-[#0C3341] text-white animate-scale-in">
+            <div className="ml-auto flex items-center gap-2 h-9 pl-3 pr-1 rounded-xl bg-[#1C1C1C] text-white animate-scale-in">
               <span className="text-[12px] font-semibold">{selectedRows.length}개 선택</span>
               <button
                 onClick={() => {
@@ -142,7 +143,7 @@ export default function DataManagement() {
             <thead>
               <tr className="bg-surface-tint text-action">
                 <th className="w-10 py-3 pl-4">
-                  <input type="checkbox" checked={allChecked} onChange={() => setChecked(allChecked ? new Set() : new Set(rows.map((r) => r.key)))} className="accent-[#0E5266] w-4 h-4 cursor-pointer" />
+                  <input type="checkbox" checked={allChecked} onChange={() => setChecked(allChecked ? new Set() : new Set(rows.map((r) => r.key)))} className="accent-[#2F5E43] w-4 h-4 cursor-pointer" />
                 </th>
                 <th className="text-left font-bold py-3 px-3 cursor-pointer hover:text-brand" onClick={() => toggleSort("name")}>
                   <span className="inline-flex items-center gap-1">이름 <ArrowUpDown className={`w-3 h-3 ${sort.key === "name" ? "text-brand" : "text-text-muted"}`} /></span>
@@ -174,13 +175,13 @@ export default function DataManagement() {
                         onClick={() => setChecked((p) => { const n = new Set(p); if (n.has(r.key)) n.delete(r.key); else n.add(r.key); return n; })}
                         className={`border-t border-border cursor-pointer transition-colors ${on ? "bg-brand-soft/60" : "hover:bg-surface-tint"}`}
                       >
-                        <td className="py-3 pl-4"><input type="checkbox" readOnly checked={on} className="accent-[#0E5266] w-4 h-4 pointer-events-none" /></td>
+                        <td className="py-3 pl-4"><input type="checkbox" readOnly checked={on} className="accent-[#2F5E43] w-4 h-4 pointer-events-none" /></td>
                         <td className="py-3 px-3 font-semibold">{r.name}</td>
                         <td className="py-3 px-3 text-text-secondary">{r.type}</td>
                         <td className="py-3 px-3 text-text-secondary">{r.ri}</td>
                         <td className="py-3 px-3">
                           <div className="flex gap-1">
-                            {r.fns.length ? r.fns.map((c) => <span key={c} className="text-[10.5px] font-bold px-1.5 py-0.5 rounded-md text-white" style={{ background: FN[c].hex }}>{c}</span>) : <span className="text-text-muted">–</span>}
+                            {r.fns.length ? r.fns.map((c) => <span key={c} className="text-[10.5px] font-bold px-1.5 py-0.5 rounded-md text-ink" style={{ background: FN[c].hex }}>{c}</span>) : <span className="text-text-muted">–</span>}
                           </div>
                         </td>
                         <td className="py-3 px-3">{st && <StatusBadge variant={st.variant}>{st.label}</StatusBadge>}</td>

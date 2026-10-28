@@ -19,7 +19,7 @@ const DECISION_BADGE = {
 };
 
 function Confetti() {
-  const colors = ["#3F7BC4", "#3E9A74", "#D0893A", "#8063BA", "#7FD3C3", "#F2B880"];
+  const colors = ["#7BB58A", "#4F8A68", "#B39443", "#857F72", "#B9DABF", "#D8CB98"];
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {Array.from({ length: 60 }, (_, i) => {
@@ -68,6 +68,7 @@ export default function Review() {
   return (
     <div>
       <PageHeader
+        en="Final Review"
         eyebrow={<FlowStepper />}
         title="최종 제안 검토"
         badge={<>{reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}<DemoTag /></>}
@@ -104,7 +105,7 @@ export default function Review() {
                     <div className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => setOpen(isOpen ? null : f.code)}>
                       <span className="w-1.5 h-10 rounded-full" style={{ background: f.hex }} />
                       <div className="w-[150px]">
-                        <p className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</p>
+                        <p className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</p>
                         <p className="text-[14px] font-bold">{f.name}</p>
                       </div>
                       <div className="flex-1 min-w-0">
