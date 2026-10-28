@@ -33,7 +33,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
   }, [navigate, pathname]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="village flex flex-col h-full">
       <Topbar onOpenSearch={() => setPaletteOpen(true)} />
       <main className={`flex-1 overflow-y-auto thin-scroll ${fullBleed ? "p-6" : "px-8 pt-8 pb-12"}`}>
         <div key={pathname} className={fullBleed ? "h-full" : "max-w-[1280px] mx-auto"}>

@@ -39,13 +39,13 @@ export default function StatCard({
       <div className="flex items-start justify-between">
         <p className="text-[14px] font-semibold text-text-secondary">{label}</p>
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
-          style={{ background: `${color}1a`, color }}
+          className="w-10 h-10 rounded-full border-2 border-ink flex items-center justify-center transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
+          style={{ background: `${color}33`, color: "#24352B" }}
         >
           <Icon className="w-5 h-5" />
         </div>
       </div>
-      <p className="font-display text-[36px] font-extrabold leading-none mt-2 tracking-tight">
+      <p className="font-title text-[40px] leading-none mt-2">
         <AnimatedNumber value={value} />
         {suffix && <span className="text-[16px] font-semibold text-text-muted ml-0.5">{suffix}</span>}
       </p>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Store, ClipboardCheck, Users, CheckCircle2, Plus, Search, ArrowUpDown, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { Sprout, Store, ClipboardCheck, Users, CheckCircle2, Plus, Search, ArrowUpDown, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, ComposedChart } from "recharts";
 import StatCard from "../components/ui/StatCard";
 import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge";
@@ -10,6 +10,7 @@ import Dropdown from "../components/ui/Dropdown";
 import { CardHeader } from "../components/ui/PageHeader";
 import VillageMap from "../components/VillageMap";
 import FunctionIcon from "../components/ui/FunctionIcon";
+import PlantGauge from "../components/ui/PlantGauge";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
 import { useDemo } from "../store/DemoStore";
@@ -119,28 +120,21 @@ export default function Dashboard() {
             >
               <div className="flex items-start justify-between">
                 <FunctionIcon code={f.code} size={44} />
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink" style={{ background: f.hex }}>{f.code}</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink border-2 border-ink rotate-3" style={{ background: f.hex }}>{f.code}</span>
               </div>
-              <h3 className="text-[17px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
+              <h3 className="font-title text-[21px] text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
               <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
-              <div className="flex items-center justify-center my-4">
-                <Donut
-                  size={150}
-                  thickness={active ? 30 : 26}
-                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#F0F4EE" }]}
-                  center={
-                    <div>
-                      <p className="text-[30px] font-extrabold leading-none tracking-tight text-text-primary">
-                        <AnimatedNumber value={v} suffix="%" />
-                      </p>
-                      <p className={`text-[11px] text-text-muted mt-1 transition-opacity ${active ? "opacity-100" : "opacity-0"}`}>
-                        131개 리 중 {Math.round((131 * v) / 100)}곳
-                      </p>
-                    </div>
-                  }
-                />
+              <div className="flex items-end justify-between mt-2">
+                <div className="pb-2">
+                  <p className="font-title text-[40px] leading-none text-text-primary">
+                    <AnimatedNumber value={v} suffix="%" />
+                  </p>
+                  <p className="text-[12px] text-text-muted mt-1.5 whitespace-nowrap">131개 리 중 {Math.round((131 * v) / 100)}곳</p>
+                  <p className="text-[12px] font-semibold mt-0.5 whitespace-nowrap" style={{ color: f.deep }}>이어짐 {100 - v}%</p>
+                </div>
+                <PlantGauge code={f.code} gap={v} active={active} />
               </div>
-              <div className="flex items-center justify-between text-[12px]">
+              <div className="flex items-center justify-between text-[12px] mt-2">
                 <span className="font-semibold text-text-primary underline underline-offset-4 decoration-sage decoration-[3px]">지도에서 보기</span>
                 <ArrowUpRight className="w-4 h-4 text-action group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </div>
@@ -192,7 +186,7 @@ export default function Dashboard() {
                   <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8E978C" }} />
                   <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8E978C" }} width={36} />
                   <Tooltip content={<ChartTip />} cursor={{ stroke: "#5FAF82", strokeDasharray: "4 4" }} />
-                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#5FAF82" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
+                  <Area type="monotone" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#5FAF82" strokeWidth={3} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
                 </AreaChart>
               ) : (
                 <ComposedChart data={MONTHLY} key={`b-${metric}`}>
@@ -232,13 +226,14 @@ export default function Dashboard() {
                 >
                   <span className="w-4 text-[11px] font-bold text-text-muted tnum">{i + 1}</span>
                   <span className="w-[52px] text-[12.5px] font-semibold">{r.name}</span>
-                  <div className="flex-1 h-6 bg-surface-secondary rounded-lg overflow-hidden relative">
+                  <div className="flex-1 h-7 bg-white border-2 border-ink rounded-full overflow-hidden relative">
                     <div
                       key={rankSort}
-                      className="h-full rounded-lg flex items-center justify-end pr-2 transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)]"
+                      className="h-full rounded-full border-r-2 border-ink flex items-center justify-end gap-1 pr-1.5 transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)]"
                       style={{ width: `${r.score}%`, background: color, animation: "grow .8s cubic-bezier(.2,.7,.2,1) both", animationDelay: `${i * 40}ms`, transformOrigin: "left" }}
                     >
-                      <span className="text-[11px] font-bold text-ink/80 tnum">{r.score}</span>
+                      <span className="text-[11px] font-bold text-ink tnum">{r.score}</span>
+                      <Sprout className="w-3.5 h-3.5 text-ink" strokeWidth={2.4} />
                     </div>
                   </div>
                 </div>

@@ -24,6 +24,7 @@
 
   --font-display: "Montserrat", "Pretendard Variable", sans-serif;
   --font-hand: "Gaegu", "Pretendard Variable", cursive;
+  --font-title: "Black Han Sans", "Pretendard Variable", sans-serif;
 
   --color-f01: #7BB58A;
   --color-f02: #4F8A68;
@@ -202,6 +203,57 @@ textarea.field { height: auto; padding: 12px 14px; }
 .thin-scroll::-webkit-scrollbar-thumb { background: #C6D4C2; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
 
+}
+
+/* 마을 테마 — 앱 화면(AppShell) 안에서만. 하늘색 배경, 굵은 테두리 스티커 카드, 손글씨풍 제목 */
+.village {
+  --color-bg: #E3F4FA;
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #EEF6F0;
+  --color-surface-tint: #F2FAF4;
+  --color-text-primary: #22302A;
+  --color-text-secondary: #4C5E52;
+  --color-text-muted: #86978B;
+  --color-border: #D3E5D8;
+  --color-border-strong: #9DBBA5;
+  --color-action: #2F6B45;
+  --color-action-hover: #255838;
+  --color-brand: #3E8A5E;
+  --color-brand-soft: #E1F2E4;
+  --color-ink: #24352B;
+  --color-line: #24352B;
+  background: linear-gradient(180deg, #D6EFF9 0%, #E6F5F1 50%, #EDF7E7 100%);
+  color: var(--color-text-primary);
+}
+.village .card { border: 2px solid var(--color-line); border-radius: 22px; box-shadow: 0 4px 0 var(--color-line); }
+.village .card-hover:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--color-line); border-color: var(--color-line); }
+.village .btn { border: 2px solid var(--color-line); box-shadow: 0 3px 0 var(--color-line); }
+.village .btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-line); }
+.village .btn-primary { background: #5FA86A; color: #FFFBEA; }
+.village .btn-primary:hover:not(:disabled) { background: #4F9A5B; color: #FFFBEA; }
+.village .btn-ghost { background: #FFFFFF; color: var(--color-ink); }
+.village .btn-ghost:hover:not(:disabled) { background: #FFF6D6; color: var(--color-ink); }
+.village .btn-brand { background: var(--color-sage); color: var(--color-ink); }
+.village .field { border: 2px solid var(--color-border); border-radius: 14px; }
+.village .field:focus { border-color: var(--color-line); box-shadow: 0 0 0 4px rgba(143, 199, 154, 0.4); }
+
+/* 굵은 테두리 손글씨 제목 (스티커 레터링) */
+.title-sticker {
+  font-family: var(--font-title);
+  font-weight: 400;
+  color: #5FA86A;
+  -webkit-text-stroke: 2px var(--color-line, #24352B);
+  paint-order: stroke fill;
+  text-shadow: 3px 4px 0 var(--color-line, #24352B);
+  letter-spacing: 0.01em;
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #3B7A8C;
 }
 
 /* leaflet tweaks */
