@@ -12,7 +12,7 @@ export default function Donut({
   center,
   activeKey,
   onHover,
-  track = "#EAF0F3",
+  track = "#ECE6D9",
 }: {
   slices: DonutSlice[];
   size?: number;

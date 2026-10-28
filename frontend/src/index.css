@@ -1,24 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #EEF5FD;
-  --color-surface: #FFFFFF;
-  --color-surface-secondary: #F1F6FC;
-  --color-surface-tint: #F3F8FF;
-  --color-text-primary: #13253D;
-  --color-text-secondary: #4F647C;
-  --color-text-muted: #8797AB;
-  --color-border: #DFE9F4;
-  --color-border-strong: #C6D7EA;
-  --color-action: #1F6FE5;
-  --color-action-hover: #1858C0;
-  --color-brand: #2B8FF0;
-  --color-brand-soft: #E4F0FE;
-  --color-sky: #BFE0FF;
-  --color-ink: #15294A;
-  /* 짙은 배경 강조 영역(등록 카드 머리 등). 사이드바 자체는 밝은 면을 쓴다 */
-  --color-sidebar: #1B4B8F;
-  --color-sidebar-deep: #15396E;
+  /* 종이 · 먹 · 라임 — 신문 콜라주 무드 */
+  --color-bg: #F1ECE1;
+  --color-surface: #FBF8F2;
+  --color-surface-secondary: #ECE6D9;
+  --color-surface-tint: #F5F1E7;
+  --color-text-primary: #121212;
+  --color-text-secondary: #4A463E;
+  --color-text-muted: #8A8478;
+  --color-border: #DDD5C5;
+  --color-border-strong: #B9B09C;
+  --color-action: #121212;
+  --color-action-hover: #2B2B2B;
+  --color-brand: #557A00;
+  --color-brand-soft: #EEFBC2;
+  --color-lime: #CCFF00;
+  --color-sky: #DCEBC6;
+  --color-ink: #121212;
+  /* 짙은 배경 강조 영역(등록 카드 머리 등) */
+  --color-sidebar: #121212;
+  --color-sidebar-deep: #000000;
+
+  --font-display: "Noto Serif KR", "Pretendard Variable", serif;
+  --font-hand: "Gaegu", "Pretendard Variable", cursive;
 
   --color-f01: #3F7BC4;
   --color-f02: #3E9A74;
@@ -30,9 +35,9 @@
   --color-status-error: #C65555;
   --color-status-info: #3F7BC4;
 
-  --shadow-card: 0 1px 2px rgba(25, 70, 140, 0.04), 0 6px 20px -8px rgba(25, 70, 140, 0.10);
-  --shadow-lift: 0 2px 4px rgba(25, 70, 140, 0.05), 0 18px 36px -14px rgba(25, 70, 140, 0.22);
-  --shadow-pop: 0 12px 48px -12px rgba(15, 40, 80, 0.35), 0 2px 6px rgba(15, 40, 80, 0.08);
+  --shadow-card: 0 1px 0 rgba(18, 18, 18, 0.04);
+  --shadow-lift: 4px 4px 0 #121212;
+  --shadow-pop: 0 16px 40px -16px rgba(18, 18, 18, 0.45), 0 2px 6px rgba(18, 18, 18, 0.08);
 
   --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-fade-in: fade-in 0.25s ease both;
@@ -75,8 +80,8 @@
     to { background-position: 200% 0; }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(43, 143, 240, 0.45); }
-    100% { box-shadow: 0 0 0 10px rgba(43, 143, 240, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.7); }
+    100% { box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); }
   }
 }
 
@@ -85,7 +90,9 @@ html, body, #root {
   height: 100%;
   width: 100%;
   font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  background: var(--color-bg);
+  background-color: var(--color-bg);
+  /* 종이 결 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
 }
@@ -110,16 +117,16 @@ html, body, #root {
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 24px;
+  border-radius: 14px;
   box-shadow: var(--shadow-card);
 }
 .card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .card-hover:hover {
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-lift);
-  border-color: var(--color-border-strong);
+  border-color: var(--color-ink);
 }
 
 /* inputs */
@@ -137,7 +144,7 @@ html, body, #root {
 .field:focus {
   outline: none;
   border-color: var(--color-brand);
-  box-shadow: 0 0 0 4px rgba(43, 143, 240, 0.16);
+  box-shadow: 0 0 0 4px rgba(204, 255, 0, 0.45);
 }
 .field::placeholder { color: var(--color-text-muted); }
 textarea.field { height: auto; padding: 12px 14px; }
@@ -160,12 +167,12 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.btn-primary { background: var(--color-action); color: white; box-shadow: 0 1px 2px rgba(31, 111, 229, 0.3); }
-.btn-primary:hover:not(:disabled) { background: var(--color-action-hover); box-shadow: 0 8px 18px -6px rgba(31, 111, 229, 0.55); }
-.btn-brand { background: var(--color-brand); color: white; }
-.btn-brand:hover:not(:disabled) { background: #1F7BD6; }
-.btn-ghost { background: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border); }
-.btn-ghost:hover:not(:disabled) { background: var(--color-surface-secondary); border-color: var(--color-border-strong); }
+.btn-primary { background: var(--color-action); color: white; }
+.btn-primary:hover:not(:disabled) { background: var(--color-lime); color: var(--color-ink); }
+.btn-brand { background: var(--color-lime); color: var(--color-ink); }
+.btn-brand:hover:not(:disabled) { background: #B8E800; }
+.btn-ghost { background: transparent; color: var(--color-text-primary); border: 1.5px solid var(--color-ink); }
+.btn-ghost:hover:not(:disabled) { background: var(--color-ink); color: white; }
 .btn-sm { height: 34px; padding: 0 14px; font-size: 12.5px; border-radius: 999px; }
 
 .kbd {
@@ -184,7 +191,7 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #EAF1F9 25%, #F6F9FD 50%, #EAF1F9 75%);
+  background: linear-gradient(90deg, #E8E1D2 25%, #F3EEE4 50%, #E8E1D2 75%);
   background-size: 200% 100%;
   animation: var(--animate-shimmer);
   border-radius: 8px;
@@ -192,13 +199,13 @@ textarea.field { height: auto; padding: 12px 14px; }
 
 /* scrollbars */
 .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
-.thin-scroll::-webkit-scrollbar-thumb { background: #CBDAEA; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+.thin-scroll::-webkit-scrollbar-thumb { background: #CFC6B3; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
 
 }
 
 /* leaflet tweaks */
-.leaflet-container { font-family: inherit; background: #E8F1FA; }
+.leaflet-container { font-family: inherit; background: #ECE6D9; }
 .leaflet-control-zoom { border: none !important; box-shadow: var(--shadow-card) !important; border-radius: 12px !important; overflow: hidden; }
 .leaflet-control-zoom a { width: 34px !important; height: 34px !important; line-height: 34px !important; color: var(--color-text-primary) !important; border-color: var(--color-border) !important; }
 .leaflet-tooltip.ri-tip {

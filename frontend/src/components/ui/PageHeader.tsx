@@ -18,7 +18,7 @@ export default function PageHeader({
       <div className="min-w-0">
         {eyebrow && <div className="mb-3">{eyebrow}</div>}
         <div className="flex items-center gap-3">
-          <h1 className="text-[30px] font-extrabold tracking-tight text-text-primary">{title}</h1>
+          <h1 className="font-display text-[34px] font-black tracking-tight text-text-primary">{title}</h1>
           {badge}
         </div>
         {desc && <p className="text-[15px] text-text-secondary mt-2">{desc}</p>}
@@ -32,7 +32,7 @@ export function DemoTag() {
   return (
     <span
       title="API 연결 전 UI 시연용 샘플 데이터입니다"
-      className="inline-flex items-center gap-1 px-2.5 py-[3px] rounded-full text-[11px] font-bold tracking-wide bg-[#FFF5DB] text-[#9A6B00] border border-[#F3E2B0]"
+      className="inline-flex items-center gap-1 px-2.5 py-[3px] rounded-full text-[11px] font-bold tracking-wide bg-lime text-ink border border-ink"
     >
       데모 데이터
     </span>
@@ -43,7 +43,7 @@ export function CardHeader({ title, sub, right }: { title: string; sub?: string;
   return (
     <div className="flex items-start justify-between gap-3 mb-4">
       <div>
-        <h2 className="text-[17px] font-bold text-text-primary">{title}</h2>
+        <h2 className="font-display text-[18px] font-bold text-text-primary">{title}</h2>
         {sub && <p className="text-[12.5px] text-text-muted mt-0.5">{sub}</p>}
       </div>
       {right && <div className="flex items-center gap-2">{right}</div>}

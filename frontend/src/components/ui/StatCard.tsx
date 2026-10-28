@@ -11,7 +11,7 @@ export default function StatCard({
   delta,
   deltaGood = "up",
   trend,
-  color = "#1F6FE5",
+  color = "#121212",
   onClick,
   active,
 }: {
@@ -33,7 +33,7 @@ export default function StatCard({
     <button
       onClick={onClick}
       className={`card card-hover p-6 text-left w-full group relative overflow-hidden ${
-        active ? "ring-2 ring-brand/50 border-brand/40" : ""
+        active ? "ring-2 ring-ink border-ink" : ""
       }`}
     >
       <div className="flex items-start justify-between">
@@ -45,7 +45,7 @@ export default function StatCard({
           <Icon className="w-5 h-5" />
         </div>
       </div>
-      <p className="text-[34px] font-extrabold leading-none mt-2 tracking-tight">
+      <p className="font-display text-[36px] font-black leading-none mt-2 tracking-tight">
         <AnimatedNumber value={value} />
         {suffix && <span className="text-[16px] font-semibold text-text-muted ml-0.5">{suffix}</span>}
       </p>

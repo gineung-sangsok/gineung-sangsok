@@ -15,10 +15,10 @@ import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, 
 import { useDemo } from "../store/DemoStore";
 
 const STAGE_COLORS: Record<Stage, string> = {
-  registered: "#AFC3D9",
-  functions: "#7DB8F5",
-  inheritance: "#2B8FF0",
-  reviewed: "#1B4B8F",
+  registered: "#CFC6B3",
+  functions: "#9BBF4A",
+  inheritance: "#557A00",
+  reviewed: "#121212",
 };
 
 type Metric = "gaps" | "closures" | "resolved";
@@ -101,7 +101,7 @@ export default function Dashboard() {
         <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#D0893A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
         <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#3F7BC4" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
         <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#C65555" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
-        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#2B8FF0" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
+        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#9BBF4A" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
       </div>
 
       {/* Function gap donuts */}
@@ -121,13 +121,13 @@ export default function Dashboard() {
                 <FunctionIcon code={f.code} size={44} />
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: f.hex }}>{f.code}</span>
               </div>
-              <h3 className="text-[16px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
+              <h3 className="font-display text-[17px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
               <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
               <div className="flex items-center justify-center my-4">
                 <Donut
                   size={150}
                   thickness={active ? 30 : 26}
-                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#EAF1F9" }]}
+                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#ECE6D9" }]}
                   center={
                     <div>
                       <p className="text-[30px] font-extrabold leading-none tracking-tight text-text-primary">
@@ -141,7 +141,7 @@ export default function Dashboard() {
                 />
               </div>
               <div className="flex items-center justify-between text-[12px]">
-                <span className="font-semibold text-action">지도에서 보기</span>
+                <span className="font-semibold text-text-primary underline underline-offset-4 decoration-lime decoration-[3px]">지도에서 보기</span>
                 <ArrowUpRight className="w-4 h-4 text-action group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </div>
             </button>
@@ -184,24 +184,24 @@ export default function Dashboard() {
                 <AreaChart data={MONTHLY} key={`a-${metric}`}>
                   <defs>
                     <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#1F6FE5" stopOpacity={0.22} />
-                      <stop offset="100%" stopColor="#1F6FE5" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#121212" stopOpacity={0.22} />
+                      <stop offset="100%" stopColor="#121212" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid vertical={false} stroke="#E6EEF7" />
-                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} />
-                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} width={36} />
-                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#1F6FE5", strokeDasharray: "4 4" }} />
-                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#1F6FE5" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
+                  <CartesianGrid vertical={false} stroke="#E4DDCF" />
+                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8A8478" }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8A8478" }} width={36} />
+                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#121212", strokeDasharray: "4 4" }} />
+                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#121212" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
                 </AreaChart>
               ) : (
                 <ComposedChart data={MONTHLY} key={`b-${metric}`}>
-                  <CartesianGrid vertical={false} stroke="#E6EEF7" />
-                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} />
-                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} width={36} />
-                  <Tooltip content={<ChartTip />} cursor={{ fill: "#1F6FE50d" }} />
-                  <Bar dataKey={metric} name={METRIC_LABEL[metric]} fill="#2B8FF0" radius={[8, 8, 3, 3]} barSize={18} animationDuration={700} />
-                  <Line dataKey={metric} name="추세" stroke="#1F6FE5" strokeWidth={0} dot={false} legendType="none" />
+                  <CartesianGrid vertical={false} stroke="#E4DDCF" />
+                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8A8478" }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8A8478" }} width={36} />
+                  <Tooltip content={<ChartTip />} cursor={{ fill: "#1212120d" }} />
+                  <Bar dataKey={metric} name={METRIC_LABEL[metric]} fill="#9BBF4A" radius={[8, 8, 3, 3]} barSize={18} animationDuration={700} />
+                  <Line dataKey={metric} name="추세" stroke="#121212" strokeWidth={0} dot={false} legendType="none" />
                 </ComposedChart>
               )}
             </ResponsiveContainer>
@@ -221,7 +221,7 @@ export default function Dashboard() {
           <div className="space-y-2.5 mt-2">
             {ranking.map((r, i) => {
               const dim = hoverRank && hoverRank !== r.name;
-              const color = r.score >= 70 ? "#B23A48" : r.score >= 55 ? "#E07A5F" : r.score >= 40 ? "#2B8FF0" : "#A9D2FA";
+              const color = r.score >= 70 ? "#B23A48" : r.score >= 55 ? "#E07A5F" : r.score >= 40 ? "#9BBF4A" : "#DCE9B5";
               return (
                 <div
                   key={r.name}
