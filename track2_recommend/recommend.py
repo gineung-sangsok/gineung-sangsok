@@ -5,7 +5,8 @@
 
 데이터 한계 (docs/experiments/inheritance_scoring.md):
   - 운영 시간 데이터가 없는 후보는 hours를 중간값으로 두고 담당자 확인을 요구한다.
-  - 이동장터(R01)는 실제 노선이 없어 면 단위 가정 노선으로 두고 항상 담당자 확인을 요구한다.
+  - 이동장터(R01)는 마을 명단이 공개된 2026-02 시범 노선(임실읍)만 법정리 단위로 쓰고,
+    나머지 면은 면 단위 가정 노선으로 둔다. 어느 쪽이든 담당자 확인을 요구한다.
 """
 
 from dataclasses import dataclass, field
@@ -65,6 +66,16 @@ class Candidate(Place):
     stop_m: float | None = None  # 후보가 있는 법정리의 가까운 정류장까지 거리
     mobile_market: bool = False
     hours: float | None = None  # 운영 시간 점수 (0~1). 정보가 없으면 None
+    # 이동장터 노선 명단이 있는 면: 다니는 법정리 / 명시적으로 빠진 법정리
+    route_ri: frozenset[str] = frozenset()
+    route_excluded_ri: frozenset[str] = frozenset()
+
+
+def route_note(c: Candidate, village_id: str) -> str:
+    """이동장터가 이 마을에 온다는 근거의 수준."""
+    if village_id in c.route_ri:
+        return "2026-02 시범 노선 마을"
+    return "가정 노선"
 
 
 @dataclass
@@ -140,8 +151,11 @@ def make_reason(
     parts = [f"{c.name}은(는) {dist}, {where} 생활권이다."]
     if good:
         parts.append(f"강점: {', '.join(good)}.")
-    if c.mobile_market:
-        parts.append("실제 노선 데이터가 없어 가정 노선 기준이며 운행 여부 확인이 필요하다.")
+    if c.mobile_market and target.village_id in c.route_ri:
+        parts.append("2026년 2월 시범 운영 노선에 포함된 마을이다.")
+        parts.append("9월 정식 노선 명단은 공개되지 않아 지금도 정차하는지 확인이 필요하다.")
+    elif c.mobile_market:
+        parts.append("이 마을의 노선 명단이 없어 가정 노선 기준이며 운행 여부 확인이 필요하다.")
     elif conf < CONFIRM:
         parts.append("이 기능을 제공하는지 확실하지 않아 담당자 확인이 필요하다.")
     if c.hours is None:
@@ -157,6 +171,8 @@ def score_candidate(code: str, target: Place, c: Candidate) -> Plan | None:
         return None
     if c.mobile_market and c.eup_myeon != target.eup_myeon:
         return None  # 다른 면 노선은 이 마을에 오지 않는다
+    if c.mobile_market and target.village_id in c.route_excluded_ri:
+        return None  # 노선에서 명시적으로 뺀 마을
     b, km = breakdown(code, target, c)
     score = round(sum(WEIGHTS[k] * v for k, v in b.items()), 2)
     return Plan(
@@ -193,16 +209,27 @@ def recommend(
     return plans, uncovered
 
 
-def mobile_market_candidates(markets: list[dict], villages: dict[str, Place]) -> list[Candidate]:
-    """면 단위 이동장터 운행 정보 → 면마다 가정 노선 후보 하나."""
+def mobile_market_candidates(
+    markets: list[dict], villages: dict[str, Place], routes: list[dict] = ()
+) -> list[Candidate]:
+    """면 단위 이동장터 운행 정보 → 면마다 후보 하나.
+
+    routes(법정리 단위 노선, mobile_market_route_ri.csv)가 있는 면은 노선 마을·제외 마을을 붙인다.
+    """
+    by_eup: dict[str, dict[str, set[str]]] = {}
+    for r in routes:
+        bucket = by_eup.setdefault(r["eup_myeon"], {"pilot": set(), "excluded": set()})
+        bucket.setdefault(r["status"], set()).add(str(r["ri_code"]))
     result = []
     for m in markets:
         if str(m.get("mobile_market_active")).lower() != "true":
             continue
         eup = m["eup_myeon"]
+        route = by_eup.get(eup)
+        basis = "2026-02 시범 노선 기준" if route else "가정 노선"
         result.append(Candidate(
             entity_id=f"mobile_market_{eup}",
-            name=f"임실 이동장터 ({eup} 가정 노선, {m.get('visit_frequency') or '주기 미정'})",
+            name=f"임실 이동장터 ({eup} {basis}, {m.get('visit_frequency') or '주기 미정'})",
             village_id="",
             village_name="",
             eup_myeon=eup,
@@ -212,5 +239,7 @@ def mobile_market_candidates(markets: list[dict], villages: dict[str, Place]) ->
             tags={code: (CONFIRM, "보도 기준 면 단위 운행") for code in MOBILE_MARKET_FUNCTIONS},
             mobile_market=True,
             hours=MOBILE_MARKET_HOURS,
+            route_ri=frozenset(route["pilot"]) if route else frozenset(),
+            route_excluded_ri=frozenset(route["excluded"]) if route else frozenset(),
         ))
     return result

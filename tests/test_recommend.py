@@ -71,3 +71,24 @@ def test_inheritance_api_follows_officer_edits():
     after = client.get(f"/closures/{cid}/inheritance").json()
     covered = {p["function_code"] for p in after["plans"]} | set(after["uncovered_functions"])
     assert covered == {"F04"}
+
+
+def _routed_market():
+    routes = [
+        {"ri_code": "V1", "eup_myeon": "덕치면", "status": "pilot"},
+        {"ri_code": "V3", "eup_myeon": "덕치면", "status": "excluded"},
+    ]
+    markets = [{"eup_myeon": "덕치면", "mobile_market_active": True, "visit_frequency": "주 1회"}]
+    return rec.mobile_market_candidates(markets, {}, routes)
+
+
+def test_mobile_market_on_pilot_route_says_so():
+    plans, _ = rec.recommend(TARGET, {"F01": 0.9}, _routed_market())
+    assert "시범 운영 노선에 포함된 마을" in plans[0].reason
+    assert plans[0].needs_officer_check is True
+
+
+def test_mobile_market_skips_village_excluded_from_route():
+    excluded = rec.Place("s9", "가게", "V3", "제외리", "덕치면", 35.50, 127.15)
+    _, uncovered = rec.recommend(excluded, {"F01": 0.9}, _routed_market())
+    assert uncovered == ["F01"]

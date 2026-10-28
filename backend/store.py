@@ -335,7 +335,12 @@ def recommend_candidates() -> list[rec.Candidate] | None:
     markets = PROCESSED / "mobile_market_imsil.csv"
     if markets.exists():
         rows = pd.read_csv(markets).to_dict("records")
-        candidates += rec.mobile_market_candidates(rows, places)
+        route_path = PROCESSED / "mobile_market_route_ri.csv"
+        routes = (
+            pd.read_csv(route_path, dtype={"ri_code": str}).to_dict("records")
+            if route_path.exists() else []
+        )
+        candidates += rec.mobile_market_candidates(rows, places, routes)
     return candidates
 
 
