@@ -203,32 +203,32 @@ export default function Landing() {
       </section>
 
       {/* 사라지는 가게들 */}
-      <section id="about" className="bg-ink text-white">
+      <section id="about" className="bg-[#EAF6EC]">
         <div className="max-w-[1280px] mx-auto px-8 py-20 grid grid-cols-12 gap-10 items-end">
           <div className="col-span-5">
-            <h2 className="font-display text-[52px] font-extrabold leading-[1.05] tracking-[-0.02em]">
+            <h2 className="font-display text-[52px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#2F5E43]">
               More than
               <br />
-              <span className="text-sage">a store.</span>
+              <span className="text-[#5FAF82]">a store.</span>
             </h2>
             <p className="text-[18px] font-bold mt-4">사라지는 건 가게만이 아니에요</p>
-            <p className="text-[15px] text-white/65 mt-5 leading-relaxed">
+            <p className="text-[15px] text-text-secondary mt-5 leading-relaxed">
               농촌의 작은 가게는 물건만 파는 곳이 아니었어요. 쌀을 배달하고, 안부를 묻고, 택배를 맡아 주던 곳이죠.
               가게가 문을 닫으면 그 일들이 한꺼번에 사라집니다. 더 가까이는 그 기능을 하나씩 나눠, 마을 안에서 이어받을 곳을 찾아요.
             </p>
           </div>
-          <dl className="col-span-7 grid grid-cols-3 gap-6">
+          <dl className="col-span-7 grid grid-cols-3 gap-4">
             {[
-              [String(closing), "곳", "폐업 예정 시설"],
-              [pop.toLocaleString(), "명", "영향받는 주민 (추정)"],
-              [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리"],
-            ].map(([v, u, label]) => (
-              <div key={label} className="border-t border-white/20 pt-5">
-                <dd className="font-display text-[56px] font-extrabold leading-none text-sage tnum">
+              [String(closing), "곳", "폐업 예정 시설", "#F8D3C4"],
+              [pop.toLocaleString(), "명", "영향받는 주민 (추정)", "#F7E7B6"],
+              [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리", "#FFFFFF"],
+            ].map(([v, u, label, bg]) => (
+              <div key={label} className="rounded-[24px] px-6 py-7" style={{ background: bg }}>
+                <dd className="font-display text-[44px] font-extrabold leading-none text-[#2F5E43] tnum whitespace-nowrap">
                   {v}
-                  <span className="text-[20px] text-white/80 ml-1">{u}</span>
+                  <span className="text-[20px] text-text-secondary ml-1">{u}</span>
                 </dd>
-                <dt className="text-[13px] text-white/60 mt-3">{label}</dt>
+                <dt className="text-[13px] font-semibold text-text-secondary mt-3">{label}</dt>
               </div>
             ))}
           </dl>
