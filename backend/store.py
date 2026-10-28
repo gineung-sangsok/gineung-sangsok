@@ -12,18 +12,22 @@ from pathlib import Path
 import pandas as pd
 
 from backend.schemas import (
+    Access,
     Closure,
     ClosureFunctions,
     Entity,
     FunctionTag,
     Gap,
+    GapSummary,
     Inheritance,
     InheritancePlan,
     Location,
     Population,
     ScoreBreakdown,
     Village,
+    VillageGap,
 )
+from track2_recommend import gap as gap_calc
 from track2_recommend import recommend as rec
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -178,23 +182,10 @@ class ClosureStore:
 
     def inheritance(self, closure_id: str) -> Inheritance:
         """담당자가 확인한(없으면 AI) 기능 목록으로 상속안을 계산한다. 데이터가 없으면 목업."""
-        candidates = recommend_candidates()
-        places = village_places()
-        if candidates is None or places is None:
+        computed = self._recommend(closure_id)
+        if computed is None:
             return Inheritance(**{**_mock("inheritance"), "closure_id": closure_id})
-        store = self.closures[closure_id].store
-        village = places.get(store.village_id)
-        target = rec.Place(
-            entity_id=store.entity_id,
-            name=store.name,
-            village_id=store.village_id,
-            village_name=village.village_name if village else "",
-            eup_myeon=village.eup_myeon if village else "",
-            lat=store.location.lat if store.location else None,
-            lng=store.location.lng if store.location else None,
-        )
-        functions = {t.code: t.confidence for t in self.functions[closure_id].functions}
-        plans, uncovered = rec.recommend(target, functions, candidates)
+        _, _, plans, uncovered = computed
         return Inheritance(
             closure_id=closure_id,
             plans=[
@@ -215,7 +206,53 @@ class ClosureStore:
         )
 
     def gap(self, closure_id: str) -> Gap:
-        return Gap(**{**_mock("gap"), "closure_id": closure_id})
+        """상속 전후 공백 변화. 데이터가 없으면 목업."""
+        computed = self._recommend(closure_id)
+        villages = gap_villages()
+        if computed is None or villages is None:
+            return Gap(**{**_mock("gap"), "closure_id": closure_id})
+        target, functions, plans, _ = computed
+        records, pop_before, pop_after = gap_calc.compute_gap(
+            target, functions, recommend_candidates(), villages, plans
+        )
+        return Gap(
+            closure_id=closure_id,
+            villages=[
+                VillageGap(
+                    village_id=r.village_id,
+                    function_code=r.function_code,
+                    before=Access(**vars(r.before)),
+                    after=Access(**vars(r.after)),
+                    gap=r.gap,
+                )
+                for r in records
+            ],
+            summary=GapSummary(gap_population_before=pop_before, gap_population_after=pop_after),
+        )
+
+    def _recommend(self, closure_id: str):
+        """(폐업 가게 위치, 기능 목록, 상속안, 이어받을 곳 없는 기능). 데이터가 없으면 None.
+
+        기능 목록은 담당자가 확인·수정한 값이 있으면 그것을, 없으면 AI 결과를 쓴다.
+        """
+        candidates = recommend_candidates()
+        places = village_places()
+        if candidates is None or places is None:
+            return None
+        store = self.closures[closure_id].store
+        village = places.get(store.village_id)
+        target = rec.Place(
+            entity_id=store.entity_id,
+            name=store.name,
+            village_id=store.village_id,
+            village_name=village.village_name if village else "",
+            eup_myeon=village.eup_myeon if village else "",
+            lat=store.location.lat if store.location else None,
+            lng=store.location.lng if store.location else None,
+        )
+        functions = {t.code: t.confidence for t in self.functions[closure_id].functions}
+        plans, uncovered = rec.recommend(target, functions, candidates)
+        return target, functions, plans, uncovered
 
 
 @cache
@@ -300,3 +337,21 @@ def recommend_candidates() -> list[rec.Candidate] | None:
         rows = pd.read_csv(markets).to_dict("records")
         candidates += rec.mobile_market_candidates(rows, places)
     return candidates
+
+
+@cache
+def gap_villages() -> list[gap_calc.Village] | None:
+    """공백 계산용 법정리: 대표점과 인구(total_pop, 없으면 0)."""
+    path = PROCESSED / "villages_ri.csv"
+    if not path.exists():
+        return None
+    df = pd.read_csv(path, dtype={"ri_code": str})
+    return [
+        gap_calc.Village(
+            entity_id=row.ri_code, name=row.ri_name, village_id=row.ri_code,
+            village_name=row.ri_name, eup_myeon=row.eup_myeon,
+            lat=_num(row.center_lat), lng=_num(row.center_lng),
+            population=0 if pd.isna(row.total_pop) else int(row.total_pop),
+        )
+        for row in df.itertuples()
+    ]
