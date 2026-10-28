@@ -1,5 +1,4 @@
-import type { FnCode } from "../../data/demo";
-import { FN } from "../../data/demo";
+import { FN, type FnCode } from "../../data/constants";
 import { FN_ICON } from "./FunctionIcon";
 
 const LINE = "#24352B";

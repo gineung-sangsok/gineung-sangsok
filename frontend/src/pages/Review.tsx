@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus } from "lucide-react";
-import PageHeader, { DemoTag } from "../components/ui/PageHeader";
+import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus, Loader2 } from "lucide-react";
+import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Donut from "../components/ui/Donut";
 import { API_BASE, FUNCTIONS, RESOURCE_TYPES, type FnCode, type FunctionTag, type InheritancePlan } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 import { FacilityStrip } from "./FunctionAnalysis";
 
@@ -43,7 +42,9 @@ export default function Review() {
   const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
-  const { fnDecisions, fnNotes, picks, reviewed, setReviewed, reviewDone, setReviewDone } = useDemo();
+  const [reviewed, setReviewedState] = useState<Record<FnCode, boolean>>({ F01: false, F02: false, F03: false, F04: false });
+  const setReviewed = (code: FnCode, v: boolean) => setReviewedState((p) => ({ ...p, [code]: v }));
+  const [reviewDone, setReviewDone] = useState(false);
   const [open, setOpen] = useState<string | null>("F01");
   const [comment, setComment] = useState("");
   const [shake, setShake] = useState(false);
@@ -52,31 +53,78 @@ export default function Review() {
   // API에서 데이터 가져오기
   const [functionResults, setFunctionResults] = useState<FunctionTag[]>([]);
   const [inheritancePlans, setInheritancePlans] = useState<InheritancePlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
-    const closureId = id === "store_0001" ? "closure_0001" : id;
-    fetch(`${API_BASE}/closures/${closureId}/functions`)
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => d && setFunctionResults(d.functions))
-      .catch(() => {});
-    fetch(`${API_BASE}/closures/${closureId}/inheritance`)
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => d && setInheritancePlans(d.plans))
-      .catch(() => {});
+    let cancelled = false;
+    setLoading(true);
+    setApiError(null);
+
+    Promise.all([
+      fetch(`${API_BASE}/closures/${id}/functions`).then((r) => r.ok ? r.json() : null),
+      fetch(`${API_BASE}/closures/${id}/inheritance`).then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([fnData, inhData]) => {
+        if (cancelled) return;
+        if (fnData) {
+          setFunctionResults(fnData.functions);
+          if (fnData.verified_by_officer) setReviewDone(true);
+        }
+        if (inhData) setInheritancePlans(inhData.plans);
+      })
+      .catch((err) => {
+        if (!cancelled) setApiError(err instanceof Error ? err.message : "데이터를 불러오지 못했습니다.");
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+
+    return () => { cancelled = true; };
   }, [id]);
+
+  // 기능별 최고점 상속안을 pick으로 간주
+  const picks: Record<FnCode, string | null> = { F01: null, F02: null, F03: null, F04: null };
+  for (const p of inheritancePlans) {
+    const code = p.function_code as FnCode;
+    const cur = picks[code];
+    const curPlan = cur ? inheritancePlans.find((x) => x.resource_id === cur && x.function_code === code) : null;
+    if (!cur || (curPlan && p.score > curPlan.score)) picks[code] = p.resource_id;
+  }
+  // 기능 분석 결과 기반 판단 상태
+  const fnDecisions: Record<FnCode, "accepted" | "rejected" | "pending"> = { F01: "pending", F02: "pending", F03: "pending", F04: "pending" };
+  for (const r of functionResults) {
+    fnDecisions[r.code] = r.confidence >= 0.4 ? "accepted" : "rejected";
+  }
 
   const done = FUNCTIONS.filter((f) => reviewed[f.code]).length;
   const picked = FUNCTIONS.filter((f) => picks[f.code]).length;
   const issues = FUNCTIONS.filter((f) => fnDecisions[f.code] === "pending" || !picks[f.code]).length;
 
-  const complete = () => {
+  const patchFunctions = async () => {
+    if (!id || functionResults.length === 0) return false;
+    try {
+      const res = await fetch(`${API_BASE}/closures/${id}/functions`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ functions: functionResults }),
+      });
+      if (!res.ok) throw new Error(`API ${res.status}`);
+      return true;
+    } catch {
+      toast({ kind: "warn", title: "저장 실패", desc: "API 연결을 확인해 주세요." });
+      return false;
+    }
+  };
+
+  const complete = async () => {
     if (done < 4) {
       setShake(true);
       setTimeout(() => setShake(false), 450);
       toast({ kind: "warn", title: `${4 - done}개 기능 확인이 남았습니다`, desc: "각 행의 체크를 눌러 확인해 주세요." });
       return;
     }
+    const ok = await patchFunctions();
+    if (!ok) return;
     setReviewDone(true);
     setCelebrate(true);
     setTimeout(() => setCelebrate(false), 2600);
@@ -88,11 +136,23 @@ export default function Review() {
         en="Final Review"
         eyebrow={<FlowStepper />}
         title="최종 제안 검토"
-        badge={<>{reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}<DemoTag /></>}
+        badge={reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}
         desc="기능별 상속안과 근거를 마지막으로 확인하고 제안 내용을 확정합니다."
       />
 
       <FacilityStrip />
+
+      {loading && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-surface-tint border border-border text-[13px] text-text-secondary animate-fade-in">
+          <Loader2 className="w-4 h-4 animate-spin" /> 검토 데이터를 불러오는 중...
+        </div>
+      )}
+      {apiError && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-[#FBF1E4] border border-[#E8D5B7] text-[13px] text-status-warn animate-fade-in">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          API 연결 실패: {apiError}
+        </div>
+      )}
 
       <div className="grid grid-cols-12 gap-5 items-start">
         <div className={`col-span-8 space-y-5 ${shake ? "animate-shake" : ""}`}>
@@ -160,7 +220,7 @@ export default function Review() {
                           </div>
                           <div>
                             <p className="text-text-muted text-[11px] mb-1">담당자 메모</p>
-                            <p className={fnNotes[f.code] ? "font-medium" : "text-text-muted"}>{fnNotes[f.code] || "메모 없음"}</p>
+                            <p className="text-text-muted">메모 없음</p>
                           </div>
                         </div>
                       </div>
@@ -247,12 +307,12 @@ export default function Review() {
             </button>
             <div className="grid grid-cols-2 gap-2">
               <button onClick={() => toast({ kind: "info", title: "검토를 보류했습니다" })} className="btn btn-ghost"><PauseCircle className="w-4 h-4" /> 보류</button>
-              <button onClick={() => toast({ title: "수정 사항을 저장했습니다" })} className="btn btn-ghost"><Save className="w-4 h-4" /> 저장</button>
+              <button onClick={async () => { const ok = await patchFunctions(); if (ok) toast({ title: "수정 사항을 저장했습니다" }); }} className="btn btn-ghost"><Save className="w-4 h-4" /> 저장</button>
             </div>
             {reviewDone && (
               <p className="text-[11px] text-text-muted text-center pt-1 animate-fade-in">
                 담당자 검토 완료를 의미하며, 공식적인 행정 승인과는 구분됩니다.
-                <button onClick={() => setReviewDone(false)} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
+                <button onClick={async () => { const ok = await patchFunctions(); if (ok) setReviewDone(false); }} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
               </p>
             )}
           </div>

@@ -1,6 +1,6 @@
 import { Carrot, House, Package, ShoppingBasket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { FN, type FnCode } from "../../data/demo";
+import { FN, type FnCode } from "../../data/constants";
 import { HouseBadge } from "./HouseFrame";
 
 export const FN_ICON: Record<FnCode, LucideIcon> = {

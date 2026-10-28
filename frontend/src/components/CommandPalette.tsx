@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Home, Store, Layers, GitBranch, Map, Database, ClipboardCheck, CornerDownLeft, Building2 } from "lucide-react";
+import { Search, Home, Store, Layers, GitBranch, Map, Database, ClipboardCheck, CornerDownLeft } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useDemo } from "../store/DemoStore";
-
 interface Cmd { id: string; group: string; label: string; hint?: string; icon: LucideIcon; to: string }
 
-const DEFAULT_FACILITY = "store_0001";
+const DEFAULT_FACILITY = "closure_0001";
 
 function buildPages(facilityId: string): Cmd[] {
   return [
@@ -23,7 +21,6 @@ function buildPages(facilityId: string): Cmd[] {
 export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { facilities } = useDemo();
   const [q, setQ] = useState("");
   const [idx, setIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,18 +32,8 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   }, [location.pathname]);
 
   const all = useMemo<Cmd[]>(
-    () => [
-      ...buildPages(facilityId),
-      ...facilities.map((f) => ({
-        id: `f-${f.entity_id}`,
-        group: "시설",
-        label: f.name,
-        hint: `${f.eup_myeon} ${f.ri}`,
-        icon: Building2,
-        to: `/closures/${f.entity_id}/functions`,
-      })),
-    ],
-    [facilities, facilityId],
+    () => buildPages(facilityId),
+    [facilityId],
   );
 
   const results = useMemo(() => {

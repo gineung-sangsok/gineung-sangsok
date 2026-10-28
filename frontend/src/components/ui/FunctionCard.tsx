@@ -2,7 +2,7 @@ import { Check, X, ChevronRight } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import Donut from "./Donut";
 import { FN, type FnCode } from "../../data/constants";
-import type { Decision } from "../../store/DemoStore";
+type Decision = "pending" | "accepted" | "rejected";
 
 export function confidenceLabel(c: number | null): { text: string; variant: "confirmed" | "review" | "muted" } {
   if (c === null) return { text: "정보 확인 필요", variant: "muted" };

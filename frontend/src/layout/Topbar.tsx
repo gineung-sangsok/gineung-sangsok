@@ -5,7 +5,7 @@ import { useClickOutside } from "../components/ui/Dropdown";
 
 function getClosureId(pathname: string): string {
   const m = pathname.match(/^\/closures\/([^/]+)/);
-  return m?.[1] && m[1] !== "new" ? m[1] : "store_0001";
+  return m?.[1] && m[1] !== "new" ? m[1] : "closure_0001";
 }
 
 const navItems = (id: string) => [

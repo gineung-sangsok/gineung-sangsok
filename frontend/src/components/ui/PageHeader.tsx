@@ -32,16 +32,6 @@ export default function PageHeader({
   );
 }
 
-export function DemoTag() {
-  return (
-    <span
-      title="API 연결 전 UI 시연용 샘플 데이터입니다"
-      className="inline-flex items-center gap-1 px-2.5 py-[3px] rounded-full text-[11px] font-bold tracking-wide bg-[#FFF3C4] text-ink border-2 border-[#E9C96A] rotate-2"
-    >
-      데모 데이터
-    </span>
-  );
-}
 
 export function CardHeader({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
   return (
