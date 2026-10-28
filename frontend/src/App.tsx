@@ -9,13 +9,11 @@ import Inheritance from "./pages/Inheritance";
 import SpatialAnalysis from "./pages/SpatialAnalysis";
 import DataManagement from "./pages/DataManagement";
 import Review from "./pages/Review";
-import { DemoStoreProvider } from "./store/DemoStore";
 import { ToastProvider } from "./components/ui/Toast";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <DemoStoreProvider>
         <ToastProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -37,7 +35,6 @@ export default function App() {
             />
           </Routes>
         </ToastProvider>
-      </DemoStoreProvider>
       <Analytics />
     </BrowserRouter>
   );
