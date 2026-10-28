@@ -10,7 +10,7 @@ function getClosureId(pathname: string): string {
 }
 
 const navItems = (id: string) => [
-  { to: "/", label: "대시보드", end: true },
+  { to: "/dashboard", label: "대시보드", end: true },
   { to: "/closures/new", label: "시설 등록" },
   { to: `/closures/${id}/functions`, label: "기능 분석" },
   { to: `/closures/${id}/inheritance`, label: "상속안" },

@@ -45,12 +45,12 @@ export default function SpatialAnalysis() {
     const binIdx = GAP_BINS.findIndex((b) => v >= b.min);
     const dimByBin = s.bin !== null && binIdx !== s.bin;
     if (s.mode === "outline") {
-      return { fillColor: "#2E8C7E", fillOpacity: isSel ? 0.45 : 0.08, color: isSel ? "#0C3341" : "#0E5266", weight: isSel ? 3 : 1, opacity: 0.8 };
+      return { fillColor: "#5E8C4A", fillOpacity: isSel ? 0.45 : 0.08, color: isSel ? "#1E2A1C" : "#2F4A2C", weight: isSel ? 3 : 1, opacity: 0.8 };
     }
     return {
       fillColor: gapColor(v),
       fillOpacity: dimByBin ? 0.08 : isSel ? 0.92 : 0.72,
-      color: isSel ? "#0C3341" : "#ffffff",
+      color: isSel ? "#1E2A1C" : "#ffffff",
       weight: isSel ? 3 : 1,
       opacity: dimByBin ? 0.3 : 1,
     };
@@ -95,7 +95,7 @@ export default function SpatialAnalysis() {
               return `<div style="min-width:150px"><div style="font-weight:700;font-size:13px">${props.ri_name}</div><div style="opacity:.6;font-size:11px;margin-bottom:6px">${props.eup_myeon}</div><div style="display:flex;justify-content:space-between;gap:12px"><span style="opacity:.7">${f === "ALL" ? "종합 공백지수" : `${f} 공백지수`}</span><b>${v}</b></div><div style="display:flex;justify-content:space-between"><span style="opacity:.7">인구</span><b>${it.m.pop}명</b></div></div>`;
             }, { className: "ri-tip", sticky: true, direction: "top", offset: [0, -8] });
             layer.on("mouseover", () => {
-              (layer as L.Path).setStyle({ weight: 2.5, color: "#0C3341" });
+              (layer as L.Path).setStyle({ weight: 2.5, color: "#1E2A1C" });
               (layer as L.Path).bringToFront();
             });
             layer.on("mouseout", () => (layer as L.Path).setStyle(styleFor(it)));
@@ -154,7 +154,7 @@ export default function SpatialAnalysis() {
   const binCounts = GAP_BINS.map((_, idx) => items.filter((i) => GAP_BINS.findIndex((b) => valueOf(i.m, filter) >= b.min) === idx).length);
 
   const results = q.trim() ? items.filter((i) => `${i.props.eup_myeon} ${i.props.ri_name}`.includes(q.trim())).slice(0, 8) : [];
-  const accent = filter === "ALL" ? "#0E5266" : FN[filter].hex;
+  const accent = filter === "ALL" ? "#2F4A2C" : FN[filter].hex;
 
   return (
     <div className="h-full flex gap-5 min-h-[640px]">
@@ -167,7 +167,7 @@ export default function SpatialAnalysis() {
           <div className="pointer-events-auto bg-surface/95 backdrop-blur rounded-2xl p-1.5 flex gap-1" style={{ boxShadow: "var(--shadow-lift)" }}>
             {(["ALL", ...FUNCTIONS.map((f) => f.code)] as Filter[]).map((f) => {
               const on = filter === f;
-              const c = f === "ALL" ? "#0E5266" : FN[f].hex;
+              const c = f === "ALL" ? "#2F4A2C" : FN[f].hex;
               return (
                 <button
                   key={f}
@@ -334,8 +334,8 @@ export default function SpatialAnalysis() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byEup} layout="vertical" margin={{ left: 0, right: 16 }} key={filter}>
                 <XAxis type="number" hide domain={[0, 100]} />
-                <YAxis type="category" dataKey="name" width={56} tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#5E7180" }} />
-                <Tooltip cursor={{ fill: "#0E52660a" }} content={({ active, payload }) => active && payload?.length ? <div className="px-2.5 py-1.5 rounded-lg bg-[#0C3341] text-white text-[12px] font-semibold">{payload[0].payload.name} · {payload[0].value}</div> : null} />
+                <YAxis type="category" dataKey="name" width={56} tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#4A463E" }} />
+                <Tooltip cursor={{ fill: "#2F4A2C0a" }} content={({ active, payload }) => active && payload?.length ? <div className="px-2.5 py-1.5 rounded-lg bg-[#1E2A1C] text-white text-[12px] font-semibold">{payload[0].payload.name} · {payload[0].value}</div> : null} />
                 <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={14} animationDuration={700} onClick={(d) => setEupFilter((p) => ((d as unknown as { name: string }).name === p ? null : (d as unknown as { name: string }).name))} className="cursor-pointer">
                   {byEup.map((e) => (
                     <Cell key={e.name} fill={gapColor(e.value)} fillOpacity={eupFilter && eupFilter !== e.name ? 0.3 : 1} />

@@ -25,15 +25,15 @@
   --font-display: "Noto Serif KR", "Pretendard Variable", serif;
   --font-hand: "Gaegu", "Pretendard Variable", cursive;
 
-  --color-f01: #3F7BC4;
-  --color-f02: #3E9A74;
-  --color-f03: #D0893A;
-  --color-f04: #8063BA;
+  --color-f01: #6B8F3E;
+  --color-f02: #2E6B4F;
+  --color-f03: #B07A3B;
+  --color-f04: #5F7F8C;
 
-  --color-status-ok: #2E8466;
-  --color-status-warn: #B97A2A;
-  --color-status-error: #C65555;
-  --color-status-info: #3F7BC4;
+  --color-status-ok: #4F7A3A;
+  --color-status-warn: #B07A3B;
+  --color-status-error: #A34A32;
+  --color-status-info: #5F7F8C;
 
   --shadow-card: 0 1px 0 rgba(18, 18, 18, 0.04);
   --shadow-lift: 4px 4px 0 #121212;

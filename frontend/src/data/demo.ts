@@ -13,10 +13,10 @@ export const FUNCTIONS: {
   color: string;
   hex: string;
 }[] = [
-  { code: "F01", name: "생필품 구매", short: "생필품", desc: "공산품·가공식품 판매", color: "bg-f01", hex: "#3F7BC4" },
-  { code: "F02", name: "신선식품 구매", short: "신선식품", desc: "채소·과일·정육·수산 등 냉장 상품", color: "bg-f02", hex: "#3E9A74" },
-  { code: "F03", name: "무거운 상품 구매", short: "무거운 상품", desc: "쌀·생수·연료 등 들고 오기 힘든 상품, 또는 배달", color: "bg-f03", hex: "#D0893A" },
-  { code: "F04", name: "마을 생활거점", short: "생활거점", desc: "공동수령·모임·안부 확인 장소", color: "bg-f04", hex: "#8063BA" },
+  { code: "F01", name: "생필품 구매", short: "생필품", desc: "공산품·가공식품 판매", color: "bg-f01", hex: "#6B8F3E" },
+  { code: "F02", name: "신선식품 구매", short: "신선식품", desc: "채소·과일·정육·수산 등 냉장 상품", color: "bg-f02", hex: "#2E6B4F" },
+  { code: "F03", name: "무거운 상품 구매", short: "무거운 상품", desc: "쌀·생수·연료 등 들고 오기 힘든 상품, 또는 배달", color: "bg-f03", hex: "#B07A3B" },
+  { code: "F04", name: "마을 생활거점", short: "생활거점", desc: "공동수령·모임·안부 확인 장소", color: "bg-f04", hex: "#5F7F8C" },
 ];
 
 export const FN = Object.fromEntries(FUNCTIONS.map((f) => [f.code, f])) as Record<FnCode, (typeof FUNCTIONS)[number]>;
@@ -240,11 +240,11 @@ export async function fetchVillages(): Promise<Map<string, VillageRecord>> {
 }
 
 export const GAP_BINS = [
-  { min: 80, color: "#B23A48", label: "80+" },
-  { min: 65, color: "#E07A5F", label: "65–79" },
-  { min: 50, color: "#F2B880", label: "50–64" },
-  { min: 35, color: "#9CCFC2", label: "35–49" },
-  { min: 0, color: "#D8ECE7", label: "<35" },
+  { min: 80, color: "#7A3E2B", label: "80+" },
+  { min: 65, color: "#B5643C", label: "65–79" },
+  { min: 50, color: "#D9B77A", label: "50–64" },
+  { min: 35, color: "#B9CC92", label: "35–49" },
+  { min: 0, color: "#E6EBD3", label: "<35" },
 ];
 export function gapColor(v: number) {
   return (GAP_BINS.find((b) => v >= b.min) ?? GAP_BINS[GAP_BINS.length - 1]).color;

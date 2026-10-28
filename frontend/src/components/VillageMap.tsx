@@ -76,7 +76,7 @@ const HOUSES: [number, number, string][] = [
 ];
 
 // 주민: 처음 위치(가게로 장 보러 가는 길) → 상속 후 위치
-interface Person { from: [number, number]; to?: [number, number]; shirt: string; hair: string; elder?: boolean; hat?: string }
+export interface Person { from: [number, number]; to?: [number, number]; shirt: string; hair: string; elder?: boolean; hat?: string }
 const PEOPLE: Person[] = [
   { from: [470, 262], to: [228, 262], shirt: "#E8A33D", hair: "#3B2A20" },
   { from: [500, 272], to: [256, 274], shirt: "#5B8DB8", hair: "#D9D4CC", elder: true },
@@ -90,7 +90,7 @@ const PEOPLE: Person[] = [
   { from: [690, 412], shirt: "#E8A33D", hair: "#D9D4CC", elder: true, hat: "#F2D27A" },
 ];
 
-function Tree({ x, y, s, tone }: { x: number; y: number; s: number; tone: string }) {
+export function Tree({ x, y, s, tone }: { x: number; y: number; s: number; tone: string }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <ellipse cx="3" cy="16" rx="17" ry="5" fill="#00000016" />
@@ -103,7 +103,7 @@ function Tree({ x, y, s, tone }: { x: number; y: number; s: number; tone: string
   );
 }
 
-function House({ x, y, roof }: { x: number; y: number; roof: string }) {
+export function House({ x, y, roof }: { x: number; y: number; roof: string }) {
   return (
     <g transform={`translate(${x} ${y})`}>
       <ellipse cx="2" cy="15" rx="20" ry="5" fill="#00000016" />
@@ -125,7 +125,7 @@ function Flowers({ x, y }: { x: number; y: number }) {
   );
 }
 
-function Villager({ p, at, i }: { p: Person; at: [number, number]; i: number }) {
+export function Villager({ p, at, i }: { p: Person; at: [number, number]; i: number }) {
   return (
     <g style={{ transform: `translate(${at[0]}px, ${at[1]}px)`, transition: `transform 2.4s cubic-bezier(.45,0,.25,1) ${0.15 * i}s` }}>
       <g className="villager" style={{ animationDelay: `${(i % 5) * 0.18}s` }}>
