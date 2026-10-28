@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 import AnimatedNumber from "./AnimatedNumber";
+import { HouseBadge } from "./HouseFrame";
 
 export default function StatCard({
   icon: Icon,
@@ -38,12 +39,7 @@ export default function StatCard({
     >
       <div className="flex items-start justify-between">
         <p className="text-[14px] font-semibold text-text-secondary">{label}</p>
-        <div
-          className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
-          style={{ background: `${color}33`, color: "#24352B" }}
-        >
-          <Icon className="w-5 h-5" />
-        </div>
+        <HouseBadge icon={Icon} fill={`${color}40`} color="#24352B" size={42} />
       </div>
       <p className="font-title text-[40px] leading-none mt-2">
         <AnimatedNumber value={value} />

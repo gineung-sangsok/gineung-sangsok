@@ -11,6 +11,7 @@ import { CardHeader } from "../components/ui/PageHeader";
 import VillageMap from "../components/VillageMap";
 import FunctionIcon from "../components/ui/FunctionIcon";
 import PlantGauge from "../components/ui/PlantGauge";
+import HouseFrame from "../components/ui/HouseFrame";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
 import { useDemo } from "../store/DemoStore";
@@ -99,27 +100,35 @@ export default function Dashboard() {
 
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
-        <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#E8957A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
-        <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#6FA8D0" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
-        <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#D4B24C" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
-        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#6CBF8E" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
+        <HouseFrame variant={0}>
+          <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#E8957A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
+        </HouseFrame>
+        <HouseFrame variant={1}>
+          <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#6FA8D0" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
+        </HouseFrame>
+        <HouseFrame variant={2}>
+          <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#D4B24C" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
+        </HouseFrame>
+        <HouseFrame variant={3}>
+          <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#6CBF8E" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
+        </HouseFrame>
       </div>
 
       {/* Function gap donuts */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
-        {FUNCTIONS.map((f) => {
+        {FUNCTIONS.map((f, i) => {
           const v = FUNCTION_GAP_RATE[f.code];
           const active = hoverFn === f.code;
           return (
+            <HouseFrame key={f.code} variant={i + 2}>
             <button
-              key={f.code}
               onMouseEnter={() => setHoverFn(f.code)}
               onMouseLeave={() => setHoverFn(null)}
               onClick={() => navigate(`/spatial?fn=${f.code}`)}
-              className="card card-hover p-6 text-left group"
+              className="card card-hover p-6 text-left group w-full"
             >
               <div className="flex items-start justify-between">
-                <FunctionIcon code={f.code} size={44} />
+                <FunctionIcon code={f.code} size={46} house />
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink border-2 border-white rotate-3" style={{ background: f.hex }}>{f.code}</span>
               </div>
               <h3 className="font-title text-[21px] text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
@@ -139,6 +148,7 @@ export default function Dashboard() {
                 <ArrowUpRight className="w-4 h-4 text-action group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </div>
             </button>
+            </HouseFrame>
           );
         })}
       </div>

@@ -5,6 +5,7 @@ import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
+import HouseFrame from "../components/ui/HouseFrame";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
 import { FN, FUNCTION_RESULTS, TAGGING_SOURCE_LABEL, type FnCode } from "../data/demo";
@@ -134,9 +135,9 @@ export default function FunctionAnalysis() {
       </div>
 
       <div key={filter} className="grid grid-cols-2 gap-5 stagger">
-        {visible.map((f) => (
+        {visible.map((f, i) => (
+          <HouseFrame key={f.code} variant={i}>
           <FunctionCard
-            key={f.code}
             code={f.code}
             index={order.indexOf(f.code)}
             confidence={f.confidence}
@@ -146,6 +147,7 @@ export default function FunctionAnalysis() {
             selected={selected === f.code}
             onClick={() => setSelected(f.code)}
           />
+          </HouseFrame>
         ))}
         {visible.length === 0 && (
           <div className="col-span-2 card py-16 text-center text-[13px] text-text-muted">
