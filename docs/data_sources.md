@@ -16,3 +16,4 @@
 | 법정리 경계 | VWorld WFS API (국토교통부) | | 임실군 (45750*) | VWorld 이용약관 | B | `scripts/fetch_vworld_ri.py`로 수집. API 키 오류로 실제 경계 미수신, LX shp로 대체 |
 | 법정리 경계 (LX 법정구역경계) | LX한국국토정보공사 | 2026-10-15 | 전국 → 임실군 필터 (131개 법정리) | 확인 필요 | B | `data/raw/LX법정구역경계_리_전국/RI.shp`. ESRI:102082 → EPSG:4326 변환. `scripts/process_lx_ri.py`로 처리, 출력: `data/processed/legal_ri_imsil.geojson` |
 | 도로망 | VWorld·OSM | | 임실군 | | B | |
+| eval50 B 라벨 (eval50_B.csv) | 수동 라벨링 (B 라벨러) | 2026-10-28 | sample50 중 50건, F01~F04 | 내부 산출물 | B | 이름·업종·주소만 참조, A 라벨·모델 결과 미참조. `docs/contracts/function_taxonomy.md` + 10/26 합의 기준 적용 |
