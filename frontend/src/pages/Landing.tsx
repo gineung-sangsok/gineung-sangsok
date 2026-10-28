@@ -73,7 +73,10 @@ export default function Landing() {
           <span className="w-9 h-9 rounded-full bg-ink text-sage flex items-center justify-center">
             <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
           </span>
-          <span className="font-display text-[19px] font-black tracking-tight">더 가까이</span>
+          <span className="leading-none">
+            <span className="block font-display text-[17px] font-extrabold tracking-[0.08em]">CLOSER</span>
+            <span className="block text-[11px] font-semibold text-text-muted mt-0.5">더 가까이</span>
+          </span>
         </div>
         <div className="flex items-center gap-6 text-[14px] font-semibold">
           <a href="#about" className="hover:underline underline-offset-4">서비스 소개</a>
@@ -153,8 +156,9 @@ export default function Landing() {
 
         {/* 띠 위 제목 */}
         <div className="absolute inset-x-0 top-[57%] -translate-y-1/2 text-center pointer-events-none">
-          <h1 className="font-display font-black text-sage tracking-tight leading-none text-[clamp(56px,9vw,124px)]">더 가까이</h1>
-          <p className="text-white/75 text-[clamp(13px,1.3vw,17px)] mt-4 font-medium">
+          <h1 className="font-display font-extrabold text-sage tracking-[-0.03em] leading-none text-[clamp(64px,10vw,140px)]">Closer</h1>
+          <p className="text-white text-[clamp(16px,1.6vw,22px)] font-bold mt-3">더 가까이</p>
+          <p className="text-white/70 text-[clamp(13px,1.2vw,16px)] mt-2 font-medium">
             마을 가게가 문을 닫아도, 생활은 이어지도록 — 농촌 생활서비스 기능 상속 플랫폼
           </p>
         </div>
@@ -173,12 +177,12 @@ export default function Landing() {
       <section id="about" className="bg-ink text-white">
         <div className="max-w-[1280px] mx-auto px-8 py-20 grid grid-cols-12 gap-10 items-end">
           <div className="col-span-5">
-            <p className="text-[13px] font-semibold text-sage tracking-wide">ABOUT</p>
-            <h2 className="font-display text-[40px] font-black leading-[1.25] mt-3">
-              사라지는 건
+            <h2 className="font-display text-[52px] font-extrabold leading-[1.05] tracking-[-0.02em]">
+              More than
               <br />
-              가게만이 아니에요
+              <span className="text-sage">a store.</span>
             </h2>
+            <p className="text-[18px] font-bold mt-4">사라지는 건 가게만이 아니에요</p>
             <p className="text-[15px] text-white/65 mt-5 leading-relaxed">
               농촌의 작은 가게는 물건만 파는 곳이 아니었어요. 쌀을 배달하고, 안부를 묻고, 택배를 맡아 주던 곳이죠.
               가게가 문을 닫으면 그 일들이 한꺼번에 사라집니다. 더 가까이는 그 기능을 하나씩 나눠, 마을 안에서 이어받을 곳을 찾아요.
@@ -191,7 +195,7 @@ export default function Landing() {
               [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리"],
             ].map(([v, u, label]) => (
               <div key={label} className="border-t border-white/20 pt-5">
-                <dd className="font-display text-[56px] font-black leading-none text-sage tnum">
+                <dd className="font-display text-[56px] font-extrabold leading-none text-sage tnum">
                   {v}
                   <span className="text-[20px] text-white/80 ml-1">{u}</span>
                 </dd>
@@ -204,8 +208,8 @@ export default function Landing() {
 
       {/* 이어받는 방법 */}
       <section id="how" className="max-w-[1280px] mx-auto px-8 py-20">
-        <p className="text-[13px] font-semibold text-brand tracking-wide">HOW IT WORKS</p>
-        <h2 className="font-display text-[36px] font-black mt-2">기능은 남기고, 이어받을 곳을 찾아요</h2>
+        <h2 className="font-display text-[52px] font-extrabold tracking-[-0.02em] leading-none">How it works</h2>
+        <p className="text-[18px] font-bold mt-4">기능은 남기고, 이어받을 곳을 찾아요</p>
         <div className="grid grid-cols-3 gap-5 mt-10">
           {[
             ["01", "폐업 예정 시설 등록", "문을 닫을 가게와 날짜를 등록하면 위치와 주변 주민 수를 바로 계산해요."],
@@ -213,7 +217,7 @@ export default function Landing() {
             ["03", "이어받을 곳 추천", "이동장터·농협 배달·마을회관 같은 자원을 거리와 운영 시간으로 비교해 추천해요."],
           ].map(([n, t, d]) => (
             <div key={n} className="card card-hover p-7">
-              <p className="font-display text-[44px] font-black leading-none">{n}</p>
+              <p className="font-display text-[48px] font-extrabold text-sage leading-none">{n}</p>
               <h3 className="text-[18px] font-bold mt-6">{t}</h3>
               <p className="text-[14px] text-text-secondary mt-2 leading-relaxed">{d}</p>
             </div>

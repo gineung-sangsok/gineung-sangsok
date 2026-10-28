@@ -68,6 +68,7 @@ export default function Review() {
   return (
     <div>
       <PageHeader
+        en="Final Review"
         eyebrow={<FlowStepper />}
         title="최종 제안 검토"
         badge={<>{reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}<DemoTag /></>}

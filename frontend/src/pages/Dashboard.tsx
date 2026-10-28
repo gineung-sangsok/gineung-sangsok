@@ -121,7 +121,7 @@ export default function Dashboard() {
                 <FunctionIcon code={f.code} size={44} />
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: f.hex }}>{f.code}</span>
               </div>
-              <h3 className="font-display text-[17px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
+              <h3 className="text-[17px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
               <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
               <div className="flex items-center justify-center my-4">
                 <Donut

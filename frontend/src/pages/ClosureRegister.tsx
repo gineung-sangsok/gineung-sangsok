@@ -172,6 +172,7 @@ export default function ClosureRegister() {
   return (
     <div>
       <PageHeader
+        en="Register"
         eyebrow={<FlowStepper />}
         title="폐업 예정 시설 등록"
         desc="시설 정보를 등록하면 해당 시설이 제공하던 생활 기능을 자동으로 분석합니다."

@@ -76,6 +76,7 @@ export default function Inheritance() {
   return (
     <div>
       <PageHeader
+        en="Inheritance Plan"
         eyebrow={<FlowStepper />}
         title="기능별 상속안 제안"
         badge={<DemoTag />}

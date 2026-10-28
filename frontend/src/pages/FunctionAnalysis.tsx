@@ -95,6 +95,7 @@ export default function FunctionAnalysis() {
   return (
     <div>
       <PageHeader
+        en="Function Analysis"
         eyebrow={<FlowStepper />}
         title="기능 공백 분석"
         badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}

@@ -45,7 +45,7 @@ export default function StatCard({
           <Icon className="w-5 h-5" />
         </div>
       </div>
-      <p className="font-display text-[36px] font-black leading-none mt-2 tracking-tight">
+      <p className="font-display text-[36px] font-extrabold leading-none mt-2 tracking-tight">
         <AnimatedNumber value={value} />
         {suffix && <span className="text-[16px] font-semibold text-text-muted ml-0.5">{suffix}</span>}
       </p>

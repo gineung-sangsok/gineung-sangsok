@@ -43,8 +43,8 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
           <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
         </span>
         <span className="leading-tight">
-          <span className="block font-display text-[18px] font-black tracking-tight">더 가까이</span>
-          <span className="block text-[10.5px] text-white/50">농촌 생활서비스 연계 플랫폼</span>
+          <span className="block font-display text-[16px] font-extrabold tracking-[0.08em]">CLOSER</span>
+          <span className="block text-[10.5px] text-white/50">더 가까이 · 농촌 생활서비스 연계</span>
         </span>
       </NavLink>
 

@@ -207,8 +207,9 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
       {/* 머리 띠 */}
       <div className="bg-ink text-white px-10 pt-9 pb-12 flex items-end justify-between gap-10">
         <div className="min-w-0">
-          <p className="text-[12.5px] font-semibold text-white/60 tracking-wide">임실군 삼계면 죽계리 · 생활서비스 현황</p>
-          <h1 className="font-display text-[40px] font-black leading-[1.22] tracking-tight mt-3">
+          <p className="font-display text-[44px] font-extrabold tracking-[-0.02em] leading-none">Village Map</p>
+          <p className="text-[12.5px] font-semibold text-white/55 mt-3">임실군 삼계면 죽계리 · 생활서비스 현황</p>
+          <h1 className="text-[28px] font-bold leading-[1.35] tracking-tight mt-3">
             {inherited ? (
               <>
                 가게가 하던 일 네 가지,
@@ -247,7 +248,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
             [inherited ? "3" : "0", "곳", "이어받는 곳"],
           ].map(([v, u, label]) => (
             <div key={label}>
-              <dd className="font-display text-[46px] font-black leading-none text-sage tnum">
+              <dd className="font-display text-[46px] font-extrabold leading-none text-sage tnum">
                 {v}
                 <span className="text-[18px] text-white/80 ml-1">{u}</span>
               </dd>
@@ -450,7 +451,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
             className="absolute z-10 w-[250px] -translate-x-1/2 rounded-xl bg-surface border-[1.5px] border-ink px-4 py-3 shadow-[4px_4px_0_#1C1C1C] pointer-events-none animate-scale-in"
             style={{ left: `${(shown.x / W) * 100}%`, top: `calc(${(shown.y / H) * 100}% + 14px)` }}
           >
-            <p className="font-display text-[15px] font-bold">{shown.name}</p>
+            <p className="text-[15px] font-bold">{shown.name}</p>
             <p className={`text-[11.5px] font-semibold ${shown.key === "store" ? "text-[#E0402B]" : "text-brand"}`}>{shown.kind}</p>
             <p className="text-[12px] text-text-secondary mt-1.5 leading-relaxed">{shown.detail}</p>
             <div className="flex gap-1 mt-2">
