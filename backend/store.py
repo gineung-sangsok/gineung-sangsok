@@ -92,6 +92,39 @@ def villages() -> list[Village]:
     ]
 
 
+# F01~F03은 LLM, F04는 키워드 규칙(법정리 식료품점 수)을 쓴다.
+# 근거: docs/experiments/tagging_prompt.md
+TAG_SOURCES = {"llm": ["F01", "F02", "F03"], "keyword": ["F04"]}
+
+
+@cache
+def tags_by_entity() -> dict[str, list[FunctionTag]] | None:
+    """data/processed/tagging_{llm,keyword}.csv를 entity_id별 기능 태그로 묶는다. 없으면 None."""
+    paths = {method: PROCESSED / f"tagging_{method}.csv" for method in TAG_SOURCES}
+    if not all(path.exists() for path in paths.values()):
+        return None
+    df = pd.concat(
+        pd.read_csv(paths[method]).query("code in @codes")
+        for method, codes in TAG_SOURCES.items()
+    ).sort_values(["entity_id", "code"])
+    return {
+        entity_id: [
+            FunctionTag(code=row.code, confidence=row.confidence, evidence=_text(row.evidence),
+                        source=row.source)
+            for row in group.itertuples()
+        ]
+        for entity_id, group in df.groupby("entity_id")
+    }
+
+
+def functions_for(entity_id: str) -> list[FunctionTag]:
+    """가게의 태깅 결과. 태깅 파일이 없으면 데모 결과를, 태그가 없는 가게는 빈 목록을 준다."""
+    tags = tags_by_entity()
+    if tags is None:
+        return [FunctionTag(**item) for item in _mock("functions")["functions"]]
+    return tags.get(entity_id, [])
+
+
 class ClosureStore:
     """폐업 등록·담당자 수정 내역을 메모리에 보관한다. (추후 SQLite)
 
@@ -103,15 +136,17 @@ class ClosureStore:
         self._lock = threading.Lock()
         demo = _mock("closure")
         self.closures: dict[str, Closure] = {demo["closure_id"]: Closure(**demo)}
-        functions = _mock("functions")
         self.functions: dict[str, ClosureFunctions] = {
-            functions["closure_id"]: ClosureFunctions(**functions)
+            demo["closure_id"]: ClosureFunctions(
+                closure_id=demo["closure_id"],
+                functions=functions_for(demo["store"]["entity_id"]),
+                verified_by_officer=False,
+            )
         }
 
     def create(self, store: Entity, closure_date: str | None, note: str | None) -> Closure:
         store = store.model_copy(update={"status": "CLOSING", "closure_date": closure_date})
-        # 태깅 연결 전까지는 데모 기능 분리 결과를 그대로 붙인다
-        demo = _mock("functions")
+        functions = functions_for(store.entity_id)
         with self._lock:
             closure_id = f"closure_{len(self.closures) + 1:04d}"
             closure = Closure(
@@ -120,7 +155,7 @@ class ClosureStore:
             self.closures[closure_id] = closure
             self.functions[closure_id] = ClosureFunctions(
                 closure_id=closure_id,
-                functions=demo["functions"],
+                functions=functions,
                 verified_by_officer=False,
             )
         return closure

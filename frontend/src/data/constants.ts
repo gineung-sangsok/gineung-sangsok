@@ -15,11 +15,13 @@ export const FUNCTIONS: {
   desc: string;
   color: string;
   hex: string;
+  /** 파스텔 hex 위에 올리거나 흰 바탕에 쓰는 글자·아이콘용 짙은 색 */
+  deep: string;
 }[] = [
-  { code: "F01", name: "생필품 구매", short: "생필품", desc: "공산품·가공식품 판매", color: "bg-f01", hex: "#3F7BC4" },
-  { code: "F02", name: "신선식품 구매", short: "신선식품", desc: "채소·과일·정육·수산 등 냉장 상품", color: "bg-f02", hex: "#3E9A74" },
-  { code: "F03", name: "무거운 상품 구매", short: "무거운 상품", desc: "쌀·생수·연료 등 들고 오기 힘든 상품, 또는 배달", color: "bg-f03", hex: "#D0893A" },
-  { code: "F04", name: "마을 생활거점", short: "생활거점", desc: "공동수령·모임·안부 확인 장소", color: "bg-f04", hex: "#8063BA" },
+  { code: "F01", name: "생필품 구매", short: "생필품", desc: "공산품·가공식품 판매", color: "bg-f01", hex: "#A3D9B8", deep: "#3E8A5E" },
+  { code: "F02", name: "신선식품 구매", short: "신선식품", desc: "채소·과일·정육·수산 등 냉장 상품", color: "bg-f02", hex: "#F5B8A0", deep: "#B5603F" },
+  { code: "F03", name: "무거운 상품 구매", short: "무거운 상품", desc: "쌀·생수·연료 등 들고 오기 힘든 상품, 또는 배달", color: "bg-f03", hex: "#F3DA86", deep: "#9A7A1E" },
+  { code: "F04", name: "마을 생활거점", short: "생활거점", desc: "공동수령·모임·안부 확인 장소", color: "bg-f04", hex: "#A9CDE6", deep: "#3D6F92" },
 ];
 
 export const FN = Object.fromEntries(FUNCTIONS.map((f) => [f.code, f])) as Record<FnCode, (typeof FUNCTIONS)[number]>;

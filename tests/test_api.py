@@ -97,3 +97,55 @@ def test_stores_with_blank_village_and_location(tmp_path, monkeypatch):
         assert stores["store_0001"].location.lat == 35.48
     finally:
         store.stores_by_id.cache_clear()
+
+
+def test_demo_functions_come_from_tagging():
+    from backend.store import ClosureStore
+
+    # 다른 테스트의 PATCH가 앱의 데모 건을 바꾸므로 새 저장소로 확인한다
+    functions = ClosureStore().get_functions(DEMO).functions
+    by_code = {f.code: f.source for f in functions}
+    assert by_code == {"F01": "llm", "F02": "llm", "F03": "llm", "F04": "keyword"}
+
+
+def test_create_closure_attaches_store_tags():
+    from backend.store import stores_by_id, tags_by_entity
+
+    store_id = next(eid for eid in stores_by_id() if eid in tags_by_entity())
+    closure = client.post("/closures", json={"store_id": store_id}).json()
+    functions = client.get(f"/closures/{closure['closure_id']}/functions").json()
+    assert functions["functions"] == [t.model_dump() for t in tags_by_entity()[store_id]]
+    assert functions["verified_by_officer"] is False
+
+
+def test_tags_pick_llm_f01_f03_and_keyword_f04(tmp_path, monkeypatch):
+    from backend import store
+
+    header = "entity_id,code,confidence,evidence,source\n"
+    (tmp_path / "tagging_llm.csv").write_text(
+        header + "store_0001,F01,0.9,llm 근거,llm\nstore_0001,F04,0.5,llm 거점,llm\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "tagging_keyword.csv").write_text(
+        header + "store_0001,F01,0.9,업종,keyword\nstore_0001,F04,0.5,1곳뿐,keyword\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(store, "PROCESSED", tmp_path)
+    store.tags_by_entity.cache_clear()
+    try:
+        tags = store.functions_for("store_0001")
+        assert [(t.code, t.source) for t in tags] == [("F01", "llm"), ("F04", "keyword")]
+        assert store.functions_for("store_9999") == []
+    finally:
+        store.tags_by_entity.cache_clear()
+
+
+def test_functions_fall_back_to_mock_without_tagging_files(tmp_path, monkeypatch):
+    from backend import store
+
+    monkeypatch.setattr(store, "PROCESSED", tmp_path)
+    store.tags_by_entity.cache_clear()
+    try:
+        assert {t.code for t in store.functions_for("store_0107")} == {"F01", "F02", "F03", "F04"}
+    finally:
+        store.tags_by_entity.cache_clear()

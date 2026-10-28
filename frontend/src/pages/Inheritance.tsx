@@ -114,6 +114,7 @@ export default function Inheritance() {
   return (
     <div>
       <PageHeader
+        en="Inheritance Plan"
         eyebrow={<FlowStepper />}
         title="기능별 상속안 제안"
         badge={<DemoTag />}
@@ -145,7 +146,7 @@ export default function Inheritance() {
             >
               <span className="absolute left-0 top-0 bottom-0 w-1 transition-all" style={{ background: f.hex, opacity: on ? 1 : 0.25 }} />
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</span>
+                <span className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</span>
                 <span className="text-[13.5px] font-bold">{f.name}</span>
                 <span className="kbd ml-auto">{i + 1}</span>
               </div>
@@ -248,8 +249,8 @@ export default function Inheritance() {
                     <button
                       onClick={(e) => { e.stopPropagation(); choose(p.resource_id); }}
                       disabled={isEx}
-                      className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isPick ? "border-transparent text-white scale-105" : "border-border-strong text-transparent hover:text-text-muted hover:border-text-muted"}`}
-                      style={isPick ? { background: color } : undefined}
+                      className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isPick ? "border-transparent scale-105" : "border-border-strong text-transparent hover:text-text-muted hover:border-text-muted"}`}
+                      style={isPick ? { background: color, color: FN[tab].deep } : undefined}
                       title="이 자원으로 상속"
                     >
                       <Check className={`w-4 h-4 ${isPick ? "animate-pop" : ""}`} strokeWidth={3} />
@@ -293,18 +294,18 @@ export default function Inheritance() {
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={radarData} outerRadius="72%">
                     <PolarGrid stroke="#E4EAEF" />
-                    <PolarAngleAxis dataKey="factor" tick={{ fontSize: 11.5, fill: "#5E7180", fontWeight: 600 }} />
+                    <PolarAngleAxis dataKey="factor" tick={{ fontSize: 11.5, fill: "#4E5A4E", fontWeight: 600 }} />
                     <Tooltip
                       content={({ active, payload, label }) =>
                         active && payload?.length ? (
-                          <div className="px-3 py-2 rounded-xl bg-[#0C3341] text-white text-[12px]">
+                          <div className="px-3 py-2 rounded-xl bg-[#1C1C1C] text-white text-[12px]">
                             <p className="text-white/60 text-[11px]">{label}</p>
                             {payload.map((pp) => <p key={String(pp.name)} className="font-semibold">{pp.name}: {pp.value}</p>)}
                           </div>
                         ) : null
                       }
                     />
-                    {compare && <Radar name="1순위 후보" dataKey="best" stroke="#94A3AF" strokeDasharray="4 3" fill="#94A3AF" fillOpacity={0.08} />}
+                    {compare && <Radar name="1순위 후보" dataKey="best" stroke="#8E978C" strokeDasharray="4 3" fill="#8E978C" fillOpacity={0.08} />}
                     <Radar name={focus.resource_name} dataKey="focus" stroke={color} strokeWidth={2.5} fill={color} fillOpacity={0.22} animationDuration={700} />
                   </RadarChart>
                 </ResponsiveContainer>
@@ -347,7 +348,7 @@ export default function Inheritance() {
                 >
                   {excluded.has(focus.resource_id) ? <><Undo2 className="w-4 h-4" /> 제외 취소</> : <><Ban className="w-4 h-4" /> 후보 제외</>}
                 </button>
-                <button onClick={() => choose(focus.resource_id)} disabled={excluded.has(focus.resource_id)} className="btn flex-[2] text-white" style={{ background: picks[tab] === focus.resource_id ? "#2E8466" : color }}>
+                <button onClick={() => choose(focus.resource_id)} disabled={excluded.has(focus.resource_id)} className="btn flex-[2]" style={picks[tab] === focus.resource_id ? { background: "#2E8466", color: "#fff" } : { background: color, color: FN[tab].deep }}>
                   {picks[tab] === focus.resource_id ? <><Check className="w-4 h-4" strokeWidth={3} /> 상속 자원으로 지정됨</> : "이 자원으로 상속"}
                 </button>
               </div>
