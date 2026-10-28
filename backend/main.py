@@ -26,7 +26,12 @@ from .schemas import (
 app = FastAPI(title="기능상속 API", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://majung.store",
+        "https://www.majung.store",
+        "https://gineung-sangsok.vercel.app",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
