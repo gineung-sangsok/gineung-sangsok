@@ -9,8 +9,9 @@ TARGET = rec.Place("s0", "폐업가게", "V1", "일중리", "덕치면", 35.50, 
 
 
 def cand(eid, *, village="V1", eup="덕치면", lat=35.50, lng=127.15, rtype="R05", tags=None,
-         stop_m=300, mobile=False):
-    return rec.Candidate(eid, eid, village, "", eup, lat, lng, rtype, tags or {}, stop_m, mobile)
+         stop_m=300, mobile=False, hours=0.8):
+    return rec.Candidate(eid, eid, village, "", eup, lat, lng, rtype, tags or {}, stop_m, mobile,
+                         hours)
 
 
 def test_score_is_weighted_sum_of_breakdown():
@@ -34,6 +35,14 @@ def test_uncertain_tag_needs_officer_check_and_low_tags_are_ignored():
     )
     assert plans[0].needs_officer_check is True
     assert uncovered == ["F03"]
+
+
+def test_unknown_hours_scores_half_and_needs_officer_check():
+    plans, _ = rec.recommend(TARGET, {"F01": 0.9}, [cand("a", tags={"F01": (0.9, "")}, hours=None)])
+    assert plans[0].breakdown["hours"] == rec.HOURS_UNKNOWN
+    assert plans[0].needs_officer_check is True
+    known, _ = rec.recommend(TARGET, {"F01": 0.9}, [cand("b", tags={"F01": (0.9, "")})])
+    assert known[0].needs_officer_check is False
 
 
 def test_mobile_market_only_serves_its_own_eup_myeon():

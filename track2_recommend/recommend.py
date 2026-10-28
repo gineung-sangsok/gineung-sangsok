@@ -4,7 +4,7 @@
 5가지 점수(거리·운영 시간·배달·교통·생활권)의 가중합으로 순위를 매긴다.
 
 데이터 한계 (docs/experiments/inheritance_scoring.md):
-  - 운영 시간 데이터가 없어 hours는 자원 종류별 기본값을 쓴다.
+  - 운영 시간 데이터가 없는 후보는 hours를 중간값으로 두고 담당자 확인을 요구한다.
   - 이동장터(R01)는 실제 노선이 없어 면 단위 가정 노선으로 두고 항상 담당자 확인을 요구한다.
 """
 
@@ -22,8 +22,8 @@ WEIGHTS = {
 MAX_KM = 10.0  # 이 거리부터 distance 0
 STOP_NEAR_M, STOP_FAR_M = 300, 2000  # 정류장이 이 안이면 transport 1, 이 밖이면 0
 
-# 운영 시간 기본값: 영업 중인 가게 > 상시 개방 공동거점 > 복지기관 > 주 1회 이동장터
-HOURS_DEFAULT = {"R01": 0.3, "R02": 0.7, "R03": 0.6, "R04": 0.5, "R05": 0.7}
+HOURS_UNKNOWN = 0.5  # 운영 시간 정보가 없을 때 (담당자 확인 대상)
+MOBILE_MARKET_HOURS = 0.3  # 주 1회 방문
 
 # 이동장터는 생필품·신선식품을 판다 (taxonomy R01)
 MOBILE_MARKET_FUNCTIONS = ("F01", "F02")
@@ -64,6 +64,7 @@ class Candidate(Place):
     tags: dict[str, tuple[float, str]] = field(default_factory=dict)
     stop_m: float | None = None  # 후보가 있는 법정리의 가까운 정류장까지 거리
     mobile_market: bool = False
+    hours: float | None = None  # 운영 시간 점수 (0~1). 정보가 없으면 None
 
 
 @dataclass
@@ -118,7 +119,7 @@ def breakdown(code: str, target: Place, c: Candidate) -> tuple[dict[str, float],
 
     scores = {
         "distance": distance,
-        "hours": HOURS_DEFAULT.get(c.resource_type, 0.5),
+        "hours": HOURS_UNKNOWN if c.hours is None else c.hours,
         "delivery": delivery,
         "transport": transport,
         "service_area": service_area,
@@ -143,6 +144,8 @@ def make_reason(
         parts.append("실제 노선 데이터가 없어 가정 노선 기준이며 운행 여부 확인이 필요하다.")
     elif conf < CONFIRM:
         parts.append("이 기능을 제공하는지 확실하지 않아 담당자 확인이 필요하다.")
+    if c.hours is None:
+        parts.append("운영 시간 정보가 없어 확인이 필요하다.")
     if evidence:
         parts.append(f"근거: {evidence}")
     return " ".join(parts)
@@ -162,7 +165,7 @@ def score_candidate(code: str, target: Place, c: Candidate) -> Plan | None:
         score=score,
         breakdown=b,
         distance_km=km,
-        needs_officer_check=c.mobile_market or conf < CONFIRM,
+        needs_officer_check=c.mobile_market or conf < CONFIRM or c.hours is None,
         action=ACTIONS[c.resource_type].format(name=c.name, ri=target.village_name or "해당 마을"),
         reason=make_reason(code, target, c, b, km),
     )
@@ -208,5 +211,6 @@ def mobile_market_candidates(markets: list[dict], villages: dict[str, Place]) ->
             resource_type="R01",
             tags={code: (CONFIRM, "보도 기준 면 단위 운행") for code in MOBILE_MARKET_FUNCTIONS},
             mobile_market=True,
+            hours=MOBILE_MARKET_HOURS,
         ))
     return result
