@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, ChevronDown, PauseCircle, Save, PartyPopper, AlertTriangle, MessageSquarePlus } from "lucide-react";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Donut from "../components/ui/Donut";
-import { CANDIDATES, FUNCTIONS, FUNCTION_RESULTS, RESOURCE_TYPES, totalScore } from "../data/demo";
+import { API_BASE, FUNCTIONS, RESOURCE_TYPES, type FnCode, type FunctionTag, type InheritancePlan } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 import { FacilityStrip } from "./FunctionAnalysis";
@@ -19,7 +19,7 @@ const DECISION_BADGE = {
 };
 
 function Confetti() {
-  const colors = ["#3F7BC4", "#3E9A74", "#D0893A", "#8063BA", "#7FD3C3", "#F2B880"];
+  const colors = ["#7BB58A", "#4F8A68", "#B39443", "#857F72", "#B9DABF", "#D8CB98"];
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {Array.from({ length: 60 }, (_, i) => {
@@ -49,6 +49,23 @@ export default function Review() {
   const [shake, setShake] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
 
+  // API에서 데이터 가져오기
+  const [functionResults, setFunctionResults] = useState<FunctionTag[]>([]);
+  const [inheritancePlans, setInheritancePlans] = useState<InheritancePlan[]>([]);
+
+  useEffect(() => {
+    if (!id) return;
+    const closureId = id === "store_0001" ? "closure_0001" : id;
+    fetch(`${API_BASE}/closures/${closureId}/functions`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => d && setFunctionResults(d.functions))
+      .catch(() => {});
+    fetch(`${API_BASE}/closures/${closureId}/inheritance`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => d && setInheritancePlans(d.plans))
+      .catch(() => {});
+  }, [id]);
+
   const done = FUNCTIONS.filter((f) => reviewed[f.code]).length;
   const picked = FUNCTIONS.filter((f) => picks[f.code]).length;
   const issues = FUNCTIONS.filter((f) => fnDecisions[f.code] === "pending" || !picks[f.code]).length;
@@ -68,6 +85,7 @@ export default function Review() {
   return (
     <div>
       <PageHeader
+        en="Final Review"
         eyebrow={<FlowStepper />}
         title="최종 제안 검토"
         badge={<>{reviewDone ? <StatusBadge variant="confirmed" dot>검토 완료</StatusBadge> : <StatusBadge variant="review" dot>검토 중</StatusBadge>}<DemoTag /></>}
@@ -94,8 +112,8 @@ export default function Review() {
 
             <div className="space-y-2 stagger">
               {FUNCTIONS.map((f) => {
-                const cand = CANDIDATES.find((c) => c.id === picks[f.code]);
-                const res = FUNCTION_RESULTS.find((r) => r.code === f.code)!;
+                const plan = inheritancePlans.find((p) => p.function_code === f.code && p.resource_id === picks[f.code]);
+                const res = functionResults.find((r) => r.code === f.code);
                 const isOpen = open === f.code;
                 const ok = reviewed[f.code];
                 const db = DECISION_BADGE[fnDecisions[f.code]];
@@ -104,12 +122,12 @@ export default function Review() {
                     <div className="flex items-center gap-4 p-4 cursor-pointer" onClick={() => setOpen(isOpen ? null : f.code)}>
                       <span className="w-1.5 h-10 rounded-full" style={{ background: f.hex }} />
                       <div className="w-[150px]">
-                        <p className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</p>
+                        <p className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</p>
                         <p className="text-[14px] font-bold">{f.name}</p>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] text-text-muted">상속 자원</p>
-                        <p className={`text-[13px] font-semibold truncate ${cand ? "" : "text-status-warn"}`}>{cand ? cand.name : "미지정 — 상속안 단계에서 선택"}</p>
+                        <p className={`text-[13px] font-semibold truncate ${plan ? "" : "text-status-warn"}`}>{plan ? plan.resource_name : "미지정 — 상속안 단계에서 선택"}</p>
                       </div>
                       <StatusBadge variant={db.v}>{db.t}</StatusBadge>
                       <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
@@ -126,15 +144,15 @@ export default function Review() {
                         <div className="px-4 pb-4 pl-[38px] grid grid-cols-3 gap-4 text-[12.5px]">
                           <div>
                             <p className="text-text-muted text-[11px] mb-1">분석 근거</p>
-                            <p className="font-medium">{res.evidence}</p>
-                            <p className="text-text-muted text-[11px] mt-1">신뢰도 {Math.round((res.confidence ?? 0) * 100)}% · {res.source}</p>
+                            <p className="font-medium">{res?.evidence ?? "데이터 없음"}</p>
+                            <p className="text-text-muted text-[11px] mt-1">신뢰도 {Math.round((res?.confidence ?? 0) * 100)}% · {res?.source ?? "-"}</p>
                           </div>
                           <div>
                             <p className="text-text-muted text-[11px] mb-1">추천 근거</p>
-                            {cand ? (
+                            {plan ? (
                               <>
-                                <p className="font-medium">{RESOURCE_TYPES[cand.type]} · {cand.distanceKm}km · {cand.weekly}</p>
-                                <p className="text-text-muted text-[11px] mt-1">종합 점수 {totalScore(cand)}점 · {cand.note}</p>
+                                <p className="font-medium">{RESOURCE_TYPES[plan.resource_type]} · 점수 {Math.round(plan.score * 100)}</p>
+                                <p className="text-text-muted text-[11px] mt-1">{plan.reason}</p>
                               </>
                             ) : (
                               <button onClick={() => navigate(`/closures/${id}/inheritance`)} className="text-brand font-semibold hover:underline">상속안 지정하러 가기 →</button>

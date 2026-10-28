@@ -1,0 +1,201 @@
+﻿entity_id,entity_type,name,category,code,keyword,llm,kw_yes,llm_yes
+store_0017,store,영창,건어물/젓갈 소매업,F01,0.6,0.68,True,True
+store_0017,store,영창,건어물/젓갈 소매업,F02,0.0,0.0,False,False
+store_0017,store,영창,건어물/젓갈 소매업,F03,0.0,0.0,False,False
+store_0017,store,영창,건어물/젓갈 소매업,F04,0.0,0.5,False,False
+store_0131,store,임실건어물마트,건어물/젓갈 소매업,F01,0.9,0.68,True,True
+store_0131,store,임실건어물마트,건어물/젓갈 소매업,F02,0.8,0.0,True,False
+store_0131,store,임실건어물마트,건어물/젓갈 소매업,F03,0.7,0.0,True,False
+store_0131,store,임실건어물마트,건어물/젓갈 소매업,F04,0.0,0.5,False,False
+store_0117,store,임실엔치즈하우스붕어섬,반찬/식료품 소매업,F01,0.0,0.7,False,True
+store_0117,store,임실엔치즈하우스붕어섬,반찬/식료품 소매업,F02,0.6,0.6,True,True
+store_0117,store,임실엔치즈하우스붕어섬,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0117,store,임실엔치즈하우스붕어섬,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0127,store,장암식품,반찬/식료품 소매업,F01,0.6,0.85,True,True
+store_0127,store,장암식품,반찬/식료품 소매업,F02,0.6,0.55,True,False
+store_0127,store,장암식품,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0127,store,장암식품,반찬/식료품 소매업,F04,0.5,0.5,False,False
+store_0080,store,임실치즈벨리,반찬/식료품 소매업,F01,0.0,0.0,False,False
+store_0080,store,임실치즈벨리,반찬/식료품 소매업,F02,0.6,0.7,True,True
+store_0080,store,임실치즈벨리,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0080,store,임실치즈벨리,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0098,store,법인과일나무,반찬/식료품 소매업,F01,0.6,0.62,True,True
+store_0098,store,법인과일나무,반찬/식료품 소매업,F02,0.6,0.52,True,False
+store_0098,store,법인과일나무,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0098,store,법인과일나무,반찬/식료품 소매업,F04,0.0,0.0,False,False
+store_0054,store,청기와반찬집,반찬/식료품 소매업,F01,0.6,0.95,True,True
+store_0054,store,청기와반찬집,반찬/식료품 소매업,F02,0.6,0.55,True,False
+store_0054,store,청기와반찬집,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0054,store,청기와반찬집,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0059,store,미즈맛반찬,반찬/식료품 소매업,F01,0.6,0.9,True,True
+store_0059,store,미즈맛반찬,반찬/식료품 소매업,F02,0.6,0.5,True,False
+store_0059,store,미즈맛반찬,반찬/식료품 소매업,F03,0.0,0.0,False,False
+store_0059,store,미즈맛반찬,반찬/식료품 소매업,F04,0.0,0.5,False,False
+store_0119,store,옥정호매점,슈퍼마켓,F01,0.0,0.4,False,False
+store_0119,store,옥정호매점,슈퍼마켓,F02,0.0,0.0,False,False
+store_0119,store,옥정호매점,슈퍼마켓,F03,0.0,0.0,False,False
+store_0119,store,옥정호매점,슈퍼마켓,F04,0.0,0.5,False,False
+store_0064,store,생활용품D.C마트,슈퍼마켓,F01,0.9,0.82,True,True
+store_0064,store,생활용품D.C마트,슈퍼마켓,F02,0.8,0.55,True,False
+store_0064,store,생활용품D.C마트,슈퍼마켓,F03,0.7,0.48,True,False
+store_0064,store,생활용품D.C마트,슈퍼마켓,F04,0.0,0.0,False,False
+store_0113,store,명품드림,슈퍼마켓,F01,0.9,0.95,True,True
+store_0113,store,명품드림,슈퍼마켓,F02,0.5,0.55,False,False
+store_0113,store,명품드림,슈퍼마켓,F03,0.0,0.5,False,False
+store_0113,store,명품드림,슈퍼마켓,F04,0.0,0.0,False,False
+store_0041,store,산성상회,슈퍼마켓,F01,0.9,0.95,True,True
+store_0041,store,산성상회,슈퍼마켓,F02,0.5,0.5,False,False
+store_0041,store,산성상회,슈퍼마켓,F03,0.0,0.5,False,False
+store_0041,store,산성상회,슈퍼마켓,F04,0.5,0.5,False,False
+store_0069,store,입석슈퍼,슈퍼마켓,F01,0.9,0.95,True,True
+store_0069,store,입석슈퍼,슈퍼마켓,F02,0.5,0.55,False,False
+store_0069,store,입석슈퍼,슈퍼마켓,F03,0.0,0.45,False,False
+store_0069,store,입석슈퍼,슈퍼마켓,F04,0.5,0.5,False,False
+store_0034,store,상운암슈퍼,슈퍼마켓,F01,0.9,0.95,True,True
+store_0034,store,상운암슈퍼,슈퍼마켓,F02,0.5,0.55,False,False
+store_0034,store,상운암슈퍼,슈퍼마켓,F03,0.0,0.45,False,False
+store_0034,store,상운암슈퍼,슈퍼마켓,F04,0.0,0.0,False,False
+store_0129,store,임실흑염소자연애,정육점,F01,0.0,0.0,False,False
+store_0129,store,임실흑염소자연애,정육점,F02,0.9,0.62,True,True
+store_0129,store,임실흑염소자연애,정육점,F03,0.0,0.0,False,False
+store_0129,store,임실흑염소자연애,정육점,F04,0.0,0.5,False,False
+store_0122,store,최고로마트정육점,정육점,F01,0.9,0.0,True,False
+store_0122,store,최고로마트정육점,정육점,F02,0.9,0.97,True,True
+store_0122,store,최고로마트정육점,정육점,F03,0.7,0.0,True,False
+store_0122,store,최고로마트정육점,정육점,F04,0.0,0.5,False,False
+store_0090,store,터미널정육마트,정육점,F01,0.9,0.0,True,False
+store_0090,store,터미널정육마트,정육점,F02,0.9,0.95,True,True
+store_0090,store,터미널정육마트,정육점,F03,0.7,0.0,True,False
+store_0090,store,터미널정육마트,정육점,F04,0.0,0.0,False,False
+store_0109,store,갈마야채,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0109,store,갈마야채,채소/과일 소매업,F02,0.9,0.95,True,True
+store_0109,store,갈마야채,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0109,store,갈마야채,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0060,store,백년블루,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0060,store,백년블루,채소/과일 소매업,F02,0.9,0.7,True,True
+store_0060,store,백년블루,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0060,store,백년블루,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0015,store,초락,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0015,store,초락,채소/과일 소매업,F02,0.9,0.9,True,True
+store_0015,store,초락,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0015,store,초락,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0028,store,오복리,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0028,store,오복리,채소/과일 소매업,F02,0.9,0.8,True,True
+store_0028,store,오복리,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0028,store,오복리,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0020,store,다나농장,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0020,store,다나농장,채소/과일 소매업,F02,0.0,0.7,False,True
+store_0020,store,다나농장,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0020,store,다나농장,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0132,store,연우네마당,채소/과일 소매업,F01,0.0,0.0,False,False
+store_0132,store,연우네마당,채소/과일 소매업,F02,0.9,0.7,True,True
+store_0132,store,연우네마당,채소/과일 소매업,F03,0.0,0.0,False,False
+store_0132,store,연우네마당,채소/과일 소매업,F04,0.0,0.5,False,False
+store_0114,store,씨유임실,편의점,F01,0.9,0.95,True,True
+store_0114,store,씨유임실,편의점,F02,0.0,0.0,False,False
+store_0114,store,씨유임실,편의점,F03,0.0,0.0,False,False
+store_0114,store,씨유임실,편의점,F04,0.0,0.5,False,False
+store_0096,store,세븐일레븐임실병암점,편의점,F01,0.9,0.95,True,True
+store_0096,store,세븐일레븐임실병암점,편의점,F02,0.0,0.0,False,False
+store_0096,store,세븐일레븐임실병암점,편의점,F03,0.0,0.0,False,False
+store_0096,store,세븐일레븐임실병암점,편의점,F04,0.5,0.5,False,False
+store_0134,store,지에스25관촌,편의점,F01,0.9,0.99,True,True
+store_0134,store,지에스25관촌,편의점,F02,0.0,0.0,False,False
+store_0134,store,지에스25관촌,편의점,F03,0.0,0.0,False,False
+store_0134,store,지에스25관촌,편의점,F04,0.0,0.5,False,False
+store_0040,store,씨유임실,편의점,F01,0.9,0.95,True,True
+store_0040,store,씨유임실,편의점,F02,0.0,0.0,False,False
+store_0040,store,씨유임실,편의점,F03,0.0,0.0,False,False
+store_0040,store,씨유임실,편의점,F04,0.0,0.5,False,False
+store_0138,store,지에스25전북,편의점,F01,0.9,0.95,True,True
+store_0138,store,지에스25전북,편의점,F02,0.0,0.0,False,False
+store_0138,store,지에스25전북,편의점,F03,0.0,0.0,False,False
+store_0138,store,지에스25전북,편의점,F04,0.0,0.5,False,False
+store_0023,store,씨유임실오수점,편의점,F01,0.9,0.99,True,True
+store_0023,store,씨유임실오수점,편의점,F02,0.0,0.0,False,False
+store_0023,store,씨유임실오수점,편의점,F03,0.0,0.0,False,False
+store_0023,store,씨유임실오수점,편의점,F04,0.0,0.5,False,False
+store_0044,store,운암산장,슈퍼마켓,F01,0.0,0.5,False,False
+store_0044,store,운암산장,슈퍼마켓,F02,0.0,0.0,False,False
+store_0044,store,운암산장,슈퍼마켓,F03,0.0,0.0,False,False
+store_0044,store,운암산장,슈퍼마켓,F04,0.0,0.5,False,False
+store_0152,store,디저트정거장,슈퍼마켓,F01,0.0,0.45,False,False
+store_0152,store,디저트정거장,슈퍼마켓,F02,0.0,0.0,False,False
+store_0152,store,디저트정거장,슈퍼마켓,F03,0.0,0.0,False,False
+store_0152,store,디저트정거장,슈퍼마켓,F04,0.0,0.5,False,False
+store_0126,store,씨유임실,편의점,F01,0.9,0.95,True,True
+store_0126,store,씨유임실,편의점,F02,0.0,0.0,False,False
+store_0126,store,씨유임실,편의점,F03,0.0,0.0,False,False
+store_0126,store,씨유임실,편의점,F04,0.0,0.5,False,False
+store_0097,store,지에스25오수,편의점,F01,0.9,0.95,True,True
+store_0097,store,지에스25오수,편의점,F02,0.0,0.0,False,False
+store_0097,store,지에스25오수,편의점,F03,0.0,0.0,False,False
+store_0097,store,지에스25오수,편의점,F04,0.0,0.5,False,False
+store_0065,store,현대상회,슈퍼마켓,F01,0.9,0.95,True,True
+store_0065,store,현대상회,슈퍼마켓,F02,0.5,0.55,False,False
+store_0065,store,현대상회,슈퍼마켓,F03,0.0,0.5,False,False
+store_0065,store,현대상회,슈퍼마켓,F04,0.0,0.0,False,False
+store_0036,store,제일슈퍼,슈퍼마켓,F01,0.9,0.95,True,True
+store_0036,store,제일슈퍼,슈퍼마켓,F02,0.5,0.55,False,False
+store_0036,store,제일슈퍼,슈퍼마켓,F03,0.0,0.45,False,False
+store_0036,store,제일슈퍼,슈퍼마켓,F04,0.0,0.0,False,False
+store_0083,store,풍년슈퍼,슈퍼마켓,F01,0.9,0.95,True,True
+store_0083,store,풍년슈퍼,슈퍼마켓,F02,0.5,0.55,False,False
+store_0083,store,풍년슈퍼,슈퍼마켓,F03,0.0,0.45,False,False
+store_0083,store,풍년슈퍼,슈퍼마켓,F04,0.0,0.0,False,False
+store_0063,store,민성식품,슈퍼마켓,F01,0.9,0.95,True,True
+store_0063,store,민성식품,슈퍼마켓,F02,0.5,0.5,False,False
+store_0063,store,민성식품,슈퍼마켓,F03,0.0,0.5,False,False
+store_0063,store,민성식품,슈퍼마켓,F04,0.0,0.0,False,False
+store_0050,store,명성수산,슈퍼마켓,F01,0.9,0.55,True,False
+store_0050,store,명성수산,슈퍼마켓,F02,0.5,0.7,False,True
+store_0050,store,명성수산,슈퍼마켓,F03,0.0,0.0,False,False
+store_0050,store,명성수산,슈퍼마켓,F04,0.0,0.5,False,False
+store_0058,store,강진할인마트,슈퍼마켓,F01,0.9,0.95,True,True
+store_0058,store,강진할인마트,슈퍼마켓,F02,0.8,0.55,True,False
+store_0058,store,강진할인마트,슈퍼마켓,F03,0.7,0.5,True,False
+store_0058,store,강진할인마트,슈퍼마켓,F04,0.0,0.0,False,False
+store_0032,store,닛시오일마트주유소닛시마트,편의점,F01,0.9,0.5,True,False
+store_0032,store,닛시오일마트주유소닛시마트,편의점,F02,0.8,0.0,True,False
+store_0032,store,닛시오일마트주유소닛시마트,편의점,F03,0.7,0.0,True,False
+store_0032,store,닛시오일마트주유소닛시마트,편의점,F04,0.0,0.0,False,False
+res_0136,resource,당당경로당,경로당,F01,0.0,0.0,False,False
+res_0136,resource,당당경로당,경로당,F02,0.0,0.0,False,False
+res_0136,resource,당당경로당,경로당,F03,0.0,0.0,False,False
+res_0136,resource,당당경로당,경로당,F04,0.9,0.95,True,True
+res_0151,resource,효촌경로당,경로당,F01,0.0,0.0,False,False
+res_0151,resource,효촌경로당,경로당,F02,0.0,0.0,False,False
+res_0151,resource,효촌경로당,경로당,F03,0.0,0.0,False,False
+res_0151,resource,효촌경로당,경로당,F04,0.9,0.98,True,True
+res_0258,resource,선거경로당,경로당,F01,0.0,0.0,False,False
+res_0258,resource,선거경로당,경로당,F02,0.0,0.0,False,False
+res_0258,resource,선거경로당,경로당,F03,0.0,0.0,False,False
+res_0258,resource,선거경로당,경로당,F04,0.9,0.95,True,True
+res_0286,resource,상성경로당,경로당,F01,0.0,0.0,False,False
+res_0286,resource,상성경로당,경로당,F02,0.0,0.0,False,False
+res_0286,resource,상성경로당,경로당,F03,0.0,0.0,False,False
+res_0286,resource,상성경로당,경로당,F04,0.9,0.95,True,True
+res_0184,resource,덕전경로당,경로당,F01,0.0,0.0,False,False
+res_0184,resource,덕전경로당,경로당,F02,0.0,0.0,False,False
+res_0184,resource,덕전경로당,경로당,F03,0.0,0.0,False,False
+res_0184,resource,덕전경로당,경로당,F04,0.9,0.95,True,True
+res_0013,resource,미소노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0013,resource,미소노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0013,resource,미소노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0013,resource,미소노인복지센터,재가노인복지시설,F04,0.6,0.9,True,True
+res_0008,resource,참행복복지용구,재가노인복지시설,F01,0.0,0.0,False,False
+res_0008,resource,참행복복지용구,재가노인복지시설,F02,0.0,0.0,False,False
+res_0008,resource,참행복복지용구,재가노인복지시설,F03,0.4,0.0,False,False
+res_0008,resource,참행복복지용구,재가노인복지시설,F04,0.6,0.8,True,True
+res_0002,resource,정드림노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0002,resource,정드림노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0002,resource,정드림노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0002,resource,정드림노인복지센터,재가노인복지시설,F04,0.6,0.85,True,True
+res_0004,resource,오수노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0004,resource,오수노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0004,resource,오수노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0004,resource,오수노인복지센터,재가노인복지시설,F04,0.6,0.9,True,True
+res_0003,resource,구세군덕치노인복지센터,재가노인복지시설,F01,0.0,0.0,False,False
+res_0003,resource,구세군덕치노인복지센터,재가노인복지시설,F02,0.0,0.0,False,False
+res_0003,resource,구세군덕치노인복지센터,재가노인복지시설,F03,0.4,0.0,False,False
+res_0003,resource,구세군덕치노인복지센터,재가노인복지시설,F04,0.6,0.85,True,True

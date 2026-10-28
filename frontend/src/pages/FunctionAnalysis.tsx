@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw } from "lucide-react";
+import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw, Loader2, AlertTriangle } from "lucide-react";
 import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
+import HouseFrame from "../components/ui/HouseFrame";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
-import { FN, FUNCTION_RESULTS, TAGGING_SOURCE_LABEL, type FnCode } from "../data/demo";
+import { API_BASE, FN, TAGGING_SOURCE_LABEL, type FnCode, type FunctionTag } from "../data/constants";
 import { useDemo, type Decision } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 
@@ -62,8 +63,32 @@ export default function FunctionAnalysis() {
   const [selected, setSelected] = useState<FnCode | null>(null);
   const [filter, setFilter] = useState<"all" | "pending" | "done">("all");
 
-  const order = FUNCTION_RESULTS.map((r) => r.code);
-  const visible = FUNCTION_RESULTS.filter((r) =>
+  // API에서 기능 태깅 결과 가져오기
+  const [functionResults, setFunctionResults] = useState<(FunctionTag & { quote?: string })[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    let cancelled = false;
+    setLoading(true);
+    setApiError(null);
+    setFunctionResults([]);
+    const closureId = id === "store_0001" ? "closure_0001" : id;
+    fetch(`${API_BASE}/closures/${closureId}/functions`)
+      .then((res) => { if (!res.ok) throw new Error(`API ${res.status}`); return res.json(); })
+      .then((data: { functions: FunctionTag[] }) => {
+        if (!cancelled) setFunctionResults(data.functions.map((f) => ({ ...f, quote: "" })));
+      })
+      .catch((err) => {
+        if (!cancelled) setApiError(err instanceof Error ? err.message : "기능 분석 결과를 불러오지 못했습니다.");
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [id]);
+
+  const order = functionResults.map((r) => r.code);
+  const visible = functionResults.filter((r) =>
     filter === "all" ? true : filter === "pending" ? fnDecisions[r.code] === "pending" : fnDecisions[r.code] !== "pending",
   );
   const doneCount = order.filter((c) => fnDecisions[c] !== "pending").length;
@@ -77,11 +102,11 @@ export default function FunctionAnalysis() {
     const h = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       if (t.tagName === "TEXTAREA" || t.tagName === "INPUT") return;
-      if (["1", "2", "3", "4"].includes(e.key)) setSelected(order[+e.key - 1]);
-      if (!selected) return;
+      if (order.length > 0 && +e.key >= 1 && +e.key <= order.length) setSelected(order[+e.key - 1]);
+      if (!selected || order.length === 0) return;
       if (e.key === "Escape") setSelected(null);
-      if (e.key === "ArrowRight") setSelected(order[(order.indexOf(selected) + 1) % 4]);
-      if (e.key === "ArrowLeft") setSelected(order[(order.indexOf(selected) + 3) % 4]);
+      if (e.key === "ArrowRight") setSelected(order[(order.indexOf(selected) + 1) % order.length]);
+      if (e.key === "ArrowLeft") setSelected(order[(order.indexOf(selected) + order.length - 1) % order.length]);
       if (e.key.toLowerCase() === "a") decide(selected, "accepted");
       if (e.key.toLowerCase() === "r") decide(selected, "rejected");
       if (e.key.toLowerCase() === "p") decide(selected, "pending");
@@ -90,11 +115,12 @@ export default function FunctionAnalysis() {
     return () => window.removeEventListener("keydown", h);
   });
 
-  const sel = selected ? FUNCTION_RESULTS.find((r) => r.code === selected)! : null;
+  const sel = selected ? functionResults.find((r) => r.code === selected) ?? null : null;
 
   return (
     <div>
       <PageHeader
+        en="Function Analysis"
         eyebrow={<FlowStepper />}
         title="기능 공백 분석"
         badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}
@@ -108,34 +134,46 @@ export default function FunctionAnalysis() {
 
       <FacilityStrip />
 
+      {loading && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-surface-tint border border-border text-[13px] text-text-secondary animate-fade-in">
+          <Loader2 className="w-4 h-4 animate-spin" /> 기능 분석 결과를 불러오는 중...
+        </div>
+      )}
+      {apiError && (
+        <div className="flex items-center gap-2 mb-4 p-4 rounded-xl bg-[#FBF1E4] border border-[#E8D5B7] text-[13px] text-status-warn animate-fade-in">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          API 연결 실패: {apiError}
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-4 animate-fade-up">
         <Segmented
           size="sm"
           value={filter}
           onChange={setFilter}
           options={[
-            { value: "all", label: "전체 4" },
-            { value: "pending", label: `검토 대기 ${4 - doneCount}` },
+            { value: "all", label: `전체 ${order.length}` },
+            { value: "pending", label: `검토 대기 ${order.length - doneCount}` },
             { value: "done", label: `판단 완료 ${doneCount}` },
           ]}
         />
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-text-muted">
+          <span className="text-[12px] text-ink">
             <span className="kbd">1</span>–<span className="kbd">4</span> 열기 · <span className="kbd">A</span> 확인 · <span className="kbd">R</span> 제외
           </span>
           <div className="flex items-center gap-2">
             <div className="w-28 h-2 rounded-full bg-surface-secondary overflow-hidden">
-              <div className="h-full bg-brand rounded-full transition-all duration-500" style={{ width: `${(doneCount / 4) * 100}%` }} />
+              <div className="h-full bg-brand rounded-full transition-all duration-500" style={{ width: order.length > 0 ? `${(doneCount / order.length) * 100}%` : "0%" }} />
             </div>
-            <span className="text-[12px] font-bold tnum">{doneCount}/4</span>
+            <span className="text-[12px] font-bold tnum">{doneCount}/{order.length}</span>
           </div>
         </div>
       </div>
 
       <div key={filter} className="grid grid-cols-2 gap-5 stagger">
-        {visible.map((f) => (
+        {visible.map((f, i) => (
+          <HouseFrame key={f.code} variant={i}>
           <FunctionCard
-            key={f.code}
             code={f.code}
             index={order.indexOf(f.code)}
             confidence={f.confidence}
@@ -145,8 +183,9 @@ export default function FunctionAnalysis() {
             selected={selected === f.code}
             onClick={() => setSelected(f.code)}
           />
+          </HouseFrame>
         ))}
-        {visible.length === 0 && (
+        {visible.length === 0 && order.length > 0 && (
           <div className="col-span-2 card py-16 text-center text-[13px] text-text-muted">
             모든 기능 검토를 마쳤습니다 🎉
           </div>
@@ -160,7 +199,7 @@ export default function FunctionAnalysis() {
           <div className="w-[40%] bg-surface-secondary" />
           <div className="w-[20%] bg-[#F5DDBA]" />
           <div className="w-[40%] bg-[#BFE3D3]" />
-          {FUNCTION_RESULTS.map((r) => (
+          {functionResults.map((r) => (
             <span key={r.code} className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full ring-2 ring-white" style={{ left: `calc(${(r.confidence ?? 0) * 100}% - 6px)`, background: FN[r.code].hex }} title={`${r.code} ${Math.round((r.confidence ?? 0) * 100)}%`} />
           ))}
         </div>
@@ -184,9 +223,9 @@ export default function FunctionAnalysis() {
             <div className="h-1.5 shrink-0" style={{ background: FN[sel.code].hex }} />
             <div className="flex items-center justify-between px-6 h-16 border-b border-border shrink-0">
               <div className="flex items-center gap-2">
-                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 3) % 4])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
-                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 1) % 4])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
-                <span className="text-[12px] text-text-muted tnum">{order.indexOf(sel.code) + 1} / 4</span>
+                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + order.length - 1) % order.length])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
+                <button onClick={() => setSelected(order[(order.indexOf(sel.code) + 1) % order.length])} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><ChevronRight className="w-4 h-4" /></button>
+                <span className="text-[12px] text-text-muted tnum">{order.indexOf(sel.code) + 1} / {order.length}</span>
               </div>
               <button onClick={() => setSelected(null)} className="w-8 h-8 rounded-lg hover:bg-surface-secondary flex items-center justify-center"><X className="w-4 h-4" /></button>
             </div>
@@ -199,7 +238,7 @@ export default function FunctionAnalysis() {
                   center={<p className="text-[24px] font-bold tnum">{Math.round((sel.confidence ?? 0) * 100)}<span className="text-[13px] text-text-muted">%</span></p>}
                 />
                 <div>
-                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].hex }}>{sel.code}</p>
+                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].deep }}>{sel.code}</p>
                   <h3 className="text-[21px] font-bold">{FN[sel.code].name}</h3>
                   <p className="text-[12.5px] text-text-muted">{FN[sel.code].desc}</p>
                   <div className="mt-2"><StatusBadge variant={confidenceLabel(sel.confidence).variant}>{confidenceLabel(sel.confidence).text}</StatusBadge></div>

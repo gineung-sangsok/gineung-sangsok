@@ -4,7 +4,7 @@ import { Check, Loader2, MapPin, Sparkles, Store, CalendarClock, Link2, AlertCir
 import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge";
-import { FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/demo";
+import { FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 
@@ -172,6 +172,7 @@ export default function ClosureRegister() {
   return (
     <div>
       <PageHeader
+        en="Register"
         eyebrow={<FlowStepper />}
         title="폐업 예정 시설 등록"
         desc="시설 정보를 등록하면 해당 시설이 제공하던 생활 기능을 자동으로 분석합니다."
@@ -329,9 +330,9 @@ export default function ClosureRegister() {
                       className={`absolute top-3 right-3 w-5 h-5 rounded-md flex items-center justify-center transition-all ${on ? "scale-100" : "scale-0"}`}
                       style={{ background: f.hex }}
                     >
-                      <Check className="w-3 h-3 text-white" strokeWidth={3.5} />
+                      <Check className="w-3 h-3 text-ink" strokeWidth={3.5} />
                     </span>
-                    <p className="text-[11px] font-bold" style={{ color: f.hex }}>{f.code}</p>
+                    <p className="text-[11px] font-bold" style={{ color: f.deep }}>{f.code}</p>
                     <p className="text-[13.5px] font-bold mt-0.5">{f.name}</p>
                     <p className="text-[11px] text-text-muted mt-1 leading-snug">{f.desc}</p>
                   </button>
@@ -347,7 +348,7 @@ export default function ClosureRegister() {
         {/* Live preview */}
         <aside className="col-span-4 sticky top-4 space-y-4 animate-fade-up" style={{ animationDelay: ".15s" }}>
           <div className="card overflow-hidden">
-            <div className="h-24 relative bg-sidebar" style={{ backgroundImage: "radial-gradient(80% 120% at 100% 0%, #2E8C7E 0%, transparent 60%)" }}>
+            <div className="h-24 relative bg-sidebar" style={{ backgroundImage: "radial-gradient(80% 120% at 100% 0%, #4F8A68 0%, transparent 60%)" }}>
               <span className="absolute left-5 bottom-3 text-[11px] font-bold text-white/60 tracking-widest">미리보기</span>
               {dday !== null && (
                 <span key={dday} className="absolute right-4 top-4 px-2.5 py-1 rounded-lg bg-white/15 text-white text-[13px] font-bold animate-pop tnum">
@@ -373,7 +374,7 @@ export default function ClosureRegister() {
               </div>
               <div className="flex flex-wrap gap-1.5 mt-4 min-h-[26px]">
                 {fns.map((c) => (
-                  <span key={c} className="px-2 py-1 rounded-lg text-[11px] font-bold text-white animate-pop" style={{ background: FN[c].hex }}>
+                  <span key={c} className="px-2 py-1 rounded-lg text-[11px] font-bold text-ink animate-pop" style={{ background: FN[c].hex }}>
                     {c} {FN[c].short}
                   </span>
                 ))}
@@ -390,7 +391,7 @@ export default function ClosureRegister() {
               <div className="h-full rounded-full bg-gradient-to-r from-brand to-action transition-all duration-500" style={{ width: `${completeness * 100}%` }} />
             </div>
             <div className="flex gap-2 mt-5">
-              <button onClick={() => navigate("/")} className="btn btn-ghost flex-1">취소</button>
+              <button onClick={() => navigate("/dashboard")} className="btn btn-ghost flex-1">취소</button>
               <button onClick={handleSubmit} disabled={submitting} className="btn btn-primary flex-[2] group">
                 {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> 분석 준비 중</> : <>등록 후 기능 분석 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" /></>}
               </button>

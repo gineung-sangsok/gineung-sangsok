@@ -1,7 +1,7 @@
 import { Check, X, ChevronRight } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import Donut from "./Donut";
-import { FN, type FnCode } from "../../data/demo";
+import { FN, type FnCode } from "../../data/constants";
 import type { Decision } from "../../store/DemoStore";
 
 export function confidenceLabel(c: number | null): { text: string; variant: "confirmed" | "review" | "muted" } {
@@ -61,7 +61,7 @@ export default function FunctionCard({
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[11px] font-bold px-1.5 py-0.5 rounded-md text-white" style={{ background: f.hex }}>
+            <span className="text-[11px] font-bold px-1.5 py-0.5 rounded-md text-ink" style={{ background: f.hex }}>
               {code}
             </span>
             <StatusBadge variant={variant}>{text}</StatusBadge>

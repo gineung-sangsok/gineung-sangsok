@@ -1,35 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #F2F5F7;
+  /* 세이지 그린 · 흰 종이 · 먹 — 차분한 자연 톤 */
+  --color-bg: #F3F6EF;
   --color-surface: #FFFFFF;
-  --color-surface-secondary: #F1F4F7;
-  --color-surface-tint: #F6FAFA;
-  --color-text-primary: #133241;
-  --color-text-secondary: #5E7180;
-  --color-text-muted: #94A3AF;
-  --color-border: #E4EAEF;
-  --color-border-strong: #CFD9E1;
-  --color-action: #0E5266;
-  --color-action-hover: #0A3F4F;
-  --color-brand: #2E8C7E;
-  --color-brand-soft: #E5F2EF;
-  --color-sidebar: #0C4A5B;
-  --color-sidebar-deep: #093A48;
+  --color-surface-secondary: #EAF1E6;
+  --color-surface-tint: #F4F8F1;
+  --color-text-primary: #1C1C1C;
+  --color-text-secondary: #4E5A4E;
+  --color-text-muted: #8E978C;
+  --color-border: #DCE6D8;
+  --color-border-strong: #B7C8B3;
+  --color-action: #1C1C1C;
+  --color-action-hover: #333333;
+  --color-brand: #4F8A68;
+  --color-brand-soft: #E3F1E5;
+  --color-sage: #8FC79A;
+  --color-sky: #DDEDDD;
+  --color-ink: #1C1C1C;
+  /* 짙은 배경 강조 영역(등록 카드 머리 등) */
+  --color-sidebar: #1C1C1C;
+  --color-sidebar-deep: #000000;
 
-  --color-f01: #3F7BC4;
-  --color-f02: #3E9A74;
-  --color-f03: #D0893A;
-  --color-f04: #8063BA;
+  --font-display: "Montserrat", "Pretendard Variable", sans-serif;
+  --font-hand: "Gaegu", "Pretendard Variable", cursive;
+  --font-title: "Black Han Sans", "Pretendard Variable", sans-serif;
 
-  --color-status-ok: #2E8466;
-  --color-status-warn: #B97A2A;
-  --color-status-error: #C65555;
-  --color-status-info: #3F7BC4;
+  --color-f01: #7BB58A;
+  --color-f02: #4F8A68;
+  --color-f03: #B39443;
+  --color-f04: #857F72;
 
-  --shadow-card: 0 1px 2px rgba(16, 42, 56, 0.04), 0 4px 16px -6px rgba(16, 42, 56, 0.08);
-  --shadow-lift: 0 2px 4px rgba(16, 42, 56, 0.05), 0 16px 32px -12px rgba(16, 42, 56, 0.18);
-  --shadow-pop: 0 12px 48px -12px rgba(9, 40, 52, 0.35), 0 2px 6px rgba(9, 40, 52, 0.08);
+  --color-status-ok: #4F8A68;
+  --color-status-warn: #B39443;
+  --color-status-error: #B5563F;
+  --color-status-info: #6F9C8A;
+
+  --shadow-card: 0 1px 0 rgba(18, 18, 18, 0.04);
+  --shadow-lift: 4px 4px 0 #1C1C1C;
+  --shadow-pop: 0 16px 40px -16px rgba(18, 18, 18, 0.45), 0 2px 6px rgba(18, 18, 18, 0.08);
 
   --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-fade-in: fade-in 0.25s ease both;
@@ -72,8 +81,8 @@
     to { background-position: 200% 0; }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(46, 140, 126, 0.45); }
-    100% { box-shadow: 0 0 0 10px rgba(46, 140, 126, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(143, 199, 154, 0.7); }
+    100% { box-shadow: 0 0 0 10px rgba(143, 199, 154, 0); }
   }
 }
 
@@ -82,7 +91,9 @@ html, body, #root {
   height: 100%;
   width: 100%;
   font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  background: var(--color-bg);
+  background-color: var(--color-bg);
+  /* 종이 결 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
 }
@@ -107,26 +118,26 @@ html, body, #root {
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: var(--shadow-card);
 }
 .card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .card-hover:hover {
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-lift);
-  border-color: var(--color-border-strong);
+  border-color: var(--color-ink);
 }
 
 /* inputs */
 .field {
   width: 100%;
-  height: 44px;
-  padding: 0 14px;
+  height: 46px;
+  padding: 0 16px;
   border: 1px solid var(--color-border);
-  border-radius: 12px;
-  font-size: 14px;
+  border-radius: 14px;
+  font-size: 14.5px;
   background: var(--color-surface);
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
@@ -134,7 +145,7 @@ html, body, #root {
 .field:focus {
   outline: none;
   border-color: var(--color-brand);
-  box-shadow: 0 0 0 4px rgba(46, 140, 126, 0.14);
+  box-shadow: 0 0 0 4px rgba(143, 199, 154, 0.45);
 }
 .field::placeholder { color: var(--color-text-muted); }
 textarea.field { height: auto; padding: 12px 14px; }
@@ -145,11 +156,11 @@ textarea.field { height: auto; padding: 12px 14px; }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 11px;
-  font-size: 13px;
-  font-weight: 600;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
   transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   cursor: pointer;
   user-select: none;
@@ -157,13 +168,13 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.btn-primary { background: var(--color-action); color: white; box-shadow: 0 1px 2px rgba(14, 82, 102, 0.3); }
-.btn-primary:hover:not(:disabled) { background: var(--color-action-hover); box-shadow: 0 6px 16px -6px rgba(14, 82, 102, 0.6); }
-.btn-brand { background: var(--color-brand); color: white; }
-.btn-brand:hover:not(:disabled) { background: #257668; }
-.btn-ghost { background: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border); }
-.btn-ghost:hover:not(:disabled) { background: var(--color-surface-secondary); border-color: var(--color-border-strong); }
-.btn-sm { height: 32px; padding: 0 12px; font-size: 12px; border-radius: 9px; }
+.btn-primary { background: var(--color-action); color: white; }
+.btn-primary:hover:not(:disabled) { background: var(--color-sage); color: var(--color-ink); }
+.btn-brand { background: var(--color-sage); color: var(--color-ink); }
+.btn-brand:hover:not(:disabled) { background: #7DB98A; }
+.btn-ghost { background: transparent; color: var(--color-text-primary); border: 1.5px solid var(--color-ink); }
+.btn-ghost:hover:not(:disabled) { background: var(--color-ink); color: white; }
+.btn-sm { height: 34px; padding: 0 14px; font-size: 12.5px; border-radius: 999px; }
 
 .kbd {
   display: inline-flex;
@@ -181,7 +192,7 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #EEF2F5 25%, #F7F9FA 50%, #EEF2F5 75%);
+  background: linear-gradient(90deg, #E6EEE3 25%, #F4F8F1 50%, #E6EEE3 75%);
   background-size: 200% 100%;
   animation: var(--animate-shimmer);
   border-radius: 8px;
@@ -189,17 +200,83 @@ textarea.field { height: auto; padding: 12px 14px; }
 
 /* scrollbars */
 .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
-.thin-scroll::-webkit-scrollbar-thumb { background: #D5DEE5; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+.thin-scroll::-webkit-scrollbar-thumb { background: #C6D4C2; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
 
 }
 
+/* 마을 테마 — 앱 화면(AppShell) 안에서만. 하늘색 배경, 굵은 테두리 스티커 카드, 손글씨풍 제목 */
+.village {
+  --color-bg: #E3F4FA;
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #EEF6F0;
+  --color-surface-tint: #F2FAF4;
+  --color-text-primary: #22302A;
+  --color-text-secondary: #4C5E52;
+  --color-text-muted: #86978B;
+  --color-border: #D3E5D8;
+  --color-border-strong: #9DBBA5;
+  --color-action: #2F6B45;
+  --color-action-hover: #255838;
+  --color-brand: #3E8A5E;
+  --color-brand-soft: #E1F2E4;
+  --color-ink: #24352B;
+  --color-line: #24352B;
+  --house: #FFFDF5;
+  --yard: #8FC79A;
+  background: var(--yard);
+  color: var(--color-text-primary);
+}
+/* 상자 = 집. 비핸스 포트폴리오처럼 테두리·그림자·무늬 없는 단색 실루엣, 지붕은 HouseFrame이 얹는다 */
+.village .card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+  background: var(--house);
+}
+.village .card-hover:hover { transform: translateY(-3px); box-shadow: none; }
+.village .btn { border: 2px solid transparent; box-shadow: none; }
+.village .btn:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+.village .btn-primary { background: var(--color-ink); color: var(--house); }
+.village .btn-primary:hover:not(:disabled) { background: #355140; color: var(--house); }
+.village .btn-ghost { background: transparent; color: var(--color-ink); border-color: var(--color-ink); }
+.village .btn-ghost:hover:not(:disabled) { background: var(--color-ink); color: var(--house); }
+.village .btn-brand { background: var(--house); color: var(--color-ink); }
+.village .btn-brand:hover:not(:disabled) { background: #FFF3C4; }
+/* 마당(배경) 위 제목은 흰 글자 + 먹 테두리 */
+.village .title-sticker { color: var(--house); }
+.village .eyebrow { color: var(--color-ink); }
+.village .field { border: 2px solid var(--color-border); border-radius: 14px; }
+.village .field:focus { border-color: var(--color-line); box-shadow: 0 0 0 4px rgba(143, 199, 154, 0.4); }
+
+/* 굵은 테두리 손글씨 제목 (스티커 레터링) */
+.title-sticker {
+  font-family: var(--font-title);
+  font-weight: 400;
+  color: #5FA86A;
+  -webkit-text-stroke: 2px var(--color-line, #24352B);
+  paint-order: stroke fill;
+  text-shadow: 3px 4px 0 var(--color-line, #24352B);
+  letter-spacing: 0.01em;
+}
+.title-sticker-lg { -webkit-text-stroke-width: 4px; text-shadow: 6px 8px 0 var(--color-line, #24352B); }
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #3B7A8C;
+}
+
 /* leaflet tweaks */
-.leaflet-container { font-family: inherit; background: #EAF0F2; }
+.leaflet-container { font-family: inherit; background: #E6EEE3; }
+/* 배경 지도를 세이지 톤으로 눌러 데이터 색이 먼저 보이게 */
+.leaflet-tile-pane { filter: grayscale(.55) sepia(.18) hue-rotate(55deg) saturate(.9) brightness(1.05) contrast(.92); }
 .leaflet-control-zoom { border: none !important; box-shadow: var(--shadow-card) !important; border-radius: 12px !important; overflow: hidden; }
 .leaflet-control-zoom a { width: 34px !important; height: 34px !important; line-height: 34px !important; color: var(--color-text-primary) !important; border-color: var(--color-border) !important; }
 .leaflet-tooltip.ri-tip {
-  background: #0C3341;
+  background: var(--color-ink);
   color: white;
   border: none;
   border-radius: 10px;

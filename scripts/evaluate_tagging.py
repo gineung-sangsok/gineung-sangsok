@@ -5,6 +5,12 @@
       data/processed/tagging_{keyword,llm,compare}_sample50.csv 가 있어야 한다.
 예측 파일은 라벨 파일 이름(sample50)으로 찾고, 평가 전에 두 파일의 엔티티가 같은지 확인한다.
 
+라벨러가 둘이면 먼저 일치도를 본다:
+  uv run python scripts/evaluate_tagging.py \
+      --agreement data/labels/eval50_A.csv data/labels/eval50_B.csv
+  → 기능별 코헨 카파, 의견이 갈린 항목 목록(<name>_disagree.csv),
+    둘이 같은 칸만 채운 정답 초안(<name>.csv, 갈린 칸은 빈칸 → 합의 후 채움)
+
 정답 라벨은 기능별 0/1. 예측은 두 기준으로 본다.
   - 확정: confidence 0.6 이상만 "있음"
   - 확인 포함: confidence 0.4 이상(확인 필요 포함)을 "있음"
@@ -14,7 +20,7 @@ import argparse
 from pathlib import Path
 
 import pandas as pd
-from sklearn.metrics import f1_score, precision_score, recall_score
+from sklearn.metrics import cohen_kappa_score, f1_score, precision_score, recall_score
 
 BASE = Path(__file__).resolve().parents[1]
 CODES = ["F01", "F02", "F03", "F04"]
@@ -39,14 +45,74 @@ def scores(truth: pd.DataFrame, pred: pd.DataFrame) -> dict[str, float]:
     }
 
 
+def read_labels(path: str) -> pd.DataFrame:
+    labels = pd.read_csv(path)
+    if labels[CODES].isna().any().any():
+        raise SystemExit(f"{path}에 빈칸이 있습니다. F01~F04를 모두 0/1로 채워 주세요.")
+    # astype(int) 전에 걸러야 0.5가 0으로 바뀌거나 2가 통계에 섞이지 않는다
+    bad = ~labels[CODES].isin([0, 1])
+    if bad.any().any():
+        where = [f"{labels.at[i, 'entity_id']} {c}" for i, c in bad.stack().loc[lambda x: x].index]
+        raise SystemExit(f"{path}에 0/1이 아닌 값이 있습니다: {', '.join(where[:5])}")
+    return labels
+
+
+def agreement(path_a: str, path_b: str) -> None:
+    a, b = read_labels(path_a), read_labels(path_b)
+    if set(a["entity_id"]) != set(b["entity_id"]):
+        raise SystemExit("두 라벨 파일의 표본이 다릅니다.")
+    a = a.set_index("entity_id")
+    b = b.set_index("entity_id").loc[a.index]
+
+    print(f"라벨러 간 일치도 ({len(a)}건)")
+    for code in CODES:
+        kappa = cohen_kappa_score(a[code].astype(int), b[code].astype(int))
+        same = (a[code].astype(int) == b[code].astype(int)).mean()
+        print(f"  {code}: 카파 {kappa:.2f} · 일치 {same:.0%}")
+    flat_a, flat_b = a[CODES].astype(int).values.ravel(), b[CODES].astype(int).values.ravel()
+    print(f"  전체: 카파 {cohen_kappa_score(flat_a, flat_b):.2f}")
+
+    name = Path(path_a).stem.rsplit("_", 1)[0]  # eval50_A → eval50
+    labels_dir = Path(path_a).parent
+    info = ["entity_type", "name", "category", "village_name", "address"]
+    diff = [
+        {"entity_id": eid, **a.loc[eid, info].to_dict(), "code": code,
+         "A": int(a.loc[eid, code]), "B": int(b.loc[eid, code]), "final": ""}
+        for eid in a.index for code in CODES
+        if int(a.loc[eid, code]) != int(b.loc[eid, code])
+    ]
+    disagree = labels_dir / f"{name}_disagree.csv"
+    diff_df = pd.DataFrame(diff, columns=["entity_id", *info, "code", "A", "B", "final"])
+    if disagree.exists():
+        # 다시 실행해도 이미 적어 둔 합의값(final)은 지우지 않는다
+        prev = pd.read_csv(disagree, dtype={"final": str}).set_index(["entity_id", "code"])["final"]
+        kept = diff_df.set_index(["entity_id", "code"]).index.map(prev.get)
+        diff_df["final"] = pd.Series(kept, index=diff_df.index).fillna("")
+    diff_df.to_csv(disagree, index=False, encoding="utf-8-sig")
+    print(f"\n의견이 갈린 칸 {len(diff)}개 → {name}_disagree.csv (final 칸에 합의값 기록)")
+
+    gold = labels_dir / f"{name}.csv"
+    if gold.exists():
+        print(f"{gold.name}이 이미 있어 정답 초안은 만들지 않았습니다.")
+        return
+    draft = a.copy()
+    for code in CODES:
+        draft[code] = a[code].astype(int).where(a[code].astype(int) == b[code].astype(int))
+    draft.reset_index().to_csv(gold, index=False, encoding="utf-8-sig", float_format="%.0f")
+    print(f"정답 초안 {gold.name} (갈린 칸은 빈칸, 합의 후 채우면 평가 가능)")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--labels", default=str(BASE / "data/labels/sample50.csv"))
+    parser.add_argument("--agreement", nargs=2, metavar=("A", "B"),
+                        help="라벨러 두 명의 라벨 파일 → 일치도와 정답 초안")
     args = parser.parse_args()
+    if args.agreement:
+        agreement(*args.agreement)
+        return
 
-    labels = pd.read_csv(args.labels)
-    if labels[CODES].isna().any().any():
-        raise SystemExit("라벨에 빈칸이 있습니다. F01~F04를 모두 0/1로 채워 주세요.")
+    labels = read_labels(args.labels)
     truth = labels.set_index("entity_id")[CODES].astype(int)
     n = len(labels)
     suffix = Path(args.labels).stem  # sample50.csv → sample50
