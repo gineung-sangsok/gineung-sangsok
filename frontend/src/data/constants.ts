@@ -150,18 +150,3 @@ export interface GapResponse {
   summary: { gap_population_before: number; gap_population_after: number };
 }
 
-export interface Notification {
-  id: number;
-  title: string;
-  time: string;
-  kind: "warn" | "info" | "ok";
-  to: string;
-}
-
-// 백엔드에 알림 API가 없으므로 임시 하드코딩
-export const NOTIFICATIONS: Notification[] = [
-  { id: 1, title: "갈담슈퍼 폐업 예정일이 40일 남았습니다", time: "10분 전", kind: "warn", to: "/closures/store_0002/functions" },
-  { id: 2, title: "죽계상회 F02 신뢰도 확인 요청", time: "1시간 전", kind: "info", to: "/closures/store_0001/functions" },
-  { id: 3, title: "필봉정육점 상속안 검토가 완료되었습니다", time: "어제", kind: "ok", to: "/closures/store_0004/review" },
-  { id: 4, title: "이동장터 3호 노선 운행 정보가 갱신되었습니다", time: "2일 전", kind: "info", to: "/data" },
-];

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Map as MapIcon } from "lucide-react";
-import { FUNCTIONS, FUNCTION_GAP_RATE } from "../data/demo";
+import { FUNCTIONS } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
 import FunctionIcon from "../components/ui/FunctionIcon";
 import { House, Tree, Villager, type Person } from "../components/VillageMap";
@@ -74,9 +74,7 @@ const BLOSSOMS = [[120, 372], [330, 528], [560, 366], [780, 532], [905, 370], [6
 
 export default function Landing() {
   const navigate = useNavigate();
-  const { facilities } = useDemo();
-  const closing = facilities.filter((f) => f.status === "CLOSING").length;
-  const pop = facilities.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affected_pop, 0);
+  useDemo();
 
   return (
     <div className="h-full overflow-y-auto thin-scroll">
@@ -221,9 +219,9 @@ export default function Landing() {
           </div>
           <dl className="col-span-7 grid grid-cols-3 gap-4">
             {[
-              [String(closing), "곳", "폐업 예정 시설", "#F8D3C4"],
-              [pop.toLocaleString(), "명", "영향받는 주민 (추정)", "#F7E7B6"],
-              [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리", "#FFFFFF"],
+              ["–", "", "폐업 예정 시설", "#F8D3C4"],
+              ["–", "", "영향받는 주민 (추정)", "#F7E7B6"],
+              ["–", "", "신선식품 공백 법정리", "#FFFFFF"],
             ].map(([v, u, label, bg]) => (
               <div key={label} className="rounded-[24px] px-6 py-7" style={{ background: bg }}>
                 <dd className="font-title text-[44px] leading-none text-[#2F5E43] tnum whitespace-nowrap">

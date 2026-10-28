@@ -1,6 +1,5 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { type Facility, type FnCode } from "../data/constants";
-import { FACILITIES } from "../data/demo";
 
 export type Decision = "pending" | "accepted" | "rejected";
 
@@ -24,14 +23,14 @@ interface Store {
 const Ctx = createContext<Store | null>(null);
 
 export function DemoStoreProvider({ children }: { children: ReactNode }) {
-  const [facilities, setFacilities] = useState<Facility[]>(FACILITIES);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
   const [fnDecisions, setFnDecisions] = useState<Record<FnCode, Decision>>({
-    F01: "accepted", F02: "pending", F03: "accepted", F04: "pending",
+    F01: "pending", F02: "pending", F03: "pending", F04: "pending",
   });
   const [fnNotes, setFnNotes] = useState<Record<FnCode, string>>({ F01: "", F02: "", F03: "", F04: "" });
-  const [picks, setPicks] = useState<Record<FnCode, string | null>>({ F01: "r1", F02: null, F03: "r6", F04: "r8" });
+  const [picks, setPicks] = useState<Record<FnCode, string | null>>({ F01: null, F02: null, F03: null, F04: null });
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
-  const [reviewed, setReviewedState] = useState<Record<FnCode, boolean>>({ F01: true, F02: false, F03: false, F04: false });
+  const [reviewed, setReviewedState] = useState<Record<FnCode, boolean>>({ F01: false, F02: false, F03: false, F04: false });
   const [reviewDone, setReviewDone] = useState(false);
 
   const value = useMemo<Store>(
