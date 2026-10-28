@@ -203,39 +203,39 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
   };
 
   return (
-    <section className="rounded-[18px] overflow-hidden mb-8 border-[1.5px] border-ink animate-fade-up">
+    <section className="rounded-[22px] overflow-hidden mb-8 border-2 border-[#A9D29A] animate-fade-up">
       {/* 머리 띠 */}
-      <div className="bg-ink text-white px-10 pt-9 pb-12 flex items-end justify-between gap-10">
+      <div className="bg-[#DDF1E2] px-10 pt-9 pb-12 flex items-end justify-between gap-10">
         <div className="min-w-0">
-          <p className="font-display text-[44px] font-extrabold tracking-[-0.02em] leading-none">Village Map</p>
-          <p className="text-[12.5px] font-semibold text-white/55 mt-3">임실군 삼계면 죽계리 · 생활서비스 현황</p>
-          <h1 className="text-[28px] font-bold leading-[1.35] tracking-tight mt-3">
+          <p className="eyebrow">Village Map</p>
+          <p className="text-[12.5px] font-semibold text-text-muted mt-1">임실군 삼계면 죽계리 · 생활서비스 현황</p>
+          <h1 className="title-sticker text-[44px] leading-[1.2] mt-4 -rotate-1 origin-left">
             {inherited ? (
               <>
                 가게가 하던 일 네 가지,
                 <br />
-                <span className="text-sage">마을이 나눠서 이어받아요</span>
+                <span className="text-[#F3DA86]">마을이 나눠서 이어받아요</span>
               </>
             ) : (
               <>
                 마을 하나뿐인 가게가
                 <br />
-                <span className="text-sage">문을 닫으면?</span>
+                <span className="text-[#F5A68A]">문을 닫으면?</span>
               </>
             )}
           </h1>
-          <div className="flex items-center gap-2 mt-6">
+          <div className="flex items-center gap-2 mt-7">
             {inherited ? (
               <>
-                <button onClick={() => navigate(`/closures/${storeId}/inheritance`)} className="btn btn-brand">
+                <button onClick={() => navigate(`/closures/${storeId}/inheritance`)} className="btn btn-primary">
                   상속안 자세히 보기 <ArrowRight className="w-4 h-4" />
                 </button>
-                <button onClick={() => setInherited(false)} className="btn border-[1.5px] border-white/40 text-white hover:bg-white hover:text-ink">
+                <button onClick={() => setInherited(false)} className="btn btn-ghost">
                   <RotateCcw className="w-4 h-4" /> 처음으로
                 </button>
               </>
             ) : (
-              <button onClick={play} className="btn btn-brand">
+              <button onClick={play} className="btn btn-primary">
                 <Sparkles className="w-4 h-4" /> 기능 상속 보기
               </button>
             )}
@@ -248,11 +248,11 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
             [inherited ? "3" : "0", "곳", "이어받는 곳"],
           ].map(([v, u, label]) => (
             <div key={label}>
-              <dd className="font-display text-[46px] font-extrabold leading-none text-sage tnum">
+              <dd className="title-sticker text-[52px] leading-none tnum">
                 {v}
-                <span className="text-[18px] text-white/80 ml-1">{u}</span>
+                <span className="font-title text-[18px] text-text-secondary ml-1" style={{ WebkitTextStroke: 0, textShadow: "none" }}>{u}</span>
               </dd>
-              <dt className="text-[12.5px] text-white/60 mt-2">{label}</dt>
+              <dt className="text-[12.5px] font-semibold text-text-muted mt-3">{label}</dt>
             </div>
           ))}
         </dl>
@@ -261,7 +261,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
       {/* 지도 */}
       <div className="relative" style={{ background: "#CFE0A0" }}>
         <svg viewBox={`0 0 ${W} 22`} preserveAspectRatio="none" className="absolute left-0 top-0 w-full h-[22px] z-[1]" aria-hidden>
-          <path d={TORN} fill="#1C1C1C" />
+          <path d={TORN} fill="#DDF1E2" />
         </svg>
         <svg viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto select-none" role="img" aria-label="죽계리 생활서비스 마을 지도">
           <defs>

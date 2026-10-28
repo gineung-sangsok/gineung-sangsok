@@ -185,8 +185,8 @@ export default function Landing() {
 
         {/* 띠 위 제목 */}
         <div className="absolute inset-x-0 top-[57%] -translate-y-1/2 text-center pointer-events-none">
-          <h1 className="font-display font-extrabold text-[#2F5E43] tracking-[-0.03em] leading-none text-[clamp(64px,10vw,140px)]">Closer<span className="text-[#F5A68A]">.</span></h1>
-          <p className="text-[#2F5E43] text-[clamp(16px,1.6vw,22px)] font-bold mt-3">더 가까이</p>
+          <h1 className="title-sticker title-sticker-lg leading-none text-[clamp(72px,11vw,150px)] -rotate-2">Closer<span className="text-[#F5A68A]">.</span></h1>
+          <p className="title-sticker text-[clamp(22px,2.4vw,32px)] mt-3 rotate-1">더 가까이</p>
           <p className="text-[#2F5E43]/75 text-[clamp(13px,1.2vw,16px)] mt-2 font-medium">
             마을 가게가 문을 닫아도, 생활은 이어지도록 — 농촌 생활서비스 기능 상속 플랫폼
           </p>
@@ -206,10 +206,10 @@ export default function Landing() {
       <section id="about" className="bg-[#EAF6EC]">
         <div className="max-w-[1280px] mx-auto px-8 py-20 grid grid-cols-12 gap-10 items-end">
           <div className="col-span-5">
-            <h2 className="font-display text-[52px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#2F5E43]">
+            <h2 className="title-sticker text-[56px] leading-[1.08] -rotate-1 origin-left">
               More than
               <br />
-              <span className="text-[#5FAF82]">a store.</span>
+              <span className="text-[#F5A68A]">a store.</span>
             </h2>
             <p className="text-[18px] font-bold mt-4">사라지는 건 가게만이 아니에요</p>
             <p className="text-[15px] text-text-secondary mt-5 leading-relaxed">
@@ -224,7 +224,7 @@ export default function Landing() {
               [`${FUNCTION_GAP_RATE.F02}`, "%", "신선식품 공백 법정리", "#FFFFFF"],
             ].map(([v, u, label, bg]) => (
               <div key={label} className="rounded-[24px] px-6 py-7" style={{ background: bg }}>
-                <dd className="font-display text-[44px] font-extrabold leading-none text-[#2F5E43] tnum whitespace-nowrap">
+                <dd className="font-title text-[44px] leading-none text-[#2F5E43] tnum whitespace-nowrap">
                   {v}
                   <span className="text-[20px] text-text-secondary ml-1">{u}</span>
                 </dd>
@@ -237,7 +237,7 @@ export default function Landing() {
 
       {/* 이어받는 방법 */}
       <section id="how" className="max-w-[1280px] mx-auto px-8 py-20">
-        <h2 className="font-display text-[52px] font-extrabold tracking-[-0.02em] leading-none">How it works</h2>
+        <h2 className="title-sticker text-[56px] leading-none -rotate-1 origin-left">How it works</h2>
         <p className="text-[18px] font-bold mt-4">기능은 남기고, 이어받을 곳을 찾아요</p>
         <div className="grid grid-cols-3 gap-5 mt-10">
           {[
@@ -246,7 +246,7 @@ export default function Landing() {
             ["03", "이어받을 곳 추천", "이동장터·농협 배달·마을회관 같은 자원을 거리와 운영 시간으로 비교해 추천해요."],
           ].map(([n, t, d]) => (
             <div key={n} className="card card-hover p-7">
-              <p className="font-display text-[48px] font-extrabold text-sage leading-none">{n}</p>
+              <p className="title-sticker text-[48px] leading-none">{n}</p>
               <h3 className="text-[18px] font-bold mt-6">{t}</h3>
               <p className="text-[14px] text-text-secondary mt-2 leading-relaxed">{d}</p>
             </div>

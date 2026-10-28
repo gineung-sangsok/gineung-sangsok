@@ -120,7 +120,7 @@ export default function Dashboard() {
             >
               <div className="flex items-start justify-between">
                 <FunctionIcon code={f.code} size={44} />
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink border-2 border-ink rotate-3" style={{ background: f.hex }}>{f.code}</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-ink border-2 border-white rotate-3" style={{ background: f.hex }}>{f.code}</span>
               </div>
               <h3 className="font-title text-[21px] text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
               <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
@@ -226,10 +226,10 @@ export default function Dashboard() {
                 >
                   <span className="w-4 text-[11px] font-bold text-text-muted tnum">{i + 1}</span>
                   <span className="w-[52px] text-[12.5px] font-semibold">{r.name}</span>
-                  <div className="flex-1 h-7 bg-white border-2 border-ink rounded-full overflow-hidden relative">
+                  <div className="flex-1 h-7 bg-white border-2 border-[#A9D29A] rounded-full overflow-hidden relative">
                     <div
                       key={rankSort}
-                      className="h-full rounded-full border-r-2 border-ink flex items-center justify-end gap-1 pr-1.5 transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)]"
+                      className="h-full rounded-full flex items-center justify-end gap-1 pr-1.5 transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)]"
                       style={{ width: `${r.score}%`, background: color, animation: "grow .8s cubic-bezier(.2,.7,.2,1) both", animationDelay: `${i * 40}ms`, transformOrigin: "left" }}
                     >
                       <span className="text-[11px] font-bold text-ink tnum">{r.score}</span>
