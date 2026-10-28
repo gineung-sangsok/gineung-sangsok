@@ -61,6 +61,7 @@ def resources() -> list[Entity]:
             village_id=_text(row.village_id),
             location=_location(row.lat, row.lng),
             status=row.status,
+            functions=functions_for(row.entity_id),
         )
         for row in df.itertuples()
     ]
@@ -196,6 +197,7 @@ def stores_by_id() -> dict[str, Entity]:
             village_id=_text(row.village_id),
             location=_location(row.lat, row.lng),
             status=row.status,
+            functions=functions_for(row.entity_id),
         )
         for row in df.itertuples()
     }
