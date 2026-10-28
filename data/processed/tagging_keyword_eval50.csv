@@ -1,0 +1,81 @@
+﻿entity_id,code,confidence,evidence,source
+store_0017,F01,0.6,업종 '건어물/젓갈 소매업',keyword
+store_0131,F01,0.9,이름에 '마트',keyword
+store_0131,F02,0.8,이름에 '마트',keyword
+store_0131,F03,0.7,이름에 '마트',keyword
+store_0117,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0127,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0127,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0127,F04,0.5,장암리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0080,F02,0.6,이름에 '치즈' → 유제품 판매,keyword
+store_0098,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0098,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0054,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0054,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0059,F01,0.6,업종 '반찬/식료품 소매업',keyword
+store_0059,F02,0.6,업종 '반찬/식료품 소매업',keyword
+store_0064,F01,0.9,업종 '슈퍼마켓',keyword
+store_0064,F02,0.8,이름에 '마트',keyword
+store_0064,F03,0.7,이름에 '마트',keyword
+store_0113,F01,0.9,업종 '슈퍼마켓',keyword
+store_0113,F02,0.5,업종 '슈퍼마켓',keyword
+store_0041,F01,0.9,업종 '슈퍼마켓',keyword
+store_0041,F02,0.5,업종 '슈퍼마켓',keyword
+store_0041,F04,0.5,성가리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0069,F01,0.9,업종 '슈퍼마켓',keyword
+store_0069,F02,0.5,업종 '슈퍼마켓',keyword
+store_0069,F04,0.5,입석리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0034,F01,0.9,업종 '슈퍼마켓',keyword
+store_0034,F02,0.5,업종 '슈퍼마켓',keyword
+store_0129,F02,0.9,업종 '정육점',keyword
+store_0122,F01,0.9,이름에 '마트',keyword
+store_0122,F02,0.9,업종 '정육점',keyword
+store_0122,F03,0.7,이름에 '마트',keyword
+store_0090,F01,0.9,이름에 '마트',keyword
+store_0090,F02,0.9,업종 '정육점',keyword
+store_0090,F03,0.7,이름에 '마트',keyword
+store_0109,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0060,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0015,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0028,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0132,F02,0.9,업종 '채소/과일 소매업',keyword
+store_0114,F01,0.9,업종 '편의점',keyword
+store_0096,F01,0.9,업종 '편의점',keyword
+store_0096,F04,0.5,병암리에 영업 중인 식료품점이 1곳뿐,keyword
+store_0134,F01,0.9,업종 '편의점',keyword
+store_0040,F01,0.9,업종 '편의점',keyword
+store_0138,F01,0.9,업종 '편의점',keyword
+store_0023,F01,0.9,업종 '편의점',keyword
+store_0126,F01,0.9,업종 '편의점',keyword
+store_0097,F01,0.9,업종 '편의점',keyword
+store_0065,F01,0.9,업종 '슈퍼마켓',keyword
+store_0065,F02,0.5,업종 '슈퍼마켓',keyword
+store_0036,F01,0.9,업종 '슈퍼마켓',keyword
+store_0036,F02,0.5,업종 '슈퍼마켓',keyword
+store_0083,F01,0.9,업종 '슈퍼마켓',keyword
+store_0083,F02,0.5,업종 '슈퍼마켓',keyword
+store_0063,F01,0.9,업종 '슈퍼마켓',keyword
+store_0063,F02,0.5,업종 '슈퍼마켓',keyword
+store_0050,F01,0.9,업종 '슈퍼마켓',keyword
+store_0050,F02,0.5,업종 '슈퍼마켓',keyword
+store_0058,F01,0.9,업종 '슈퍼마켓',keyword
+store_0058,F02,0.8,이름에 '마트',keyword
+store_0058,F03,0.7,이름에 '마트',keyword
+store_0032,F01,0.9,업종 '편의점',keyword
+store_0032,F02,0.8,이름에 '마트',keyword
+store_0032,F03,0.7,이름에 '마트',keyword
+res_0136,F04,0.9,자원 종류 '경로당',keyword
+res_0151,F04,0.9,자원 종류 '경로당',keyword
+res_0258,F04,0.9,자원 종류 '경로당',keyword
+res_0286,F04,0.9,자원 종류 '경로당',keyword
+res_0184,F04,0.9,자원 종류 '경로당',keyword
+res_0013,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0013,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0008,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0008,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0002,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0002,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0004,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0004,F04,0.6,자원 종류 '재가노인복지시설',keyword
+res_0003,F03,0.4,자원 종류 '재가노인복지시설',keyword
+res_0003,F04,0.6,자원 종류 '재가노인복지시설',keyword
