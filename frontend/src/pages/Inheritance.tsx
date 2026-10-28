@@ -63,7 +63,7 @@ export default function Inheritance() {
     return plans
       .filter((p) => p.function_code === tab)
       .filter((p) => showExcluded || !excluded.has(p.resource_id))
-      .sort((a, b) => sort === "score" ? b.score - a.score : a.score_breakdown.distance - b.score_breakdown.distance);
+      .sort((a, b) => sort === "score" ? b.score - a.score : b.score_breakdown.distance - a.score_breakdown.distance);
   }, [plans, tab, sort, showExcluded, excluded]);
 
   useEffect(() => {
