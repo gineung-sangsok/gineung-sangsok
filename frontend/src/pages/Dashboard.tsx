@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Store, ClipboardCheck, Users, CheckCircle2, Loader2 } from "lucide-react";
 import StatCard from "../components/ui/StatCard";
 import Donut from "../components/ui/Donut";
 import { CardHeader } from "../components/ui/PageHeader";
 import VillageMap from "../components/VillageMap";
 import HouseFrame from "../components/ui/HouseFrame";
-import { API_BASE, STAGE_LABEL, type ApiEntity, type ApiVillage, type Stage } from "../data/constants";
+import {
+  API_BASE, STAGE_LABEL,
+  type ApiVillage, type Stage, type ClosureFunctionsResponse,
+} from "../data/constants";
+
+interface ClosureSummary {
+  closure_id: string;
+  store: { entity_id: string; name: string; village_id: string; status: string };
+  closure_date: string | null;
+}
 
 const STAGE_COLORS: Record<Stage, string> = {
   registered: "#E6EAE3",
@@ -16,20 +24,33 @@ const STAGE_COLORS: Record<Stage, string> = {
 };
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const [facilities, setFacilities] = useState<ApiEntity[]>([]);
+  const [closureList, setClosureList] = useState<ClosureSummary[]>([]);
+  const [reviewedIds, setReviewedIds] = useState<Set<string>>(new Set());
   const [villages, setVillages] = useState<ApiVillage[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch(`${API_BASE}/resources`).then((r) => r.ok ? r.json() : []),
+      fetch(`${API_BASE}/closures`).then((r) => r.ok ? r.json() : []),
       fetch(`${API_BASE}/villages`).then((r) => r.ok ? r.json() : []),
     ])
-      .then(([res, vil]: [ApiEntity[], ApiVillage[]]) => {
-        setFacilities(res);
+      .then(async ([cls, vil]: [ClosureSummary[], ApiVillage[]]) => {
+        setClosureList(cls);
         setVillages(vil);
+        // 각 closure의 functions를 가져와서 verified_by_officer 확인
+        const fnResults = await Promise.all(
+          cls.map((c) =>
+            fetch(`${API_BASE}/closures/${c.closure_id}/functions`)
+              .then((r) => r.ok ? r.json() as Promise<ClosureFunctionsResponse> : null)
+              .catch(() => null)
+          )
+        );
+        const reviewed = new Set<string>();
+        fnResults.forEach((fn) => {
+          if (fn?.verified_by_officer) reviewed.add(fn.closure_id);
+        });
+        setReviewedIds(reviewed);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -37,20 +58,19 @@ export default function Dashboard() {
 
   const [hoverStage, setHoverStage] = useState<string | null>(null);
 
-  const stores = facilities.filter((f) => f.entity_type === "store");
-  const closing = stores.filter((f) => f.status === "CLOSING").length;
-  const reviewed = stores.filter((f) => f.verified_by_officer).length;
-  const pending = stores.length - reviewed;
+  const totalClosures = closureList.length;
+  const reviewedCount = reviewedIds.size;
+  const pendingCount = totalClosures - reviewedCount;
 
   // 폐업 예정 시설이 속한 마을들의 인구 합산
-  const closingVillageIds = new Set(stores.filter((f) => f.status !== "ACTIVE").map((f) => f.village_id));
+  const closingVillageIds = new Set(closureList.map((c) => c.store.village_id));
   const affectedPop = villages
     .filter((v) => closingVillageIds.has(v.village_id))
     .reduce((sum, v) => sum + (v.population?.total ?? 0), 0);
 
   const stageCounts = (Object.keys(STAGE_LABEL) as Stage[]).map((s) => ({
     key: s,
-    value: s === "reviewed" ? reviewed : s === "registered" ? Math.max(0, stores.length - closing) : s === "functions" ? closing - reviewed : s === "inheritance" ? 0 : 0,
+    value: s === "reviewed" ? reviewedCount : s === "registered" ? Math.max(0, totalClosures - reviewedCount) : s === "functions" ? 0 : s === "inheritance" ? 0 : 0,
     color: STAGE_COLORS[s],
     label: STAGE_LABEL[s],
   }));
@@ -68,16 +88,16 @@ export default function Dashboard() {
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
         <HouseFrame variant={0}>
-          <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" color="#E8957A" />
+          <StatCard icon={Store} label="폐업 예정 시설" value={totalClosures} suffix="곳" color="#E8957A" />
         </HouseFrame>
         <HouseFrame variant={1}>
-          <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" color="#6FA8D0" />
+          <StatCard icon={ClipboardCheck} label="검토 대기" value={pendingCount} suffix="건" color="#6FA8D0" />
         </HouseFrame>
         <HouseFrame variant={2}>
           <StatCard icon={Users} label="영향 인구 (추정)" value={affectedPop} suffix="명" color="#D4B24C" />
         </HouseFrame>
         <HouseFrame variant={3}>
-          <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" color="#6CBF8E" />
+          <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewedCount} suffix="건" color="#6CBF8E" />
         </HouseFrame>
       </div>
 
@@ -95,7 +115,7 @@ export default function Dashboard() {
               center={
                 <div>
                   <p className="text-[30px] font-bold leading-none tracking-tight">
-                    {hoverStage ? stageCounts.find((s) => s.key === hoverStage)?.value : stores.length}
+                    {hoverStage ? stageCounts.find((s) => s.key === hoverStage)?.value : totalClosures}
                   </p>
                   <p className="text-[11px] text-text-muted mt-1">{hoverStage ? STAGE_LABEL[hoverStage as Stage] : "전체 시설"}</p>
                 </div>
@@ -113,7 +133,7 @@ export default function Dashboard() {
                 <span className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />
                 <span className="flex-1 text-left font-medium text-text-secondary">{s.label}</span>
                 <span className="font-bold tnum">{s.value}</span>
-                <span className="w-10 text-right text-text-muted tnum">{stores.length > 0 ? Math.round((s.value / stores.length) * 100) : 0}%</span>
+                <span className="w-10 text-right text-text-muted tnum">{totalClosures > 0 ? Math.round((s.value / totalClosures) * 100) : 0}%</span>
               </div>
             ))}
           </div>

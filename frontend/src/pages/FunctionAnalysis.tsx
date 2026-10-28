@@ -17,11 +17,11 @@ export function FacilityStrip() {
   const { id } = useParams();
   const [f, setF] = useState<ApiEntity | null>(null);
   useEffect(() => {
-    fetch(`${API_BASE}/resources`)
-      .then((r) => r.ok ? r.json() : [])
-      .then((entities: ApiEntity[]) => {
-        const found = entities.find((e) => e.entity_id === id);
-        if (found) setF(found);
+    if (!id) return;
+    fetch(`${API_BASE}/closures/${id}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((data: { store: ApiEntity } | null) => {
+        if (data?.store) setF(data.store);
       })
       .catch(() => {});
   }, [id]);

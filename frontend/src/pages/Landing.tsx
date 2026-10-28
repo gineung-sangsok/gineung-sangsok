@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Map as MapIcon } from "lucide-react";
-import { FUNCTIONS } from "../data/constants";
+import { API_BASE, FUNCTIONS } from "../data/constants";
 
 import FunctionIcon from "../components/ui/FunctionIcon";
 import { House, Tree, Villager, type Person } from "../components/VillageMap";
@@ -74,6 +75,21 @@ const BLOSSOMS = [[120, 372], [330, 528], [560, 366], [780, 532], [905, 370], [6
 
 export default function Landing() {
   const navigate = useNavigate();
+  const [kpi, setKpi] = useState({ closures: 0, affected: 0, gapRi: 0 });
+
+  useEffect(() => {
+    Promise.all([
+      fetch(`${API_BASE}/closures`).then((r) => r.ok ? r.json() : []),
+      fetch(`${API_BASE}/villages`).then((r) => r.ok ? r.json() : []),
+    ])
+      .then(([cls, vil]: [{ closure_id: string; store: { village_id: string } }[], { village_id: string; population: { total: number | null } | null; has_food_store: boolean | null }[]]) => {
+        const villageIds = new Set(cls.map((c) => c.store.village_id));
+        const affected = vil.filter((v) => villageIds.has(v.village_id)).reduce((s, v) => s + (v.population?.total ?? 0), 0);
+        const gapRi = vil.filter((v) => v.has_food_store === false).length;
+        setKpi({ closures: cls.length, affected, gapRi });
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="h-full overflow-y-auto thin-scroll">
@@ -218,16 +234,16 @@ export default function Landing() {
           </div>
           <dl className="col-span-7 grid grid-cols-3 gap-4">
             {[
-              ["–", "", "폐업 예정 시설", "#F8D3C4"],
-              ["–", "", "영향받는 주민 (추정)", "#F7E7B6"],
-              ["–", "", "신선식품 공백 법정리", "#FFFFFF"],
+              [kpi.closures, "곳", "폐업 예정 시설", "#F8D3C4"],
+              [kpi.affected.toLocaleString(), "명", "영향받는 주민 (추정)", "#F7E7B6"],
+              [kpi.gapRi, "곳", "신선식품 공백 법정리", "#FFFFFF"],
             ].map(([v, u, label, bg]) => (
-              <div key={label} className="rounded-[24px] px-6 py-7" style={{ background: bg }}>
+              <div key={label as string} className="rounded-[24px] px-6 py-7" style={{ background: bg as string }}>
                 <dd className="font-title text-[44px] leading-none text-[#2F5E43] tnum whitespace-nowrap">
                   {v}
-                  <span className="text-[20px] text-text-secondary ml-1">{u}</span>
+                  <span className="text-[20px] text-text-secondary ml-1">{u as string}</span>
                 </dd>
-                <dt className="text-[13px] font-semibold text-text-secondary mt-3">{label}</dt>
+                <dt className="text-[13px] font-semibold text-text-secondary mt-3">{label as string}</dt>
               </div>
             ))}
           </dl>
