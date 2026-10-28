@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from backend.schemas import (
+from .schemas import (
     Closure,
     ClosureFunctions,
     Entity,
