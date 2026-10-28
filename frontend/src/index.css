@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #F2F5F7;
+  --color-bg: #EEF5FD;
   --color-surface: #FFFFFF;
-  --color-surface-secondary: #F1F4F7;
-  --color-surface-tint: #F6FAFA;
-  --color-text-primary: #133241;
-  --color-text-secondary: #5E7180;
-  --color-text-muted: #94A3AF;
-  --color-border: #E4EAEF;
-  --color-border-strong: #CFD9E1;
-  --color-action: #0E5266;
-  --color-action-hover: #0A3F4F;
-  --color-brand: #2E8C7E;
-  --color-brand-soft: #E5F2EF;
-  --color-sidebar: #0C4A5B;
-  --color-sidebar-deep: #093A48;
+  --color-surface-secondary: #F1F6FC;
+  --color-surface-tint: #F3F8FF;
+  --color-text-primary: #13253D;
+  --color-text-secondary: #4F647C;
+  --color-text-muted: #8797AB;
+  --color-border: #DFE9F4;
+  --color-border-strong: #C6D7EA;
+  --color-action: #1F6FE5;
+  --color-action-hover: #1858C0;
+  --color-brand: #2B8FF0;
+  --color-brand-soft: #E4F0FE;
+  --color-sky: #BFE0FF;
+  --color-ink: #15294A;
+  /* 짙은 배경 강조 영역(등록 카드 머리 등). 사이드바 자체는 밝은 면을 쓴다 */
+  --color-sidebar: #1B4B8F;
+  --color-sidebar-deep: #15396E;
 
   --color-f01: #3F7BC4;
   --color-f02: #3E9A74;
@@ -27,9 +30,9 @@
   --color-status-error: #C65555;
   --color-status-info: #3F7BC4;
 
-  --shadow-card: 0 1px 2px rgba(16, 42, 56, 0.04), 0 4px 16px -6px rgba(16, 42, 56, 0.08);
-  --shadow-lift: 0 2px 4px rgba(16, 42, 56, 0.05), 0 16px 32px -12px rgba(16, 42, 56, 0.18);
-  --shadow-pop: 0 12px 48px -12px rgba(9, 40, 52, 0.35), 0 2px 6px rgba(9, 40, 52, 0.08);
+  --shadow-card: 0 1px 2px rgba(25, 70, 140, 0.04), 0 6px 20px -8px rgba(25, 70, 140, 0.10);
+  --shadow-lift: 0 2px 4px rgba(25, 70, 140, 0.05), 0 18px 36px -14px rgba(25, 70, 140, 0.22);
+  --shadow-pop: 0 12px 48px -12px rgba(15, 40, 80, 0.35), 0 2px 6px rgba(15, 40, 80, 0.08);
 
   --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-fade-in: fade-in 0.25s ease both;
@@ -72,8 +75,8 @@
     to { background-position: 200% 0; }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(46, 140, 126, 0.45); }
-    100% { box-shadow: 0 0 0 10px rgba(46, 140, 126, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(43, 143, 240, 0.45); }
+    100% { box-shadow: 0 0 0 10px rgba(43, 143, 240, 0); }
   }
 }
 
@@ -107,7 +110,7 @@ html, body, #root {
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 18px;
+  border-radius: 24px;
   box-shadow: var(--shadow-card);
 }
 .card-hover {
@@ -122,11 +125,11 @@ html, body, #root {
 /* inputs */
 .field {
   width: 100%;
-  height: 44px;
-  padding: 0 14px;
+  height: 46px;
+  padding: 0 16px;
   border: 1px solid var(--color-border);
-  border-radius: 12px;
-  font-size: 14px;
+  border-radius: 14px;
+  font-size: 14.5px;
   background: var(--color-surface);
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
@@ -134,7 +137,7 @@ html, body, #root {
 .field:focus {
   outline: none;
   border-color: var(--color-brand);
-  box-shadow: 0 0 0 4px rgba(46, 140, 126, 0.14);
+  box-shadow: 0 0 0 4px rgba(43, 143, 240, 0.16);
 }
 .field::placeholder { color: var(--color-text-muted); }
 textarea.field { height: auto; padding: 12px 14px; }
@@ -145,11 +148,11 @@ textarea.field { height: auto; padding: 12px 14px; }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 11px;
-  font-size: 13px;
-  font-weight: 600;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
   transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   cursor: pointer;
   user-select: none;
@@ -157,13 +160,13 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.btn-primary { background: var(--color-action); color: white; box-shadow: 0 1px 2px rgba(14, 82, 102, 0.3); }
-.btn-primary:hover:not(:disabled) { background: var(--color-action-hover); box-shadow: 0 6px 16px -6px rgba(14, 82, 102, 0.6); }
+.btn-primary { background: var(--color-action); color: white; box-shadow: 0 1px 2px rgba(31, 111, 229, 0.3); }
+.btn-primary:hover:not(:disabled) { background: var(--color-action-hover); box-shadow: 0 8px 18px -6px rgba(31, 111, 229, 0.55); }
 .btn-brand { background: var(--color-brand); color: white; }
-.btn-brand:hover:not(:disabled) { background: #257668; }
+.btn-brand:hover:not(:disabled) { background: #1F7BD6; }
 .btn-ghost { background: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border); }
 .btn-ghost:hover:not(:disabled) { background: var(--color-surface-secondary); border-color: var(--color-border-strong); }
-.btn-sm { height: 32px; padding: 0 12px; font-size: 12px; border-radius: 9px; }
+.btn-sm { height: 34px; padding: 0 14px; font-size: 12.5px; border-radius: 999px; }
 
 .kbd {
   display: inline-flex;
@@ -181,7 +184,7 @@ textarea.field { height: auto; padding: 12px 14px; }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #EEF2F5 25%, #F7F9FA 50%, #EEF2F5 75%);
+  background: linear-gradient(90deg, #EAF1F9 25%, #F6F9FD 50%, #EAF1F9 75%);
   background-size: 200% 100%;
   animation: var(--animate-shimmer);
   border-radius: 8px;
@@ -189,17 +192,17 @@ textarea.field { height: auto; padding: 12px 14px; }
 
 /* scrollbars */
 .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
-.thin-scroll::-webkit-scrollbar-thumb { background: #D5DEE5; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+.thin-scroll::-webkit-scrollbar-thumb { background: #CBDAEA; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
 
 }
 
 /* leaflet tweaks */
-.leaflet-container { font-family: inherit; background: #EAF0F2; }
+.leaflet-container { font-family: inherit; background: #E8F1FA; }
 .leaflet-control-zoom { border: none !important; box-shadow: var(--shadow-card) !important; border-radius: 12px !important; overflow: hidden; }
 .leaflet-control-zoom a { width: 34px !important; height: 34px !important; line-height: 34px !important; color: var(--color-text-primary) !important; border-color: var(--color-border) !important; }
 .leaflet-tooltip.ri-tip {
-  background: #0C3341;
+  background: var(--color-ink);
   color: white;
   border: none;
   border-radius: 10px;

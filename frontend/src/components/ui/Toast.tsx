@@ -35,7 +35,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           return (
             <div
               key={t.id}
-              className={`pointer-events-auto w-[340px] bg-[#0C3341] text-white rounded-2xl px-4 py-3.5 flex gap-3 items-start transition-all duration-200 ${
+              className={`pointer-events-auto w-[340px] bg-ink text-white rounded-2xl px-4 py-3.5 flex gap-3 items-start transition-all duration-200 ${
                 t.leaving ? "opacity-0 translate-x-6" : "animate-slide-in-right"
               }`}
               style={{ boxShadow: "var(--shadow-pop)" }}

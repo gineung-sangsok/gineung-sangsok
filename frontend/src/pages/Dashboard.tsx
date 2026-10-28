@@ -7,16 +7,17 @@ import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge
 import Donut from "../components/ui/Donut";
 import Segmented from "../components/ui/Segmented";
 import Dropdown from "../components/ui/Dropdown";
-import PageHeader, { CardHeader, DemoTag } from "../components/ui/PageHeader";
+import { CardHeader, DemoTag } from "../components/ui/PageHeader";
+import FunctionIcon from "../components/ui/FunctionIcon";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
 import { useDemo } from "../store/DemoStore";
 
 const STAGE_COLORS: Record<Stage, string> = {
-  registered: "#9CB3C2",
-  functions: "#3F7BC4",
-  inheritance: "#2E8C7E",
-  reviewed: "#0E5266",
+  registered: "#AFC3D9",
+  functions: "#7DB8F5",
+  inheritance: "#2B8FF0",
+  reviewed: "#1B4B8F",
 };
 
 type Metric = "gaps" | "closures" | "resolved";
@@ -25,7 +26,7 @@ const METRIC_LABEL: Record<Metric, string> = { gaps: "공백 법정리 수", clo
 function ChartTip({ active, payload, label, unit = "" }: { active?: boolean; payload?: { value: number; name: string; color: string }[]; label?: string; unit?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="px-3 py-2 rounded-xl bg-[#0C3341] text-white text-[12px]" style={{ boxShadow: "var(--shadow-pop)" }}>
+    <div className="px-3 py-2 rounded-xl bg-ink text-white text-[12px]" style={{ boxShadow: "var(--shadow-pop)" }}>
       <p className="text-white/60 text-[11px] mb-0.5">{label}</p>
       {payload.map((p) => (
         <p key={p.name} className="font-semibold flex items-center gap-1.5">
@@ -92,29 +93,58 @@ export default function Dashboard() {
 
   return (
     <div>
-      <PageHeader
-        title="생활서비스 현황"
-        desc="임실군 내 생활서비스 공백을 한눈에 확인하고, 이어받을 대체 자원을 검토합니다."
-        badge={<DemoTag />}
-        actions={
-          <>
+      {/* Hero */}
+      <section
+        className="relative overflow-hidden rounded-[28px] mb-6 px-9 py-8 flex items-center gap-8 animate-fade-up"
+        style={{ background: "linear-gradient(120deg, #CFE6FF 0%, #E6F2FF 55%, #F5FAFF 100%)" }}
+      >
+        <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full bg-white/40" />
+        <div className="absolute right-40 -bottom-24 w-56 h-56 rounded-full bg-white/30" />
+        <div className="relative flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="px-3 py-1 rounded-full bg-white/80 text-[12px] font-bold text-action">임실군 생활서비스 현황</span>
+            <DemoTag />
+          </div>
+          <h1 className="text-[32px] font-extrabold tracking-tight leading-[1.25] text-text-primary">
+            문을 닫는 가게가 하던 일,
+            <br />
+            <span className="text-action">이어받을 곳</span>을 함께 찾아요
+          </h1>
+          <p className="text-[15px] text-text-secondary mt-3">
+            폐업 예정 시설 <b className="text-text-primary tnum">{closing}곳</b> · 검토 대기 <b className="text-text-primary tnum">{pending}건</b> · 영향 인구 약{" "}
+            <b className="text-text-primary tnum">{pop.toLocaleString()}명</b>
+          </p>
+          <div className="flex items-center gap-2 mt-6">
+            <button onClick={() => navigate("/closures/new")} className="btn btn-primary">
+              <Plus className="w-4 h-4" /> 폐업 예정 시설 등록
+              <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-white/20">N</span>
+            </button>
             <button onClick={() => navigate("/spatial")} className="btn btn-ghost">
               지도에서 보기
             </button>
-            <button onClick={() => navigate("/closures/new")} className="btn btn-primary">
-              <Plus className="w-4 h-4" /> 폐업 예정 시설 등록
-              <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-white/15">N</span>
+          </div>
+        </div>
+        <div className="relative hidden xl:grid grid-cols-2 gap-3 shrink-0">
+          {FUNCTIONS.map((f) => (
+            <button
+              key={f.code}
+              onClick={() => navigate(`/spatial?fn=${f.code}`)}
+              className="group w-[150px] rounded-[22px] bg-white/90 px-4 py-4 text-left shadow-[var(--shadow-card)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] transition-all"
+            >
+              <FunctionIcon code={f.code} size={40} />
+              <p className="text-[14px] font-bold mt-2.5 text-text-primary">{f.short}</p>
+              <p className="text-[11.5px] text-text-muted">공백 {FUNCTION_GAP_RATE[f.code]}%</p>
             </button>
-          </>
-        }
-      />
+          ))}
+        </div>
+      </section>
 
       {/* KPI */}
       <div className="grid grid-cols-4 gap-5 mb-5 stagger">
         <StatCard icon={Store} label="폐업 예정 시설" value={closing} suffix="곳" delta={+2} deltaGood="down" color="#D0893A" trend={MONTHLY.map((m) => m.closures)} onClick={() => setStageFilter("all")} />
         <StatCard icon={ClipboardCheck} label="검토 대기" value={pending} suffix="건" delta={+1} deltaGood="down" color="#3F7BC4" trend={[5, 6, 6, 7, 6, 8, 7, 9, 8, 8, 9, pending]} active={stageFilter === "pending"} onClick={() => { setStageFilter("pending"); setPage(0); }} />
         <StatCard icon={Users} label="영향 인구 (추정)" value={pop} suffix="명" delta={-48} deltaGood="down" color="#C65555" trend={[2600, 2500, 2480, 2550, 2400, 2380, 2300, 2350, 2280, 2240, 2290, pop]} />
-        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#2E8C7E" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
+        <StatCard icon={CheckCircle2} label="상속안 검토 완료" value={reviewed} suffix="건" delta={+1} color="#2B8FF0" trend={MONTHLY.map((m) => m.resolved)} active={stageFilter === "reviewed"} onClick={() => { setStageFilter("reviewed"); setPage(0); }} />
       </div>
 
       {/* Function gap donuts */}
@@ -128,21 +158,22 @@ export default function Dashboard() {
               onMouseEnter={() => setHoverFn(f.code)}
               onMouseLeave={() => setHoverFn(null)}
               onClick={() => navigate(`/spatial?fn=${f.code}`)}
-              className="card card-hover p-5 text-left group"
+              className="card card-hover p-6 text-left group"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-[15px] font-bold text-action">{f.name}</h3>
-                <span className="text-[11px] font-bold px-1.5 py-0.5 rounded-md text-white" style={{ background: f.hex }}>{f.code}</span>
+              <div className="flex items-start justify-between">
+                <FunctionIcon code={f.code} size={44} />
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: f.hex }}>{f.code}</span>
               </div>
-              <p className="text-[11.5px] text-text-muted mt-0.5">공백 법정리 비율</p>
+              <h3 className="text-[16px] font-bold text-text-primary mt-3 whitespace-nowrap">{f.name}</h3>
+              <p className="text-[12px] text-text-muted">공백 법정리 비율</p>
               <div className="flex items-center justify-center my-4">
                 <Donut
                   size={150}
                   thickness={active ? 30 : 26}
-                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#E9EFF2" }]}
+                  slices={[{ key: "gap", value: v, color: f.hex }, { key: "ok", value: 100 - v, color: "#EAF1F9" }]}
                   center={
                     <div>
-                      <p className="text-[28px] font-bold leading-none tracking-tight text-action">
+                      <p className="text-[30px] font-extrabold leading-none tracking-tight text-text-primary">
                         <AnimatedNumber value={v} suffix="%" />
                       </p>
                       <p className={`text-[11px] text-text-muted mt-1 transition-opacity ${active ? "opacity-100" : "opacity-0"}`}>
@@ -153,8 +184,8 @@ export default function Dashboard() {
                 />
               </div>
               <div className="flex items-center justify-between text-[12px]">
-                <span className="text-text-muted">지도에서 보기</span>
-                <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-action group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                <span className="font-semibold text-action">지도에서 보기</span>
+                <ArrowUpRight className="w-4 h-4 text-action group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </div>
             </button>
           );
@@ -196,24 +227,24 @@ export default function Dashboard() {
                 <AreaChart data={MONTHLY} key={`a-${metric}`}>
                   <defs>
                     <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#0E5266" stopOpacity={0.22} />
-                      <stop offset="100%" stopColor="#0E5266" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#1F6FE5" stopOpacity={0.22} />
+                      <stop offset="100%" stopColor="#1F6FE5" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid vertical={false} stroke="#EDF1F4" />
-                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#94A3AF" }} />
-                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#94A3AF" }} width={36} />
-                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#0E5266", strokeDasharray: "4 4" }} />
-                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#0E5266" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
+                  <CartesianGrid vertical={false} stroke="#E6EEF7" />
+                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} width={36} />
+                  <Tooltip content={<ChartTip />} cursor={{ stroke: "#1F6FE5", strokeDasharray: "4 4" }} />
+                  <Area type="stepAfter" dataKey={metric} name={METRIC_LABEL[metric]} stroke="#1F6FE5" strokeWidth={2.5} fill="url(#gArea)" activeDot={{ r: 5, strokeWidth: 3, stroke: "#fff" }} animationDuration={900} />
                 </AreaChart>
               ) : (
                 <ComposedChart data={MONTHLY} key={`b-${metric}`}>
-                  <CartesianGrid vertical={false} stroke="#EDF1F4" />
-                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#94A3AF" }} />
-                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#94A3AF" }} width={36} />
-                  <Tooltip content={<ChartTip />} cursor={{ fill: "#0E52660d" }} />
-                  <Bar dataKey={metric} name={METRIC_LABEL[metric]} fill="#2E8C7E" radius={[6, 6, 2, 2]} barSize={18} animationDuration={700} />
-                  <Line dataKey={metric} name="추세" stroke="#0E5266" strokeWidth={0} dot={false} legendType="none" />
+                  <CartesianGrid vertical={false} stroke="#E6EEF7" />
+                  <XAxis dataKey="m" tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11.5, fill: "#8797AB" }} width={36} />
+                  <Tooltip content={<ChartTip />} cursor={{ fill: "#1F6FE50d" }} />
+                  <Bar dataKey={metric} name={METRIC_LABEL[metric]} fill="#2B8FF0" radius={[8, 8, 3, 3]} barSize={18} animationDuration={700} />
+                  <Line dataKey={metric} name="추세" stroke="#1F6FE5" strokeWidth={0} dot={false} legendType="none" />
                 </ComposedChart>
               )}
             </ResponsiveContainer>
@@ -233,7 +264,7 @@ export default function Dashboard() {
           <div className="space-y-2.5 mt-2">
             {ranking.map((r, i) => {
               const dim = hoverRank && hoverRank !== r.name;
-              const color = r.score >= 70 ? "#B23A48" : r.score >= 55 ? "#E07A5F" : r.score >= 40 ? "#2E8C7E" : "#9CCFC2";
+              const color = r.score >= 70 ? "#B23A48" : r.score >= 55 ? "#E07A5F" : r.score >= 40 ? "#2B8FF0" : "#A9D2FA";
               return (
                 <div
                   key={r.name}
@@ -294,7 +325,7 @@ export default function Dashboard() {
               ]}
             />
           </div>
-          <div className="border border-border rounded-xl overflow-hidden">
+          <div className="border border-border rounded-2xl overflow-hidden">
             <table className="w-full text-[13px]">
               <thead>
                 <tr className="bg-surface-tint text-action">
@@ -361,15 +392,15 @@ export default function Dashboard() {
             </table>
           </div>
           <div className="flex items-center justify-center gap-1.5 mt-4">
-            <button disabled={page === 0} onClick={() => setPage((p) => p - 1)} className="w-8 h-8 rounded-lg bg-surface-secondary flex items-center justify-center disabled:opacity-40 hover:bg-brand-soft transition-colors">
+            <button disabled={page === 0} onClick={() => setPage((p) => p - 1)} className="w-8 h-8 rounded-full bg-surface-secondary flex items-center justify-center disabled:opacity-40 hover:bg-brand-soft transition-colors">
               <ChevronLeft className="w-4 h-4" />
             </button>
             {Array.from({ length: pages }, (_, i) => (
-              <button key={i} onClick={() => setPage(i)} className={`w-8 h-8 rounded-lg text-[12px] font-bold transition-all ${i === page ? "bg-action text-white scale-105" : "bg-surface-secondary text-action hover:bg-brand-soft"}`}>
+              <button key={i} onClick={() => setPage(i)} className={`w-8 h-8 rounded-full text-[12px] font-bold transition-all ${i === page ? "bg-action text-white scale-105" : "bg-surface-secondary text-action hover:bg-brand-soft"}`}>
                 {i + 1}
               </button>
             ))}
-            <button disabled={page >= pages - 1} onClick={() => setPage((p) => p + 1)} className="w-8 h-8 rounded-lg bg-action text-white flex items-center justify-center disabled:opacity-40 disabled:bg-surface-secondary disabled:text-text-primary transition-colors">
+            <button disabled={page >= pages - 1} onClick={() => setPage((p) => p + 1)} className="w-8 h-8 rounded-full bg-action text-white flex items-center justify-center disabled:opacity-40 disabled:bg-surface-secondary disabled:text-text-primary transition-colors">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

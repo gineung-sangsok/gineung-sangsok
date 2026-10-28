@@ -37,9 +37,9 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
   const today = new Date().toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "short" });
 
   return (
-    <header className="h-[76px] shrink-0 bg-surface/80 backdrop-blur-md border-b border-border flex items-center gap-6 px-8 sticky top-0 z-10">
+    <header className="h-[76px] shrink-0 bg-bg/80 backdrop-blur-md flex items-center gap-6 px-8 sticky top-0 z-10">
       {/* breadcrumb */}
-      <div className="flex items-center gap-1.5 text-[13px] min-w-[180px]">
+      <div className="flex items-center gap-1.5 text-[14px] min-w-[180px]">
         {crumbs.map((c, i) => (
           <span key={c} className="flex items-center gap-1.5">
             {i > 0 && <ChevronRight className="w-3.5 h-3.5 text-text-muted" />}
@@ -51,10 +51,10 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
       {/* search */}
       <button
         onClick={onOpenSearch}
-        className="group flex-1 max-w-[460px] h-11 flex items-center gap-3 px-4 rounded-xl bg-surface-secondary border border-transparent hover:border-border-strong hover:bg-surface transition-all text-left"
+        className="group flex-1 max-w-[460px] h-12 flex items-center gap-3 px-5 rounded-full bg-surface border border-border shadow-[var(--shadow-card)] hover:border-brand transition-all text-left"
       >
         <Search className="w-[17px] h-[17px] text-text-muted group-hover:text-action transition-colors" />
-        <span className="flex-1 text-[13px] text-text-muted">시설, 법정리, 페이지 검색</span>
+        <span className="flex-1 text-[14px] text-text-muted">시설, 법정리, 페이지 검색</span>
         <span className="flex gap-1">
           <span className="kbd">⌘</span>
           <span className="kbd">K</span>
@@ -62,7 +62,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
       </button>
 
       <div className="ml-auto flex items-center gap-2">
-        <span className="hidden xl:inline-flex items-center gap-1.5 h-9 px-3 rounded-xl border border-border text-[12px] font-semibold text-text-secondary">
+        <span className="hidden xl:inline-flex items-center gap-1.5 h-10 px-4 rounded-full bg-surface border border-border text-[12.5px] font-semibold text-text-secondary">
           <CalendarDays className="w-3.5 h-3.5" /> {today}
         </span>
 
@@ -70,7 +70,7 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
         <div ref={bellRef} className="relative">
           <button
             onClick={() => setBellOpen((o) => !o)}
-            className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${bellOpen ? "bg-brand-soft text-action" : "hover:bg-surface-secondary text-text-secondary"}`}
+            className={`relative w-11 h-11 rounded-full flex items-center justify-center transition-colors border ${bellOpen ? "bg-brand-soft text-action border-brand-soft" : "bg-surface border-border hover:text-action text-text-secondary"}`}
           >
             <Bell className={`w-[18px] h-[18px] ${unread ? "origin-top hover:animate-[shake_.5s]" : ""}`} />
             {unread > 0 && (
@@ -120,15 +120,14 @@ export default function Topbar({ onOpenSearch }: { onOpenSearch: () => void }) {
           )}
         </div>
 
-        <span className="w-px h-6 bg-border mx-1" />
-
+        
         {/* user */}
         <div ref={userRef} className="relative">
           <button
             onClick={() => setUserOpen((o) => !o)}
-            className="flex items-center gap-2.5 h-11 pl-1.5 pr-2.5 rounded-xl hover:bg-surface-secondary transition-colors"
+            className="flex items-center gap-2.5 h-12 pl-1.5 pr-3 rounded-full bg-surface border border-border hover:border-brand transition-colors"
           >
-            <span className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-action text-white text-[12px] font-bold flex items-center justify-center">임</span>
+            <span className="w-9 h-9 rounded-full bg-gradient-to-br from-brand to-action text-white text-[12px] font-bold flex items-center justify-center">임</span>
             <span className="text-left">
               <span className="block text-[13px] font-semibold text-action leading-tight">임실군 담당자</span>
               <span className="block text-[11px] text-text-muted">데모 계정</span>

@@ -49,25 +49,20 @@ function Item({
       to={to}
       end={end}
       className={({ isActive }) =>
-        `group relative flex items-center gap-3 h-10 rounded-xl text-[13px] font-medium transition-all duration-200 ${
-          collapsed ? "justify-center px-0" : "px-3"
-        } ${isActive ? "bg-white/[0.12] text-white" : "text-white/65 hover:text-white hover:bg-white/[0.06]"}`
+        `group relative flex items-center gap-3 h-11 rounded-2xl text-[14px] font-semibold transition-all duration-200 ${
+          collapsed ? "justify-center px-0" : "px-3.5"
+        } ${isActive ? "bg-action text-white shadow-[0_8px_18px_-8px_rgba(31,111,229,.6)]" : "text-text-secondary hover:text-action hover:bg-brand-soft"}`
       }
     >
       {({ isActive }) => (
         <>
-          <span
-            className={`absolute left-[-12px] top-2 bottom-2 w-[3px] rounded-r-full bg-[#7FD3C3] transition-all duration-300 ${
-              isActive ? "opacity-100" : "opacity-0 -translate-x-1"
-            }`}
-          />
           <Icon className="w-[18px] h-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110" />
           {!collapsed && <span className="whitespace-nowrap flex-1">{label}</span>}
           {!collapsed && badge && (
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#7FD3C3]/20 text-[#9DE3D5]">{badge}</span>
+            <span className={`text-[10.5px] font-bold px-2 py-0.5 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-brand-soft text-action"}`}>{badge}</span>
           )}
           {collapsed && (
-            <span className="pointer-events-none absolute left-[calc(100%+12px)] px-2.5 py-1.5 rounded-lg bg-[#0C3341] text-white text-[12px] whitespace-nowrap opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shadow-lg z-50">
+            <span className="pointer-events-none absolute left-[calc(100%+12px)] px-2.5 py-1.5 rounded-lg bg-ink text-white text-[12px] whitespace-nowrap opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shadow-lg z-50">
               {label}
             </span>
           )}
@@ -84,19 +79,19 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
 
   return (
     <aside
-      className="fixed left-0 top-0 h-full bg-sidebar flex flex-col z-20 transition-[width] duration-300 ease-[cubic-bezier(.2,.7,.2,1)]"
-      style={{ width: collapsed ? 76 : 248, backgroundImage: "radial-gradient(120% 60% at 0% 0%, #12627A 0%, transparent 60%)" }}
+      className="fixed left-0 top-0 h-full bg-surface border-r border-border flex flex-col z-20 transition-[width] duration-300 ease-[cubic-bezier(.2,.7,.2,1)]"
+      style={{ width: collapsed ? 76 : 248 }}
     >
       {/* Brand */}
       <div className={`h-[76px] flex items-center ${collapsed ? "justify-center" : "px-6"}`}>
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 shadow-[0_0_0_4px_rgba(255,255,255,.08)]">
-            <Map className="w-[18px] h-[18px] text-sidebar" strokeWidth={2.4} />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand to-action flex items-center justify-center shrink-0 shadow-[0_6px_14px_-6px_rgba(31,111,229,.7)]">
+            <Map className="w-5 h-5 text-white" strokeWidth={2.4} />
           </div>
           {!collapsed && (
             <div className="overflow-hidden animate-fade-in">
-              <p className="text-[17px] font-bold text-white whitespace-nowrap leading-tight tracking-tight">더 가까이</p>
-              <p className="text-[10.5px] text-white/50 whitespace-nowrap">농촌 생활서비스 연계 플랫폼</p>
+              <p className="text-[18px] font-extrabold text-text-primary whitespace-nowrap leading-tight tracking-tight">더 가까이</p>
+              <p className="text-[11px] text-text-muted whitespace-nowrap">농촌 생활서비스 연계 플랫폼</p>
             </div>
           )}
         </div>
@@ -110,9 +105,9 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
         <div>
           <button
             onClick={() => (collapsed ? onToggle() : setFlowOpen((o) => !o))}
-            className={`group relative w-full flex items-center gap-3 h-10 rounded-xl text-[13px] font-medium transition-all ${
-              collapsed ? "justify-center" : "px-3"
-            } ${inFlow ? "bg-white/[0.12] text-white" : "text-white/65 hover:text-white hover:bg-white/[0.06]"}`}
+            className={`group relative w-full flex items-center gap-3 h-11 rounded-2xl text-[14px] font-semibold transition-all ${
+              collapsed ? "justify-center" : "px-3.5"
+            } ${inFlow ? "bg-brand-soft text-action" : "text-text-secondary hover:text-action hover:bg-brand-soft"}`}
           >
             <Workflow className="w-[18px] h-[18px] shrink-0" />
             {!collapsed && (
@@ -128,25 +123,25 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
               style={{ gridTemplateRows: flowOpen ? "1fr" : "0fr" }}
             >
               <div className="overflow-hidden">
-                <div className="relative ml-[21px] pl-4 py-1.5 space-y-0.5 border-l border-white/10">
+                <div className="relative ml-[21px] pl-4 py-1.5 space-y-0.5 border-l-2 border-border">
                   {flowItems(getClosureId(pathname)).map((it, i) => (
                     <NavLink
                       key={it.to}
                       to={it.to}
                       className={({ isActive }) =>
-                        `relative flex items-center gap-2.5 h-9 px-2.5 rounded-lg text-[12.5px] transition-all ${
-                          isActive ? "text-white font-semibold bg-white/[0.08]" : "text-white/55 hover:text-white hover:translate-x-0.5"
+                        `relative flex items-center gap-2.5 h-10 px-3 rounded-xl text-[13.5px] transition-all ${
+                          isActive ? "text-action font-bold bg-brand-soft" : "text-text-secondary hover:text-action hover:translate-x-0.5"
                         }`
                       }
                     >
                       {({ isActive }) => (
                         <>
                           <span
-                            className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full border-2 transition-all ${
-                              isActive ? "bg-[#7FD3C3] border-[#7FD3C3] scale-110" : "bg-sidebar border-white/25"
+                            className={`absolute -left-[22px] w-3 h-3 rounded-full border-2 transition-all ${
+                              isActive ? "bg-action border-action scale-110" : "bg-surface border-border-strong"
                             }`}
                           />
-                          <span className="text-[10px] font-bold text-white/35 w-3">{i + 1}</span>
+                          <span className={`text-[11px] font-bold w-3 ${isActive ? "text-action" : "text-text-muted"}`}>{i + 1}</span>
                           {it.label}
                         </>
                       )}
@@ -161,11 +156,11 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
         <Item to="/spatial" icon={Map} label="공간 분석" collapsed={collapsed} badge="지도" />
         <Item to="/data" icon={Database} label="데이터 관리" collapsed={collapsed} />
 
-        {!collapsed && <p className="px-3 pt-6 pb-2 text-[10.5px] font-bold tracking-widest text-white/30">지원</p>}
-        {collapsed && <div className="my-4 mx-2 h-px bg-white/10" />}
+        {!collapsed && <p className="px-3 pt-6 pb-2 text-[11px] font-bold tracking-widest text-text-muted">지원</p>}
+        {collapsed && <div className="my-4 mx-2 h-px bg-border" />}
         <button
-          className={`group w-full flex items-center gap-3 h-10 rounded-xl text-[13px] font-medium text-white/65 hover:text-white hover:bg-white/[0.06] transition-all ${
-            collapsed ? "justify-center" : "px-3"
+          className={`group w-full flex items-center gap-3 h-11 rounded-2xl text-[14px] font-semibold text-text-secondary hover:text-action hover:bg-brand-soft transition-all ${
+            collapsed ? "justify-center" : "px-3.5"
           }`}
         >
           <LifeBuoy className="w-[18px] h-[18px] group-hover:rotate-45 transition-transform duration-300" />
@@ -176,7 +171,7 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
       {/* Bottom */}
       <div className={`pb-4 space-y-1 ${collapsed ? "px-3" : "px-4"}`}>
         <button
-          className={`group w-full flex items-center gap-3 h-10 rounded-xl text-[13px] font-medium text-white/65 hover:text-white hover:bg-white/[0.06] transition-all ${
+          className={`group w-full flex items-center gap-3 h-11 rounded-2xl text-[14px] font-semibold text-text-secondary hover:text-action hover:bg-brand-soft transition-all ${
             collapsed ? "justify-center" : "px-3"
           }`}
         >
@@ -185,7 +180,7 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
         </button>
         <button
           onClick={onToggle}
-          className={`w-full flex items-center gap-3 h-10 rounded-xl text-[12px] text-white/45 hover:text-white hover:bg-white/[0.06] transition-all ${
+          className={`w-full flex items-center gap-3 h-10 rounded-xl text-[12.5px] text-text-muted hover:text-action hover:bg-brand-soft transition-all ${
             collapsed ? "justify-center" : "px-3"
           }`}
           title={collapsed ? "사이드바 펼치기 ([)" : "사이드바 접기 ([)"}
@@ -194,7 +189,7 @@ export default function Sidebar({ collapsed, onToggle }: { collapsed: boolean; o
           {!collapsed && (
             <>
               <span className="flex-1 text-left">사이드바 접기</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white/50">[</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-surface-secondary text-text-muted">[</span>
             </>
           )}
         </button>

@@ -11,7 +11,7 @@ export default function StatCard({
   delta,
   deltaGood = "up",
   trend,
-  color = "#0E5266",
+  color = "#1F6FE5",
   onClick,
   active,
 }: {
@@ -32,20 +32,20 @@ export default function StatCard({
   return (
     <button
       onClick={onClick}
-      className={`card card-hover p-5 text-left w-full group relative overflow-hidden ${
+      className={`card card-hover p-6 text-left w-full group relative overflow-hidden ${
         active ? "ring-2 ring-brand/50 border-brand/40" : ""
       }`}
     >
       <div className="flex items-start justify-between">
-        <p className="text-[13px] font-semibold text-text-secondary">{label}</p>
+        <p className="text-[14px] font-semibold text-text-secondary">{label}</p>
         <div
-          className="w-8 h-8 rounded-[10px] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
-          style={{ background: `${color}14`, color }}
+          className="w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
+          style={{ background: `${color}1a`, color }}
         >
-          <Icon className="w-4 h-4" />
+          <Icon className="w-5 h-5" />
         </div>
       </div>
-      <p className="text-[30px] font-bold leading-none mt-2 tracking-tight">
+      <p className="text-[34px] font-extrabold leading-none mt-2 tracking-tight">
         <AnimatedNumber value={value} />
         {suffix && <span className="text-[16px] font-semibold text-text-muted ml-0.5">{suffix}</span>}
       </p>
@@ -63,7 +63,7 @@ export default function StatCard({
                 cursor={{ stroke: color, strokeOpacity: 0.25 }}
                 content={({ active, payload }) =>
                   active && payload?.length ? (
-                    <div className="px-2 py-1 rounded-md bg-[#0C3341] text-white text-[11px] font-semibold">{payload[0].value}</div>
+                    <div className="px-2 py-1 rounded-md bg-ink text-white text-[11px] font-semibold">{payload[0].value}</div>
                   ) : null
                 }
               />

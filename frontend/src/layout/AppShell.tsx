@@ -44,7 +44,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         style={{ marginLeft: width }}
       >
         <Topbar onOpenSearch={() => setPaletteOpen(true)} />
-        <main className={`flex-1 overflow-y-auto thin-scroll ${fullBleed ? "p-6" : "px-8 py-8"}`}>
+        <main className={`flex-1 overflow-y-auto thin-scroll ${fullBleed ? "p-6" : "px-8 pt-4 pb-10"}`}>
           <div key={pathname} className={fullBleed ? "h-full" : "max-w-[1360px] mx-auto"}>
             {children}
           </div>
