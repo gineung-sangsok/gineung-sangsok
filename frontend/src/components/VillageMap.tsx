@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, RotateCcw, Sparkles } from "lucide-react";
-import { FN, type FnCode } from "../data/demo";
+import { FN, type FnCode } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
 import { FN_ICON } from "./ui/FunctionIcon";
 

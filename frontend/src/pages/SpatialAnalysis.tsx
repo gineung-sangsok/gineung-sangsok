@@ -6,8 +6,8 @@ import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 
 import StatusBadge from "../components/ui/StatusBadge";
 import { DemoTag } from "../components/ui/PageHeader";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { FN, FUNCTIONS, GAP_BINS, gapColor, type FnCode } from "../data/constants";
-import { riMetrics, fetchVillages, type RiMetrics, type VillageRecord } from "../data/demo";
+import { API_BASE, FN, FUNCTIONS, GAP_BINS, gapColor, type FnCode, type ApiEntity, type GapResponse } from "../data/constants";
+import { riMetrics, fetchVillages, buildGapMap, type RiMetrics, type VillageRecord } from "../data/demo";
 
 const IMSIL_CENTER: [number, number] = [35.617, 127.289];
 const IMSIL_ZOOM = 11;
@@ -65,6 +65,8 @@ export default function SpatialAnalysis() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, selected, bin, mode]);
 
+  const closureId = params.get("closure");
+
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     const map = L.map(containerRef.current, { center: IMSIL_CENTER, zoom: IMSIL_ZOOM, zoomControl: false });
@@ -77,17 +79,26 @@ export default function SpatialAnalysis() {
       return new Map() as Awaited<ReturnType<typeof fetchVillages>>;
     });
 
+    const gapPromise = closureId
+      ? fetch(`${API_BASE}/closures/${closureId}/gap`)
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d: GapResponse | null) => (d ? buildGapMap(d.villages) : new Map()))
+          .catch(() => new Map() as ReturnType<typeof buildGapMap>)
+      : Promise.resolve(new Map() as ReturnType<typeof buildGapMap>);
+
     Promise.all([
       fetch("/data/legal_ri_imsil.geojson").then((res) => res.json()),
       villagePromise,
+      gapPromise,
     ])
-      .then(([geojson, villageMap]) => {
+      .then(([geojson, villageMap, gapMap]) => {
         const list: RiItem[] = [];
         const gj = L.geoJSON(geojson, {
           onEachFeature: (feature, layer) => {
             const props = (feature as { properties: RiProperties }).properties;
             const village = villageMap.get(props.ri_code);
-            const it: RiItem = { props, m: riMetrics(props.ri_code, props.eup_myeon, village), layer: layer as L.Path };
+            const apiGap = gapMap.get(props.ri_code);
+            const it: RiItem = { props, m: riMetrics(props.ri_code, props.eup_myeon, village, apiGap), layer: layer as L.Path };
             list.push(it);
             (layer as L.Path).setStyle(styleFor(it));
             layer.bindTooltip(() => {
@@ -112,12 +123,28 @@ export default function SpatialAnalysis() {
       })
       .catch(() => console.warn("GeoJSON 로드 실패"));
 
+    // GET /resources → 자원 마커
+    fetch(`${API_BASE}/resources`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((entities: ApiEntity[]) => {
+        for (const e of entities) {
+          if (!e.location) continue;
+          const color = e.entity_type === "store" ? "#B23A48" : "#2F5E43";
+          L.circleMarker([e.location.lat, e.location.lng], {
+            radius: 5, fillColor: color, fillOpacity: 0.85, color: "#fff", weight: 1.5,
+          })
+            .bindTooltip(`<b>${e.name}</b><br/><span style="opacity:.7">${e.resource_type ?? e.entity_type}</span>`, { direction: "top", offset: [0, -6] })
+            .addTo(map);
+        }
+      })
+      .catch(() => console.warn("자원 데이터 로드 실패"));
+
     return () => {
       map.remove();
       mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [closureId]);
 
   const resetView = () => {
     setSelected(null);

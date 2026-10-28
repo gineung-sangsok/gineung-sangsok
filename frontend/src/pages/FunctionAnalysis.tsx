@@ -74,8 +74,7 @@ export default function FunctionAnalysis() {
     setLoading(true);
     setApiError(null);
     setFunctionResults([]);
-    const closureId = id === "store_0001" ? "closure_0001" : id;
-    fetch(`${API_BASE}/closures/${closureId}/functions`)
+    fetch(`${API_BASE}/closures/${id}/functions`)
       .then((res) => { if (!res.ok) throw new Error(`API ${res.status}`); return res.json(); })
       .then((data: { functions: FunctionTag[] }) => {
         if (!cancelled) setFunctionResults(data.functions.map((f) => ({ ...f, quote: "" })));
@@ -115,6 +114,19 @@ export default function FunctionAnalysis() {
     return () => window.removeEventListener("keydown", h);
   });
 
+  const patchFunctions = async () => {
+    if (!id || functionResults.length === 0) return;
+    try {
+      await fetch(`${API_BASE}/closures/${id}/functions`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ functions: functionResults }),
+      });
+    } catch {
+      toast({ kind: "warn", title: "저장 실패", desc: "API 연결을 확인해 주세요." });
+    }
+  };
+
   const sel = selected ? functionResults.find((r) => r.code === selected) ?? null : null;
 
   return (
@@ -126,7 +138,7 @@ export default function FunctionAnalysis() {
         badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}
         desc="폐업으로 사라질 수 있는 생활 기능과 그 근거를 확인하고, 담당자가 최종 판단합니다."
         actions={
-          <button onClick={() => navigate(`/closures/${id}/inheritance`)} className="btn btn-primary group">
+          <button onClick={async () => { await patchFunctions(); navigate(`/closures/${id}/inheritance`); }} className="btn btn-primary group">
             상속안 추천으로 이동 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
         }
