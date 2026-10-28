@@ -7,7 +7,7 @@ import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
-import { FN, FUNCTION_RESULTS, TAGGING_SOURCE_LABEL, type FnCode } from "../data/demo";
+import { API_BASE, FN, TAGGING_SOURCE_LABEL, type FnCode, type FunctionTag } from "../data/constants";
 import { useDemo, type Decision } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 
@@ -62,8 +62,24 @@ export default function FunctionAnalysis() {
   const [selected, setSelected] = useState<FnCode | null>(null);
   const [filter, setFilter] = useState<"all" | "pending" | "done">("all");
 
-  const order = FUNCTION_RESULTS.map((r) => r.code);
-  const visible = FUNCTION_RESULTS.filter((r) =>
+  // API에서 기능 태깅 결과 가져오기
+  const [functionResults, setFunctionResults] = useState<(FunctionTag & { quote?: string })[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!id) return;
+    const closureId = id === "store_0001" ? "closure_0001" : id;
+    fetch(`${API_BASE}/closures/${closureId}/functions`)
+      .then((res) => { if (!res.ok) throw new Error(`API ${res.status}`); return res.json(); })
+      .then((data: { functions: FunctionTag[] }) => {
+        setFunctionResults(data.functions.map((f) => ({ ...f, quote: "" })));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const order = functionResults.map((r) => r.code);
+  const visible = functionResults.filter((r) =>
     filter === "all" ? true : filter === "pending" ? fnDecisions[r.code] === "pending" : fnDecisions[r.code] !== "pending",
   );
   const doneCount = order.filter((c) => fnDecisions[c] !== "pending").length;
@@ -90,7 +106,7 @@ export default function FunctionAnalysis() {
     return () => window.removeEventListener("keydown", h);
   });
 
-  const sel = selected ? FUNCTION_RESULTS.find((r) => r.code === selected)! : null;
+  const sel = selected ? functionResults.find((r) => r.code === selected) ?? null : null;
 
   return (
     <div>
@@ -160,7 +176,7 @@ export default function FunctionAnalysis() {
           <div className="w-[40%] bg-surface-secondary" />
           <div className="w-[20%] bg-[#F5DDBA]" />
           <div className="w-[40%] bg-[#BFE3D3]" />
-          {FUNCTION_RESULTS.map((r) => (
+          {functionResults.map((r) => (
             <span key={r.code} className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full ring-2 ring-white" style={{ left: `calc(${(r.confidence ?? 0) * 100}% - 6px)`, background: FN[r.code].hex }} title={`${r.code} ${Math.round((r.confidence ?? 0) * 100)}%`} />
           ))}
         </div>

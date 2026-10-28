@@ -7,7 +7,8 @@ import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge
 import Donut from "../components/ui/Donut";
 import EmptyState from "../components/ui/EmptyState";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { DATA_ROWS, FN } from "../data/demo";
+import { FN } from "../data/constants";
+import { DATA_ROWS } from "../data/demo";
 import { useToast } from "../components/ui/Toast";
 
 const TABS = Object.keys(DATA_ROWS);

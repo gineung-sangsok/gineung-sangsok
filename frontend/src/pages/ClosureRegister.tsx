@@ -4,7 +4,7 @@ import { Check, Loader2, MapPin, Sparkles, Store, CalendarClock, Link2, AlertCir
 import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge";
-import { FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/demo";
+import { FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 

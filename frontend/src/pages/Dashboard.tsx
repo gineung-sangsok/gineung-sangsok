@@ -9,8 +9,31 @@ import Segmented from "../components/ui/Segmented";
 import Dropdown from "../components/ui/Dropdown";
 import PageHeader, { CardHeader, DemoTag } from "../components/ui/PageHeader";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
+import { FN, FUNCTIONS, STAGE_LABEL, type FnCode, type Stage } from "../data/constants";
 import { useDemo } from "../store/DemoStore";
+
+// TODO: 백엔드 집계 API 구현 후 교체
+const MONTHLY = [
+  { m: "11월", closures: 2, gaps: 18, resolved: 1 },
+  { m: "12월", closures: 3, gaps: 21, resolved: 2 },
+  { m: "1월", closures: 1, gaps: 20, resolved: 3 },
+  { m: "2월", closures: 4, gaps: 26, resolved: 2 },
+  { m: "3월", closures: 2, gaps: 25, resolved: 4 },
+  { m: "4월", closures: 3, gaps: 27, resolved: 3 },
+  { m: "5월", closures: 5, gaps: 31, resolved: 4 },
+  { m: "6월", closures: 2, gaps: 29, resolved: 5 },
+  { m: "7월", closures: 3, gaps: 30, resolved: 3 },
+  { m: "8월", closures: 4, gaps: 33, resolved: 4 },
+  { m: "9월", closures: 3, gaps: 31, resolved: 6 },
+  { m: "10월", closures: 6, gaps: 36, resolved: 5 },
+];
+const EUP_MYEON_GAP = [
+  { name: "덕치면", score: 78 }, { name: "삼계면", score: 74 }, { name: "신평면", score: 69 },
+  { name: "운암면", score: 66 }, { name: "강진면", score: 61 }, { name: "청웅면", score: 58 },
+  { name: "지사면", score: 55 }, { name: "성수면", score: 51 }, { name: "신덕면", score: 47 },
+  { name: "관촌면", score: 42 }, { name: "오수면", score: 36 }, { name: "임실읍", score: 22 },
+];
+const FUNCTION_GAP_RATE: Record<FnCode, number> = { F01: 42, F02: 63, F03: 37, F04: 28 };
 
 const STAGE_COLORS: Record<Stage, string> = {
   registered: "#9CB3C2",

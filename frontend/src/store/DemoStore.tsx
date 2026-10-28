@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { FACILITIES, type Facility, type FnCode } from "../data/demo";
+import { type Facility, type FnCode } from "../data/constants";
+import { FACILITIES } from "../data/demo";
 
 export type Decision = "pending" | "accepted" | "rejected";
 

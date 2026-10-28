@@ -1,7 +1,7 @@
 import { Check, X, ChevronRight } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import Donut from "./Donut";
-import { FN, type FnCode } from "../../data/demo";
+import { FN, type FnCode } from "../../data/constants";
 import type { Decision } from "../../store/DemoStore";
 
 export function confidenceLabel(c: number | null): { text: string; variant: "confirmed" | "review" | "muted" } {

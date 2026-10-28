@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell, Search, ChevronDown, CalendarDays, AlertTriangle, Info, CheckCircle2, LogOut, UserCog, ChevronRight } from "lucide-react";
-import { NOTIFICATIONS } from "../data/demo";
+import { NOTIFICATIONS } from "../data/constants";
 import { useClickOutside } from "../components/ui/Dropdown";
 
 const CRUMB_PATTERNS: [RegExp, string[]][] = [
