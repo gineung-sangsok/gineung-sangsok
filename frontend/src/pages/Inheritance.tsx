@@ -7,7 +7,6 @@ import FlowStepper from "../components/ui/FlowStepper";
 import Dropdown from "../components/ui/Dropdown";
 import StatusBadge from "../components/ui/StatusBadge";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
-import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 import { FacilityStrip } from "./FunctionAnalysis";
 import {
@@ -22,7 +21,10 @@ export default function Inheritance() {
   const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
-  const { picks, setPick, excluded, toggleExcluded } = useDemo();
+  const [picks, setPicks] = useState<Record<FnCode, string | null>>({ F01: null, F02: null, F03: null, F04: null });
+  const setPick = (code: FnCode, id: string | null) => setPicks((p) => ({ ...p, [code]: id }));
+  const [excluded, setExcluded] = useState<Set<string>>(new Set());
+  const toggleExcluded = (key: string) => setExcluded((prev) => { const n = new Set(prev); if (n.has(key)) n.delete(key); else n.add(key); return n; });
   const [tab, setTab] = useState<FnCode>("F01");
   const [sort, setSort] = useState<SortKey>("score");
   const [showExcluded, setShowExcluded] = useState(true);
@@ -38,9 +40,7 @@ export default function Inheritance() {
     let cancelled = false;
     setLoading(true);
     setApiError(null);
-    // TODO: POST /closures 등록 흐름 완성되면 실제 closure_id 사용
-    const closureId = id === "store_0001" ? "closure_0001" : id;
-    fetch(`${API_BASE}/closures/${closureId}/inheritance`)
+    fetch(`${API_BASE}/closures/${id}/inheritance`)
       .then((res) => {
         if (!res.ok) throw new Error(`API ${res.status}`);
         return res.json() as Promise<InheritanceResponse>;

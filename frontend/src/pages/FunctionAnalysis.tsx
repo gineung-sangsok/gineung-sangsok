@@ -8,20 +8,29 @@ import Segmented from "../components/ui/Segmented";
 import HouseFrame from "../components/ui/HouseFrame";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
-import { API_BASE, FN, TAGGING_SOURCE_LABEL, type FnCode, type FunctionTag } from "../data/constants";
-import { useDemo, type Decision } from "../store/DemoStore";
+import { API_BASE, FN, TAGGING_SOURCE_LABEL, type FnCode, type FunctionTag, type ApiEntity } from "../data/constants";
 import { useToast } from "../components/ui/Toast";
+
+type Decision = "pending" | "accepted" | "rejected";
 
 export function FacilityStrip() {
   const { id } = useParams();
-  const { facilities } = useDemo();
-  const f = facilities.find((x) => x.entity_id === id);
-  if (!f) return <div className="card p-5 mb-6">시설을 찾을 수 없습니다.</div>;
+  const [f, setF] = useState<ApiEntity | null>(null);
+  useEffect(() => {
+    fetch(`${API_BASE}/resources`)
+      .then((r) => r.ok ? r.json() : [])
+      .then((entities: ApiEntity[]) => {
+        const found = entities.find((e) => e.entity_id === id);
+        if (found) setF(found);
+      })
+      .catch(() => {});
+  }, [id]);
+  if (!f) return <div className="card p-5 mb-6 animate-fade-up text-[13px] text-text-muted">시설 정보를 불러오는 중...</div>;
   const d = f.closure_date ? Math.ceil((new Date(f.closure_date).getTime() - Date.now()) / 86400000) : null;
   const items = [
-    { icon: MapPin, k: "법정리", v: `${f.eup_myeon} ${f.ri}` },
+    { icon: MapPin, k: "마을", v: f.village_id },
     { icon: CalendarClock, k: "폐업 예정일", v: f.closure_date?.replace(/-/g, ".") ?? "미정" },
-    { icon: Users, k: "영향 인구 (추정)", v: `${f.affected_pop}명` },
+    { icon: Users, k: "상태", v: f.status },
   ];
   return (
     <div className="card p-5 mb-6 flex items-center gap-8 animate-fade-up">
@@ -29,7 +38,7 @@ export function FacilityStrip() {
         <div className="w-11 h-11 rounded-xl bg-sidebar text-white text-[16px] font-bold flex items-center justify-center">{f.name[0]}</div>
         <div>
           <p className="text-[16px] font-bold">{f.name}</p>
-          <p className="text-[12px] text-text-muted">{f.biz_type}</p>
+          <p className="text-[12px] text-text-muted">{f.entity_type}</p>
         </div>
       </div>
       {items.map(({ icon: Icon, k, v }) => (
@@ -59,7 +68,10 @@ export default function FunctionAnalysis() {
   const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
-  const { fnDecisions, setFnDecision, fnNotes, setFnNote } = useDemo();
+  const [fnDecisions, setFnDecisions] = useState<Record<FnCode, Decision>>({ F01: "pending", F02: "pending", F03: "pending", F04: "pending" });
+  const setFnDecision = (code: FnCode, d: Decision) => setFnDecisions((p) => ({ ...p, [code]: d }));
+  const [fnNotes, setFnNotes] = useState<Record<FnCode, string>>({ F01: "", F02: "", F03: "", F04: "" });
+  const setFnNote = (code: FnCode, note: string) => setFnNotes((p) => ({ ...p, [code]: note }));
   const [selected, setSelected] = useState<FnCode | null>(null);
   const [filter, setFilter] = useState<"all" | "pending" | "done">("all");
 

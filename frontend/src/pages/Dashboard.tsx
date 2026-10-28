@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store, ClipboardCheck, Users, CheckCircle2 } from "lucide-react";
 import StatCard from "../components/ui/StatCard";
@@ -6,8 +6,7 @@ import Donut from "../components/ui/Donut";
 import { CardHeader } from "../components/ui/PageHeader";
 import VillageMap from "../components/VillageMap";
 import HouseFrame from "../components/ui/HouseFrame";
-import { STAGE_LABEL, type Stage } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
+import { API_BASE, STAGE_LABEL, type ApiEntity, type Stage } from "../data/constants";
 
 const STAGE_COLORS: Record<Stage, string> = {
   registered: "#E6EAE3",
@@ -18,18 +17,24 @@ const STAGE_COLORS: Record<Stage, string> = {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { facilities } = useDemo();
+  const [facilities, setFacilities] = useState<ApiEntity[]>([]);
+  useEffect(() => {
+    fetch(`${API_BASE}/resources`)
+      .then((r) => r.ok ? r.json() : [])
+      .then((data: ApiEntity[]) => setFacilities(data))
+      .catch(() => {});
+  }, []);
 
   const [hoverStage, setHoverStage] = useState<string | null>(null);
 
   const closing = facilities.filter((f) => f.status === "CLOSING").length;
-  const pending = facilities.filter((f) => f.stage !== "reviewed").length;
-  const pop = facilities.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affected_pop, 0);
-  const reviewed = facilities.filter((f) => f.stage === "reviewed").length;
+  const pending = facilities.filter((f) => !f.verified_by_officer).length;
+  const pop = facilities.filter((f) => f.status !== "ACTIVE").length;
+  const reviewed = facilities.filter((f) => f.verified_by_officer).length;
 
   const stageCounts = (Object.keys(STAGE_LABEL) as Stage[]).map((s) => ({
     key: s,
-    value: facilities.filter((f) => f.stage === s).length,
+    value: s === "reviewed" ? reviewed : s === "registered" ? facilities.length - closing : s === "functions" ? closing : 0,
     color: STAGE_COLORS[s],
     label: STAGE_LABEL[s],
   }));

@@ -4,8 +4,7 @@ import { Check, Loader2, MapPin, Sparkles, Store, CalendarClock, Link2, AlertCir
 import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge, { FACILITY_STATUS_BADGE } from "../components/ui/StatusBadge";
-import { FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
+import { API_BASE, FN, FUNCTIONS, type FacilityStatus, type FnCode } from "../data/constants";
 import { useToast } from "../components/ui/Toast";
 
 const BIZ_TYPES: { label: string; fns: FnCode[] }[] = [
@@ -54,7 +53,6 @@ function Field({ label, required, hint, error, children }: { label: string; requ
 export default function ClosureRegister() {
   const navigate = useNavigate();
   const toast = useToast();
-  const { addFacility } = useDemo();
 
   const [form, setForm] = useState({
     name: "",
@@ -141,30 +139,34 @@ export default function ClosureRegister() {
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      const id = `store_${crypto.randomUUID().slice(0, 8)}`;
-      addFacility({
-        entity_id: id,
+    fetch(`${API_BASE}/closures`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        entity_id: `store_${crypto.randomUUID().slice(0, 8)}`,
         entity_type: "store",
         name: form.name,
         biz_type: form.biz_type,
         status: form.status,
         closure_date: form.closure_date,
         village_id: ri!.code,
-        eup_myeon: ri!.eup,
-        ri: ri!.ri,
         address: form.address,
         location: { lat: ri!.lat, lng: ri!.lng },
-        affected_pop: 80 + Math.round(Math.random() * 200),
-        functions: fns,
-        stage: "functions",
-        updated_at: localDateString(new Date()),
-        verified_by_officer: false,
-        data_sources: ["사업자 신고 정보"],
+        functions: fns.map((code) => ({ code, confidence: 0.5, evidence: "", source: "manual" })),
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`API ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        toast({ title: `${form.name} 등록 완료`, desc: "기능 공백 분석을 시작합니다." });
+        navigate(`/closures/${data.entity_id}/functions`);
+      })
+      .catch(() => {
+        toast({ kind: "warn", title: "등록 실패", desc: "API 연결을 확인해 주세요." });
+        setSubmitting(false);
       });
-      toast({ title: `${form.name} 등록 완료`, desc: "기능 공백 분석을 시작합니다." });
-      navigate(`/closures/${id}/functions`);
-    }, 900);
   };
 
   const st = FACILITY_STATUS_BADGE[form.status];

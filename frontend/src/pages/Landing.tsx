@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Map as MapIcon } from "lucide-react";
 import { FUNCTIONS } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
+
 import FunctionIcon from "../components/ui/FunctionIcon";
 import { House, Tree, Villager, type Person } from "../components/VillageMap";
 
@@ -74,7 +74,6 @@ const BLOSSOMS = [[120, 372], [330, 528], [560, 366], [780, 532], [905, 370], [6
 
 export default function Landing() {
   const navigate = useNavigate();
-  useDemo();
 
   return (
     <div className="h-full overflow-y-auto thin-scroll">

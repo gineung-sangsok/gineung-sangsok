@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, RotateCcw, Sparkles } from "lucide-react";
-import { FN, type FnCode } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
+import { API_BASE, FN, type FnCode, type ApiEntity } from "../data/constants";
 import { FN_ICON } from "./ui/FunctionIcon";
 
 /**
@@ -195,10 +194,15 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
   const [hover, setHover] = useState<PlaceKey | null>(null);
   const [run, setRun] = useState(0); // 애니메이션을 다시 시작하기 위한 key
 
-  const { facilities } = useDemo();
+  const [entity, setEntity] = useState<ApiEntity | null>(null);
+  useEffect(() => {
+    fetch(`${API_BASE}/resources`)
+      .then((r) => r.ok ? r.json() : [])
+      .then((data: ApiEntity[]) => setEntity(data.find((e) => e.entity_id === storeId) ?? null))
+      .catch(() => {});
+  }, [storeId]);
 
-  // 핀 문구의 남은 날짜는 시설 목록의 폐업 예정일로 계산한다 (대시보드 표와 같은 값)
-  const closureDate = facilities.find((f) => f.entity_id === storeId)?.closure_date;
+  const closureDate = entity?.closure_date;
   const daysLeft = closureDate ? Math.ceil((new Date(closureDate).getTime() - Date.now()) / 86400000) : null;
   const storeKind = daysLeft === null ? "폐업 예정 · 날짜 미정" : daysLeft < 0 ? "폐업됨" : `폐업 예정 · D-${daysLeft}`;
   const places = PLACES.map((p) => (p.key === "store" ? { ...p, kind: storeKind } : p));

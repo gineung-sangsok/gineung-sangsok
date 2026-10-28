@@ -6,7 +6,6 @@ import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Donut from "../components/ui/Donut";
 import { API_BASE, FUNCTIONS, RESOURCE_TYPES, type FnCode, type FunctionTag, type InheritancePlan } from "../data/constants";
-import { useDemo } from "../store/DemoStore";
 import { useToast } from "../components/ui/Toast";
 import { FacilityStrip } from "./FunctionAnalysis";
 
@@ -43,7 +42,9 @@ export default function Review() {
   const navigate = useNavigate();
   const { id } = useParams();
   const toast = useToast();
-  const { fnDecisions, fnNotes, picks, reviewed, setReviewed, reviewDone, setReviewDone } = useDemo();
+  const [reviewed, setReviewedState] = useState<Record<FnCode, boolean>>({ F01: false, F02: false, F03: false, F04: false });
+  const setReviewed = (code: FnCode, v: boolean) => setReviewedState((p) => ({ ...p, [code]: v }));
+  const [reviewDone, setReviewDone] = useState(false);
   const [open, setOpen] = useState<string | null>("F01");
   const [comment, setComment] = useState("");
   const [shake, setShake] = useState(false);
@@ -64,6 +65,18 @@ export default function Review() {
       .then((d) => d && setInheritancePlans(d.plans))
       .catch(() => {});
   }, [id]);
+
+  // 기능별 최고점 상속안을 pick으로 간주
+  const picks: Record<FnCode, string | null> = { F01: null, F02: null, F03: null, F04: null };
+  for (const p of inheritancePlans) {
+    const cur = picks[p.function_code as FnCode];
+    if (!cur) picks[p.function_code as FnCode] = p.resource_id;
+  }
+  // 기능 분석 결과 기반 판단 상태
+  const fnDecisions: Record<FnCode, "accepted" | "rejected" | "pending"> = { F01: "pending", F02: "pending", F03: "pending", F04: "pending" };
+  for (const r of functionResults) {
+    fnDecisions[r.code] = r.confidence >= 0.4 ? "accepted" : "rejected";
+  }
 
   const done = FUNCTIONS.filter((f) => reviewed[f.code]).length;
   const picked = FUNCTIONS.filter((f) => picks[f.code]).length;
@@ -177,7 +190,7 @@ export default function Review() {
                           </div>
                           <div>
                             <p className="text-text-muted text-[11px] mb-1">담당자 메모</p>
-                            <p className={fnNotes[f.code] ? "font-medium" : "text-text-muted"}>{fnNotes[f.code] || "메모 없음"}</p>
+                            <p className="text-text-muted">메모 없음</p>
                           </div>
                         </div>
                       </div>
