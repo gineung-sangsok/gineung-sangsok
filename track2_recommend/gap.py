@@ -14,7 +14,7 @@
 
 from dataclasses import dataclass
 
-from track2_recommend.recommend import CHECK, Candidate, Place, Plan, haversine_km
+from track2_recommend.recommend import CHECK, Candidate, Place, Plan, haversine_km, route_note
 
 GAP_M = 1000
 
@@ -103,9 +103,11 @@ def compute_gap(
                     after_m = 0
                     if code == "F02":
                         # 판매 품목 확인 전에는 이동장터를 신선식품 제공처로 치지 않는다
-                        note = "이동장터 방문 · 신선식품 판매 품목 확인 전까지 미해소 (가정 노선)"
+                        basis = route_note(c, v.village_id)
+                        note = f"이동장터 방문 · 신선식품 판매 품목 확인 전까지 미해소 ({basis})"
                     else:
-                        note = "이동장터 주 1회 방문 (부분 해소, 가정 노선 확인 필요)"
+                        basis = route_note(c, v.village_id)
+                        note = f"이동장터 주 1회 방문 (부분 해소, {basis} · 운행 확인 필요)"
                         gap = False
                 else:
                     ids = [c.entity_id, *(i for i in ids if i != c.entity_id)]
