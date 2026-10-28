@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Map as MapIcon } from "lucide-react";
-import { FACILITIES, FUNCTIONS, FUNCTION_GAP_RATE } from "../data/demo";
+import { FUNCTIONS, FUNCTION_GAP_RATE } from "../data/demo";
+import { useDemo } from "../store/DemoStore";
 import FunctionIcon from "../components/ui/FunctionIcon";
 import { House, Tree, Villager, type Person } from "../components/VillageMap";
 
@@ -73,8 +74,9 @@ const BLOSSOMS = [[120, 372], [330, 528], [560, 366], [780, 532], [905, 370], [6
 
 export default function Landing() {
   const navigate = useNavigate();
-  const closing = FACILITIES.filter((f) => f.status === "CLOSING").length;
-  const pop = FACILITIES.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affected_pop, 0);
+  const { facilities } = useDemo();
+  const closing = facilities.filter((f) => f.status === "CLOSING").length;
+  const pop = facilities.filter((f) => f.status !== "ACTIVE").reduce((a, f) => a + f.affected_pop, 0);
 
   return (
     <div className="h-full overflow-y-auto thin-scroll">

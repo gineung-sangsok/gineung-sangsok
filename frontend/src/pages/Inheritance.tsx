@@ -182,8 +182,8 @@ export default function Inheritance() {
                   <button
                     onClick={(e) => { e.stopPropagation(); choose(c.id); }}
                     disabled={isEx}
-                    className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isPick ? "border-transparent text-white scale-105" : "border-border-strong text-transparent hover:text-text-muted hover:border-text-muted"}`}
-                    style={isPick ? { background: color } : undefined}
+                    className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isPick ? "border-transparent scale-105" : "border-border-strong text-transparent hover:text-text-muted hover:border-text-muted"}`}
+                    style={isPick ? { background: color, color: FN[tab].deep } : undefined}
                     title="이 자원으로 상속"
                   >
                     <Check className={`w-4 h-4 ${isPick ? "animate-pop" : ""}`} strokeWidth={3} />
@@ -271,7 +271,7 @@ export default function Inheritance() {
               >
                 {excluded.has(focus.id) ? <><Undo2 className="w-4 h-4" /> 제외 취소</> : <><Ban className="w-4 h-4" /> 후보 제외</>}
               </button>
-              <button onClick={() => choose(focus.id)} disabled={excluded.has(focus.id)} className="btn flex-[2] text-white" style={{ background: picks[tab] === focus.id ? "#2E8466" : color }}>
+              <button onClick={() => choose(focus.id)} disabled={excluded.has(focus.id)} className="btn flex-[2]" style={picks[tab] === focus.id ? { background: "#2E8466", color: "#fff" } : { background: color, color: FN[tab].deep }}>
                 {picks[tab] === focus.id ? <><Check className="w-4 h-4" strokeWidth={3} /> 상속 자원으로 지정됨</> : "이 자원으로 상속"}
               </button>
             </div>

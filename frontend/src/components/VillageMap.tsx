@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, RotateCcw, Sparkles } from "lucide-react";
 import { FN, type FnCode } from "../data/demo";
+import { useDemo } from "../store/DemoStore";
 import { FN_ICON } from "./ui/FunctionIcon";
 
 /**
@@ -28,7 +29,7 @@ interface Place {
 }
 
 const PLACES: Place[] = [
-  { key: "store", x: 560, y: 196, name: "죽계상회", kind: "폐업 예정 · D-64", detail: "죽계리의 하나뿐인 식료품점. 주민 214명이 생필품·신선식품을 이곳에서 샀어요.", fns: ["F01", "F02", "F03", "F04"] },
+  { key: "store", x: 560, y: 196, name: "죽계상회", kind: "폐업 예정", detail: "죽계리의 하나뿐인 식료품점. 주민 214명이 생필품·신선식품을 이곳에서 샀어요.", fns: ["F01", "F02", "F03", "F04"] },
   { key: "hall", x: 738, y: 132, name: "마을회관", kind: "마을 거점 · 0.2km", detail: "상시 개방. 택배 공동수령함을 두고 안부 확인 장소로 이어받아요.", fns: ["F04"] },
   { key: "market", x: 250, y: 300, name: "이동장터 정차", kind: "이동장터 3호 노선 · 0.4km", detail: "주 2회(화·금) 냉장 탑차가 정차해 생필품과 신선식품을 팔아요.", fns: ["F01", "F02"] },
   { key: "mart", x: 905, y: 52, name: "하나로마트", kind: "삼계농협 · 배달 6.8km", detail: "전화 주문하면 쌀·생수·LPG를 주 3회 집까지 배달해요.", fns: ["F03"], labelLeft: true },
@@ -194,8 +195,16 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
   const [hover, setHover] = useState<PlaceKey | null>(null);
   const [run, setRun] = useState(0); // 애니메이션을 다시 시작하기 위한 key
 
+  const { facilities } = useDemo();
+
+  // 핀 문구의 남은 날짜는 시설 목록의 폐업 예정일로 계산한다 (대시보드 표와 같은 값)
+  const closureDate = facilities.find((f) => f.entity_id === storeId)?.closure_date;
+  const daysLeft = closureDate ? Math.ceil((new Date(closureDate).getTime() - Date.now()) / 86400000) : null;
+  const storeKind = daysLeft === null ? "폐업 예정 · 날짜 미정" : daysLeft < 0 ? "폐업됨" : `폐업 예정 · D-${daysLeft}`;
+  const places = PLACES.map((p) => (p.key === "store" ? { ...p, kind: storeKind } : p));
+
   const store = PLACE.store;
-  const shown = hover ? PLACE[hover] : null;
+  const shown = hover ? places.find((p) => p.key === hover) ?? null : null;
 
   const play = () => {
     setInherited(true);
@@ -209,6 +218,9 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
         <div className="min-w-0">
           <p className="eyebrow">Village Map</p>
           <p className="text-[12.5px] font-semibold text-text-muted mt-1">임실군 삼계면 죽계리 · 생활서비스 현황</p>
+          <p className="inline-flex mt-2 px-2.5 py-1 rounded-full bg-white/70 text-[11.5px] font-semibold text-text-secondary">
+            상속안 예시 그림이에요 · 담당자가 고른 상속안과 다를 수 있어요
+          </p>
           <h1 className="title-sticker text-[44px] leading-[1.2] mt-4 -rotate-1 origin-left">
             {inherited ? (
               <>
@@ -432,7 +444,7 @@ export default function VillageMap({ storeId = "store_0001" }: { storeId?: strin
           })}
 
           {/* 장소 핀 */}
-          {PLACES.map((p) => (
+          {places.map((p) => (
             <Pin
               key={p.key}
               place={p}

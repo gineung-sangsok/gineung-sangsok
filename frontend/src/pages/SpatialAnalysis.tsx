@@ -172,10 +172,10 @@ export default function SpatialAnalysis() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`h-9 px-3.5 rounded-xl text-[12.5px] font-bold transition-all flex items-center gap-1.5 ${on ? "text-white" : "text-text-secondary hover:bg-surface-secondary"}`}
-                  style={on ? { background: c, boxShadow: `0 6px 14px -6px ${c}` } : undefined}
+                  className={`h-9 px-3.5 rounded-xl text-[12.5px] font-bold transition-all flex items-center gap-1.5 ${on ? "" : "text-text-secondary hover:bg-surface-secondary"}`}
+                  style={on ? { background: c, color: f === "ALL" ? "#fff" : FN[f].deep, boxShadow: `0 6px 14px -6px ${c}` } : undefined}
                 >
-                  {f !== "ALL" && <span className="w-2 h-2 rounded-full" style={{ background: on ? "#fff" : c }} />}
+                  {f !== "ALL" && <span className="w-2 h-2 rounded-full" style={{ background: on ? FN[f].deep : c }} />}
                   {f === "ALL" ? "종합" : `${f} ${FN[f].short}`}
                 </button>
               );

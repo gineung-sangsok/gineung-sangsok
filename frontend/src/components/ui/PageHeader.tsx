@@ -25,7 +25,7 @@ export default function PageHeader({
           <h1 className="title-sticker text-[44px] leading-[1.1] -rotate-1 origin-left">{title}</h1>
           {badge}
         </div>
-        {desc && <p className="text-[15px] text-text-secondary mt-3">{desc}</p>}
+        {desc && <p className="text-[15px] text-ink mt-3">{desc}</p>}
       </div>
       {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
     </div>

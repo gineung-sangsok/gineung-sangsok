@@ -122,7 +122,7 @@ export default function FunctionAnalysis() {
           ]}
         />
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-text-muted">
+          <span className="text-[12px] text-ink">
             <span className="kbd">1</span>–<span className="kbd">4</span> 열기 · <span className="kbd">A</span> 확인 · <span className="kbd">R</span> 제외
           </span>
           <div className="flex items-center gap-2">

@@ -16,6 +16,14 @@ import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { EUP_MYEON_GAP, FN, FUNCTIONS, FUNCTION_GAP_RATE, MONTHLY, STAGE_LABEL, type Stage } from "../data/demo";
 import { useDemo } from "../store/DemoStore";
 
+// 표의 단계 이름 글자색 (밝은 카드 위에서 읽히는 짙은 색). 도넛은 STAGE_COLORS 파스텔을 쓴다
+const STAGE_TEXT: Record<Stage, string> = {
+  registered: "#5E6B62",
+  functions: "#3D6F92",
+  inheritance: "#3E8A5E",
+  reviewed: "#8A6A12",
+};
+
 const STAGE_COLORS: Record<Stage, string> = {
   registered: "#E6EAE3",
   functions: "#A9CDE6",
@@ -337,7 +345,7 @@ export default function Dashboard() {
                       </td>
                       <td className="py-3 px-3 text-right font-semibold tnum">{f.affected_pop.toLocaleString()}명</td>
                       <td className="py-3 px-4">
-                        <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: STAGE_COLORS[f.stage] }}>
+                        <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold" style={{ color: STAGE_TEXT[f.stage] }}>
                           <span className="w-2 h-2 rounded-full" style={{ background: STAGE_COLORS[f.stage] }} />
                           {STAGE_LABEL[f.stage]}
                         </span>
