@@ -222,30 +222,30 @@ textarea.field { height: auto; padding: 12px 14px; }
   --color-brand-soft: #E1F2E4;
   --color-ink: #24352B;
   --color-line: #24352B;
-  background: linear-gradient(180deg, #D6EFF9 0%, #E6F5F1 50%, #EDF7E7 100%);
+  --house: #FFFDF5;
+  --yard: #8FC79A;
+  background: var(--yard);
   color: var(--color-text-primary);
 }
-/* 상자 = 잔디밭: 옅은 풀색 바탕에 작은 풀포기 무늬, 아래 가장자리에 풀잎이 돋아 있다 */
+/* 상자 = 집. 비핸스 포트폴리오처럼 테두리·그림자·무늬 없는 단색 실루엣, 지붕은 HouseFrame이 얹는다 */
 .village .card {
-  border: 2px solid #A9D29A;
-  border-radius: 22px;
+  border: none;
+  border-radius: 16px;
   box-shadow: none;
-  background-color: #F7FCF2;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='16' viewBox='0 0 48 16'%3E%3Cpath d='M0 16 L3 6 L6 16 L9 3 L12 16 L15 8 L18 16 L21 4 L24 16 L27 7 L30 16 L33 2 L36 16 L39 8 L42 16 L45 5 L48 16 Z' fill='%23B9DFA8'/%3E%3Cpath d='M0 16 L4 10 L8 16 L13 9 L17 16 L22 11 L26 16 L31 9 L35 16 L40 10 L44 16 L48 12 L48 16 Z' fill='%2396CC86'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='none' stroke='%23CFE8C3' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M14 22 l-3 -7 M14 22 l0 -8 M14 22 l3 -7'/%3E%3Cpath d='M62 58 l-3 -7 M62 58 l0 -8 M62 58 l3 -7'/%3E%3C/g%3E%3Ccircle cx='40' cy='80' r='1.6' fill='%23F6DDA0'/%3E%3Ccircle cx='80' cy='18' r='1.6' fill='%23FFFFFF'/%3E%3C/svg%3E");
-  background-repeat: repeat-x, repeat;
-  background-position: left bottom, 0 0;
-  background-size: 48px 16px, 90px 90px;
+  background: var(--house);
 }
-.village .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 24px -12px rgba(62, 122, 78, 0.45); border-color: #7DBB6E; }
-.village .btn { border: 2px solid #3E7A4E; box-shadow: none; }
+.village .card-hover:hover { transform: translateY(-3px); box-shadow: none; }
+.village .btn { border: 2px solid transparent; box-shadow: none; }
 .village .btn:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
-.village .btn-primary { background: #5FA86A; color: #FFFBEA; }
-.village .btn-primary:hover:not(:disabled) { background: #4F9A5B; color: #FFFBEA; }
-.village .btn-ghost { background: #FFFFFF; color: var(--color-ink); border-color: #A9D29A; }
-.village .btn-ghost:hover:not(:disabled) { background: #EEF8E6; color: var(--color-ink); border-color: #7DBB6E; }
-.village .btn-brand { background: var(--color-sage); color: var(--color-ink); }
+.village .btn-primary { background: var(--color-ink); color: var(--house); }
+.village .btn-primary:hover:not(:disabled) { background: #355140; color: var(--house); }
+.village .btn-ghost { background: transparent; color: var(--color-ink); border-color: var(--color-ink); }
+.village .btn-ghost:hover:not(:disabled) { background: var(--color-ink); color: var(--house); }
+.village .btn-brand { background: var(--house); color: var(--color-ink); }
+.village .btn-brand:hover:not(:disabled) { background: #FFF3C4; }
+/* 마당(배경) 위 제목은 흰 글자 + 먹 테두리 */
+.village .title-sticker { color: var(--house); }
+.village .eyebrow { color: var(--color-ink); }
 .village .field { border: 2px solid var(--color-border); border-radius: 14px; }
 .village .field:focus { border-color: var(--color-line); box-shadow: 0 0 0 4px rgba(143, 199, 154, 0.4); }
 
