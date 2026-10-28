@@ -18,10 +18,13 @@ from backend.schemas import (
     FunctionTag,
     Gap,
     Inheritance,
+    InheritancePlan,
     Location,
     Population,
+    ScoreBreakdown,
     Village,
 )
+from track2_recommend import recommend as rec
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 MOCK_DIR = BASE_DIR / "docs" / "contracts" / "mock"
@@ -174,7 +177,42 @@ class ClosureStore:
         return updated
 
     def inheritance(self, closure_id: str) -> Inheritance:
-        return Inheritance(**{**_mock("inheritance"), "closure_id": closure_id})
+        """담당자가 확인한(없으면 AI) 기능 목록으로 상속안을 계산한다. 데이터가 없으면 목업."""
+        candidates = recommend_candidates()
+        places = village_places()
+        if candidates is None or places is None:
+            return Inheritance(**{**_mock("inheritance"), "closure_id": closure_id})
+        store = self.closures[closure_id].store
+        village = places.get(store.village_id)
+        target = rec.Place(
+            entity_id=store.entity_id,
+            name=store.name,
+            village_id=store.village_id,
+            village_name=village.village_name if village else "",
+            eup_myeon=village.eup_myeon if village else "",
+            lat=store.location.lat if store.location else None,
+            lng=store.location.lng if store.location else None,
+        )
+        functions = {t.code: t.confidence for t in self.functions[closure_id].functions}
+        plans, uncovered = rec.recommend(target, functions, candidates)
+        return Inheritance(
+            closure_id=closure_id,
+            plans=[
+                InheritancePlan(
+                    function_code=p.function_code,
+                    resource_id=p.candidate.entity_id,
+                    resource_type=p.candidate.resource_type,
+                    resource_name=p.candidate.name,
+                    action=p.action,
+                    score=p.score,
+                    score_breakdown=ScoreBreakdown(**p.breakdown),
+                    reason=p.reason,
+                    needs_officer_check=p.needs_officer_check,
+                )
+                for p in plans
+            ],
+            uncovered_functions=uncovered,
+        )
 
     def gap(self, closure_id: str) -> Gap:
         return Gap(**{**_mock("gap"), "closure_id": closure_id})
@@ -199,3 +237,66 @@ def stores_by_id() -> dict[str, Entity]:
         )
         for row in df.itertuples()
     }
+
+
+@cache
+def village_places() -> dict[str, rec.Place] | None:
+    """법정리 코드 → 이름·읍면·대표점. villages_ri.csv가 없으면 None."""
+    path = PROCESSED / "villages_ri.csv"
+    if not path.exists():
+        return None
+    df = pd.read_csv(path, dtype={"ri_code": str})
+    return {
+        row.ri_code: rec.Place(
+            entity_id=row.ri_code, name=row.ri_name, village_id=row.ri_code,
+            village_name=row.ri_name, eup_myeon=row.eup_myeon,
+            lat=_num(row.center_lat), lng=_num(row.center_lng),
+        )
+        for row in df.itertuples()
+    }
+
+
+# 이름으로 농협·지역마트 배송(R02)을 가린다. 그 밖의 가게는 인근 상점(R05)
+R02_NAME = ("하나로", "농협", "농업협동조합")
+
+
+@cache
+def recommend_candidates() -> list[rec.Candidate] | None:
+    """상속 후보: 영업 중인 가게, 자원, 면 단위 이동장터. 필요한 파일이 없으면 None."""
+    tags = tags_by_entity()
+    places = village_places()
+    paths = [PROCESSED / f for f in ("stores_imsil.csv", "resources_imsil.csv")]
+    if tags is None or places is None or not all(p.exists() for p in paths):
+        return None
+    stops = {}
+    access = PROCESSED / "accessibility_ri.csv"
+    if access.exists():
+        a = pd.read_csv(access, dtype={"ri_code": str})
+        stops = dict(zip(a["ri_code"], a["nearest_stop_m"], strict=True))
+
+    frames = [pd.read_csv(p, dtype={"village_id": str, "source_id": str}) for p in paths]
+    df = pd.concat(frames)
+    df = df[df["status"].isin(["ACTIVE", "SEASONAL"])]
+    candidates = []
+    for row in df.itertuples():
+        vid = _text(row.village_id)
+        village = places.get(vid)
+        if row.entity_type == "store":
+            rtype = "R02" if any(k in row.name for k in R02_NAME) else "R05"
+        else:
+            rtype = row.resource_type
+        candidates.append(rec.Candidate(
+            entity_id=row.entity_id, name=row.name, village_id=vid,
+            village_name=village.village_name if village else _text(row.village_name),
+            eup_myeon=village.eup_myeon if village else "",
+            lat=_num(row.lat), lng=_num(row.lng),
+            resource_type=rtype,
+            tags={t.code: (t.confidence, t.evidence) for t in tags.get(row.entity_id, [])},
+            stop_m=_num(stops.get(vid)),
+        ))
+
+    markets = PROCESSED / "mobile_market_imsil.csv"
+    if markets.exists():
+        rows = pd.read_csv(markets).to_dict("records")
+        candidates += rec.mobile_market_candidates(rows, places)
+    return candidates
