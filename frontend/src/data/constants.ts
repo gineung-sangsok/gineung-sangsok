@@ -70,7 +70,7 @@ export function gapColor(v: number) {
 
 // ── 백엔드 API 응답 타입 (schemas.py 대응) ──
 
-export const API_BASE = "http://localhost:8000";
+export const API_BASE = "https://gineung-sangsok-api.onrender.com";
 
 export interface Location {
   lat: number;
