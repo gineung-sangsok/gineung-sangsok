@@ -188,7 +188,7 @@ const TORN = (() => {
   return `${pts.join(" ")} L${W} 0 Z`;
 })();
 
-export default function VillageMap({ storeId = "store_0001" }: { storeId?: string }) {
+export default function VillageMap({ storeId = "closure_0001" }: { storeId?: string }) {
   const navigate = useNavigate();
   const [inherited, setInherited] = useState(false);
   const [hover, setHover] = useState<PlaceKey | null>(null);

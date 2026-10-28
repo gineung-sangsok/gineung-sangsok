@@ -100,15 +100,13 @@ export default function Review() {
   const picked = FUNCTIONS.filter((f) => picks[f.code]).length;
   const issues = FUNCTIONS.filter((f) => fnDecisions[f.code] === "pending" || !picks[f.code]).length;
 
-  const patchFunctions = async (verified?: boolean) => {
+  const patchFunctions = async () => {
     if (!id || functionResults.length === 0) return false;
     try {
-      const body: { functions: FunctionTag[]; verified_by_officer?: boolean } = { functions: functionResults };
-      if (verified !== undefined) body.verified_by_officer = verified;
       const res = await fetch(`${API_BASE}/closures/${id}/functions`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ functions: functionResults }),
       });
       if (!res.ok) throw new Error(`API ${res.status}`);
       return true;
@@ -125,7 +123,7 @@ export default function Review() {
       toast({ kind: "warn", title: `${4 - done}개 기능 확인이 남았습니다`, desc: "각 행의 체크를 눌러 확인해 주세요." });
       return;
     }
-    const ok = await patchFunctions(true);
+    const ok = await patchFunctions();
     if (!ok) return;
     setReviewDone(true);
     setCelebrate(true);
@@ -314,7 +312,7 @@ export default function Review() {
             {reviewDone && (
               <p className="text-[11px] text-text-muted text-center pt-1 animate-fade-in">
                 담당자 검토 완료를 의미하며, 공식적인 행정 승인과는 구분됩니다.
-                <button onClick={async () => { const ok = await patchFunctions(false); if (ok) setReviewDone(false); }} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
+                <button onClick={async () => { const ok = await patchFunctions(); if (ok) setReviewDone(false); }} className="ml-1 text-brand font-semibold hover:underline">되돌리기</button>
               </p>
             )}
           </div>

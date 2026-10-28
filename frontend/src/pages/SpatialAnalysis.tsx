@@ -4,7 +4,6 @@ import L from "leaflet";
 import { Search, X, Layers, Users, MapPin, Bus, Maximize2, Crosshair } from "lucide-react";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import StatusBadge from "../components/ui/StatusBadge";
-import { DemoTag } from "../components/ui/PageHeader";
 import AnimatedNumber from "../components/ui/AnimatedNumber";
 import { API_BASE, FN, FUNCTIONS, GAP_BINS, gapColor, type FnCode, type ApiEntity, type GapResponse } from "../data/constants";
 import { riMetrics, fetchVillages, buildGapMap, type RiMetrics, type VillageRecord } from "../data/demo";
@@ -255,7 +254,6 @@ export default function SpatialAnalysis() {
           <div className="absolute bottom-4 left-4 z-[500] bg-surface/95 backdrop-blur rounded-2xl p-4 w-[220px] animate-fade-up" style={{ boxShadow: "var(--shadow-lift)" }}>
             <div className="flex items-center justify-between mb-2.5">
               <p className="text-[12px] font-bold">{filter === "ALL" ? "종합 공백지수" : `${filter} ${FN[filter].name}`}</p>
-              <DemoTag />
             </div>
             <div className="space-y-0.5">
               {GAP_BINS.map((b, i) => (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowRight, Check, X, ChevronLeft, ChevronRight, Quote, FileText, MapPin, CalendarClock, Users, RotateCcw, Loader2, AlertTriangle } from "lucide-react";
-import PageHeader, { DemoTag } from "../components/ui/PageHeader";
+import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
@@ -147,7 +147,7 @@ export default function FunctionAnalysis() {
         en="Function Analysis"
         eyebrow={<FlowStepper />}
         title="기능 공백 분석"
-        badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}
+        badge={<StatusBadge variant="closing" dot>CLOSING</StatusBadge>}
         desc="폐업으로 사라질 수 있는 생활 기능과 그 근거를 확인하고, 담당자가 최종 판단합니다."
         actions={
           <button onClick={async () => { await patchFunctions(); navigate(`/closures/${id}/inheritance`); }} className="btn btn-primary group">

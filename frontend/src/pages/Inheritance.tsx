@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check, MapPin, Ban, Undo2, Crown, Eye, EyeOff, AlertTriangle, Loader2 } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
-import PageHeader, { DemoTag } from "../components/ui/PageHeader";
+import PageHeader from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import Dropdown from "../components/ui/Dropdown";
 import StatusBadge from "../components/ui/StatusBadge";
@@ -117,7 +117,7 @@ export default function Inheritance() {
         en="Inheritance Plan"
         eyebrow={<FlowStepper />}
         title="기능별 상속안 제안"
-        badge={<DemoTag />}
+        badge={undefined}
         desc="각 기능을 이어받을 수 있는 지역 자원을 비교하고, 담당자가 상속 자원을 지정합니다."
         actions={
           <>
