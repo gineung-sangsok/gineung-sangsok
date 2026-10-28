@@ -100,8 +100,8 @@ export default function Landing() {
             <MapIcon className="w-[18px] h-[18px]" strokeWidth={2.4} />
           </span>
           <span className="leading-none">
-            <span className="block font-display text-[17px] font-extrabold tracking-[0.08em]">CLOSER</span>
-            <span className="block text-[11px] font-semibold text-text-muted mt-0.5">더 가까이</span>
+            <span className="block font-display text-[17px] font-extrabold tracking-[0.08em]">MAJUNG</span>
+            <span className="block text-[11px] font-semibold text-text-muted mt-0.5">마중</span>
           </span>
         </div>
         <div className="flex items-center gap-6 text-[14px] font-semibold">
@@ -200,8 +200,8 @@ export default function Landing() {
 
         {/* 띠 위 제목 */}
         <div className="absolute inset-x-0 top-[57%] -translate-y-1/2 text-center pointer-events-none">
-          <h1 className="title-sticker title-sticker-lg leading-none text-[clamp(72px,11vw,150px)] -rotate-2">Closer<span className="text-[#F5A68A]">.</span></h1>
-          <p className="title-sticker text-[clamp(22px,2.4vw,32px)] mt-3 rotate-1">더 가까이</p>
+          <h1 className="title-sticker title-sticker-lg leading-none text-[clamp(72px,11vw,150px)] -rotate-2">Majung<span className="text-[#F5A68A]">.</span></h1>
+          <p className="title-sticker text-[clamp(22px,2.4vw,32px)] mt-3 rotate-1">마중</p>
           <p className="text-[#2F5E43]/75 text-[clamp(13px,1.2vw,16px)] mt-2 font-medium">
             마을 가게가 문을 닫아도, 생활은 이어지도록 — 농촌 생활서비스 기능 상속 플랫폼
           </p>
@@ -229,7 +229,7 @@ export default function Landing() {
             <p className="text-[18px] font-bold mt-4">사라지는 건 가게만이 아니에요</p>
             <p className="text-[15px] text-text-secondary mt-5 leading-relaxed">
               농촌의 작은 가게는 물건만 파는 곳이 아니었어요. 쌀을 배달하고, 안부를 묻고, 택배를 맡아 주던 곳이죠.
-              가게가 문을 닫으면 그 일들이 한꺼번에 사라집니다. 더 가까이는 그 기능을 하나씩 나눠, 마을 안에서 이어받을 곳을 찾아요.
+              가게가 문을 닫으면 그 일들이 한꺼번에 사라집니다. 마중은 그 기능을 하나씩 나눠, 마을 안에서 이어받을 곳을 찾아요.
             </p>
           </div>
           <dl className="col-span-7 grid grid-cols-3 gap-4">
@@ -281,7 +281,7 @@ export default function Landing() {
 
       <footer className="border-t border-border">
         <div className="max-w-[1280px] mx-auto px-8 h-16 flex items-center justify-between text-[12px] text-text-muted">
-          <span>더 가까이 · 임실군 농촌 생활서비스 연계 플랫폼 (데모)</span>
+          <span>마중 · 임실군 농촌 생활서비스 연계 플랫폼 (데모)</span>
           <span>그림은 실제 지형과 다를 수 있어요</span>
         </div>
       </footer>

@@ -11,7 +11,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from backend.schemas import (
+from track2_recommend import gap as gap_calc
+from track2_recommend import recommend as rec
+
+from .schemas import (
     Access,
     Closure,
     ClosureFunctions,
@@ -27,8 +30,6 @@ from backend.schemas import (
     Village,
     VillageGap,
 )
-from track2_recommend import gap as gap_calc
-from track2_recommend import recommend as rec
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 MOCK_DIR = BASE_DIR / "docs" / "contracts" / "mock"

@@ -9,8 +9,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from backend import store
-from backend.schemas import (
+from . import store
+from .schemas import (
     Closure,
     ClosureCreate,
     ClosureFunctions,
@@ -26,7 +26,12 @@ from backend.schemas import (
 app = FastAPI(title="기능상속 API", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://majung.store",
+        "https://www.majung.store",
+        "https://gineung-sangsok.vercel.app",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

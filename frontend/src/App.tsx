@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import AppShell from "./layout/AppShell";
 import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
@@ -34,6 +35,7 @@ export default function App() {
             />
           </Routes>
         </ToastProvider>
+      <Analytics />
     </BrowserRouter>
   );
 }
