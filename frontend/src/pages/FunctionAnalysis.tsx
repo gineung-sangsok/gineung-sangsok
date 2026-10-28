@@ -5,6 +5,7 @@ import PageHeader, { DemoTag } from "../components/ui/PageHeader";
 import FlowStepper from "../components/ui/FlowStepper";
 import StatusBadge from "../components/ui/StatusBadge";
 import Segmented from "../components/ui/Segmented";
+import HouseFrame from "../components/ui/HouseFrame";
 import FunctionCard, { confidenceLabel } from "../components/ui/FunctionCard";
 import Donut from "../components/ui/Donut";
 import { FN, FUNCTION_RESULTS, TAGGING_SOURCE_LABEL, type FnCode } from "../data/demo";
@@ -95,6 +96,7 @@ export default function FunctionAnalysis() {
   return (
     <div>
       <PageHeader
+        en="Function Analysis"
         eyebrow={<FlowStepper />}
         title="기능 공백 분석"
         badge={<><StatusBadge variant="closing" dot>CLOSING</StatusBadge><DemoTag /></>}
@@ -120,7 +122,7 @@ export default function FunctionAnalysis() {
           ]}
         />
         <div className="flex items-center gap-3">
-          <span className="text-[12px] text-text-muted">
+          <span className="text-[12px] text-ink">
             <span className="kbd">1</span>–<span className="kbd">4</span> 열기 · <span className="kbd">A</span> 확인 · <span className="kbd">R</span> 제외
           </span>
           <div className="flex items-center gap-2">
@@ -133,9 +135,9 @@ export default function FunctionAnalysis() {
       </div>
 
       <div key={filter} className="grid grid-cols-2 gap-5 stagger">
-        {visible.map((f) => (
+        {visible.map((f, i) => (
+          <HouseFrame key={f.code} variant={i}>
           <FunctionCard
-            key={f.code}
             code={f.code}
             index={order.indexOf(f.code)}
             confidence={f.confidence}
@@ -145,6 +147,7 @@ export default function FunctionAnalysis() {
             selected={selected === f.code}
             onClick={() => setSelected(f.code)}
           />
+          </HouseFrame>
         ))}
         {visible.length === 0 && (
           <div className="col-span-2 card py-16 text-center text-[13px] text-text-muted">
@@ -199,7 +202,7 @@ export default function FunctionAnalysis() {
                   center={<p className="text-[24px] font-bold tnum">{Math.round((sel.confidence ?? 0) * 100)}<span className="text-[13px] text-text-muted">%</span></p>}
                 />
                 <div>
-                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].hex }}>{sel.code}</p>
+                  <p className="text-[12px] font-bold" style={{ color: FN[sel.code].deep }}>{sel.code}</p>
                   <h3 className="text-[21px] font-bold">{FN[sel.code].name}</h3>
                   <p className="text-[12.5px] text-text-muted">{FN[sel.code].desc}</p>
                   <div className="mt-2"><StatusBadge variant={confidenceLabel(sel.confidence).variant}>{confidenceLabel(sel.confidence).text}</StatusBadge></div>

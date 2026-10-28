@@ -10,7 +10,7 @@ const DEFAULT_FACILITY = "store_0001";
 
 function buildPages(facilityId: string): Cmd[] {
   return [
-    { id: "p-home", group: "페이지", label: "대시보드", icon: Home, to: "/" },
+    { id: "p-home", group: "페이지", label: "대시보드", icon: Home, to: "/dashboard" },
     { id: "p-new", group: "페이지", label: "폐업 예정 시설 등록", icon: Store, to: "/closures/new", hint: "N" },
     { id: "p-fn", group: "페이지", label: "기능 공백 분석", icon: Layers, to: `/closures/${facilityId}/functions` },
     { id: "p-inh", group: "페이지", label: "상속안 제안", icon: GitBranch, to: `/closures/${facilityId}/inheritance` },
