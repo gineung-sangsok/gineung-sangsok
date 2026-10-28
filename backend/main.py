@@ -108,6 +108,11 @@ def get_gap(closure_id: str) -> Gap:
     return closures.gap(closure_id)
 
 
+@app.get("/stores", response_model=list[Entity], tags=["① 등록"])
+def list_stores() -> list[Entity]:
+    return list(store.stores_by_id().values())
+
+
 @app.get("/resources", response_model=list[Entity], tags=["지도"])
 def list_resources(resource_type: ResourceType | None = None) -> list[Entity]:
     items = store.resources()
