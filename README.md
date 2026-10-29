@@ -7,7 +7,7 @@
 
 | 바로가기 | 주소 |
 |---|---|
-| 서비스 (웹) | https://gineung-sangsok.vercel.app |
+| 서비스 (웹) | https://majung.store |
 | API 문서 (Swagger) | https://gineung-sangsok-api.onrender.com/docs |
 | 시연 시나리오 | 대시보드 → 마을 지도의 「기능 상속 보기」 → 기능 분석 → 상속안 → 최종 검토 |
 
@@ -184,7 +184,95 @@
     └── data_sources.md      #   데이터 출처
 ```
 
-## 6. 실행 방법
+## 6. 구조 다이어그램
+
+### 전체 시스템 구조
+
+```mermaid
+graph TB
+    subgraph USER["사용자 (읍·면 담당 공무원)"]
+        FE["Frontend\nReact + Vite + Leaflet\nVercel 배포"]
+    end
+
+    subgraph BACKEND["Backend — FastAPI (Render 배포)"]
+        API["FastAPI\nPOST /closures\nGET /functions · PATCH\nGET /inheritance\nGET /gap\nGET /resources · /villages"]
+        STORE["store.py\n데이터 접근 레이어"]
+    end
+
+    subgraph AI["AI 파이프라인"]
+        T1["Track 1: 생활기능 분리\nllm.py — gpt-5.4-mini\nkeyword.py — 키워드 규칙\nF01~F04 태깅 + 확신도"]
+        T2["Track 2: 상속안·공백 분석\nrecommend.py — 5지표 가중합\ngap.py — 공백 인구 계산"]
+    end
+
+    subgraph DATA["데이터 (data/processed/)"]
+        D1["stores_imsil.csv\n식료품점 155곳"]
+        D2["resources_imsil.csv\n경로당·복지기관 368곳"]
+        D3["villages_ri.csv\n법정리 131개 + 인구"]
+        D4["food_accessibility_ri.csv\n도로 거리·도보 시간"]
+        D5["mobile_market_route_ri.csv\n이동장터 노선"]
+        D6["tagging_llm.csv\n태깅 결과 캐시"]
+    end
+
+    FE -->|HTTPS| API
+    API --> STORE
+    STORE --> D6
+    STORE --> T2
+    T1 --> D6
+    T2 --> D4
+    T2 --> D5
+    STORE --> D1
+    STORE --> D2
+    STORE --> D3
+```
+
+### 서비스 흐름
+
+```mermaid
+flowchart LR
+    A["① 등록\nPOST /closures\n폐업 가게 + 날짜"]
+    --> B["② AI 기능 분리\nGET /functions\nF01~F04 + 확신도"]
+    --> C["③ 담당자 확인·수정\nPATCH /functions\n확정 / 제외 / 수정"]
+    --> D["④ 상속안 조합\nGET /inheritance\n기능 × 자원 매핑"]
+    --> E["⑤ 공백 변화\nGET /gap\nbefore→after 인구"]
+```
+
+### AI 태깅 확신도 3단계
+
+```mermaid
+flowchart TD
+    IN["가게 입력\n이름 · 업종 · 주소 · 법정리"]
+    --> LLM["gpt-5.4-mini\n구조화 출력 + Pydantic 검증"]
+    --> CONF{"확신도"}
+
+    CONF -->|"≥ 0.6"| CONFIRM["✅ 태그 확정"]
+    CONF -->|"0.4 ~ 0.6"| CHECK["⚠️ 담당자 확인\nneeds_officer_check: true"]
+    CONF -->|"< 0.4"| DROP["❌ 버림"]
+
+    CHECK --> OFFICER["담당자 최종 결정\nPATCH /functions"]
+    CONFIRM --> OFFICER
+```
+
+### 상속안 점수 계산
+
+```mermaid
+flowchart LR
+    subgraph SCORE["5개 지표 → 가중합"]
+        S1["거리 35%\n1 − km/10km"]
+        S2["생활권 25%\n같은 리/면/다른 면"]
+        S3["배달 가능 15%\nR02·R01·F03"]
+        S4["대중교통 15%\n버스정류장 300m~2km"]
+        S5["운영시간 10%\n미확인 → 0.5"]
+    end
+
+    SCORE --> SUM["가중합 점수 0~1"]
+    SUM --> THRESH{"≥ 0.45?"}
+    THRESH -->|"예"| PLAN["상속안 확정\n1위 자원 선택"]
+    THRESH -->|"아니오"| UNCOV["uncovered_functions\n이어받을 곳 없음"]
+```
+
+---
+
+## 7. 실행 방법
 
 ```bash
 # 준비 (uv: https://docs.astral.sh/uv/)
@@ -241,6 +329,6 @@ cd frontend && npm ci && npm run dev
 | | 역할 |
 |---|---|
 | [@JioCoder](https://github.com/JioCoder) | 트랙 1 · 생활기능 분리 AI(LLM·키워드·평가), 상속안 추천·공백 분석, 백엔드 API, 프론트 디자인 |
-| [@heejung72](https://github.com/heejung72) | 트랙 2 · 인구·교통 공간 분석, 지도·대시보드·상속안 화면, 배포 |
+| [@heejung72](https://github.com/heejung72) | 트랙 2 · 인구·교통 공간 분석, 지도·대시보드·상속안 화면 및 API 연동, 백엔드 API, 프론트·백엔드 배포 |
 
 협업 방식(이슈 → 브랜치 → PR → 리뷰)은 [docs/workflow.md](docs/workflow.md)에 있습니다.
