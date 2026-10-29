@@ -32,13 +32,7 @@
 
 시·군, 읍·면 담당 공무원(B2G)이 쓰는 의사결정 지원 서비스입니다.
 
-```mermaid
-flowchart LR
-    A[① 폐업 예정<br/>시설 등록] --> B[② AI 생활기능 분리<br/>F01~F04]
-    B --> C[③ 담당자<br/>확인·수정]
-    C --> D[④ 기능별 상속안<br/>추천]
-    D --> E[⑤ 상속 전후<br/>공백 인구 변화]
-```
+<p align="center"><img src="docs/images/service_flow.svg" alt="마중 서비스 흐름: 시설 등록, AI 기능 분리, 담당자 확인, 기능별 상속안, 공백 변화 5단계" width="100%"></p>
 
 | 단계 | 하는 일 | 화면 / API |
 |---|---|---|
@@ -72,17 +66,7 @@ flowchart LR
 
 마중의 AI는 세 부분으로 이루어집니다.
 
-```mermaid
-flowchart TB
-    subgraph T1["트랙 1 · 생활기능 분리"]
-        K[키워드 규칙<br/>베이스라인] --> M[결과 결합<br/>F01~F03: LLM · F04: 규칙]
-        L[LLM 태거<br/>GPT-5.4 mini] --> M
-    end
-    subgraph T2["트랙 2 · 상속안 추천·공백 분석"]
-        R[후보 점수화<br/>5개 지표 가중합] --> G[공백 계산<br/>상속 전후 인구]
-    end
-    M -->|가게·자원별 기능 태그| R
-```
+<p align="center"><img src="docs/images/ai_architecture.svg" alt="마중 AI 구조: 입력 데이터, 생활기능 분리(LLM 태거와 키워드 규칙), 담당자 확인, 기능별 상속안 추천(5개 지표), 상속 전후 공백 분석" width="100%"></p>
 
 ### 3-1. 생활기능 분리 (LLM 태거)
 
