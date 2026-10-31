@@ -10,6 +10,7 @@
 | 서비스 (웹) | https://majung.store |
 | API 문서 (Swagger) | https://gineung-sangsok-api.onrender.com/docs |
 | 시연 시나리오 | 대시보드 → 마을 지도의 「기능 상속 보기」 → 기능 분석 → 상속안 → 최종 검토 |
+| AI 데이터셋·샘플 결과 | [docs/ai_dataset_and_results.md](docs/ai_dataset_and_results.md) |
 
 > 백엔드는 무료 서버라 첫 요청에 30초 정도 걸릴 수 있어요.
 
